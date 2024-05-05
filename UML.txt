@@ -1,0 +1,74 @@
+@startuml
+
+class Usuario {
+-nombreUsuario: String
+}
+
+class Embarcacion {
+-matricula: String
+-eslora: Double
+-calado: Double
+-manga: Double
+}
+
+class Amarra {
+-id: Integer
+-eslora: Double
+-calado: Double
+-manga: Double
+}
+
+class Puerto {
+-id: Integer
+}
+
+class Dueño {
+-parentezco: String
+}
+
+abstract class Persona {
+-dni: Integer
+-apellido: String
+-nombre: String
+-email: String
+-telefono: Integer
+-fechaNacimiento: Date
+}
+
+Dueño -up-|> Persona
+Usuario -up-|> Persona
+
+Embarcacion o-up-> Dueño: dueño (0,1)
+Usuario o-down-> Embarcacion: embarcaciones (0,N)
+Embarcacion *-left-> Amarra: amarra (1,1)
+Puerto *-down-> Amarra: amarras (1,N)
+
+abstract class Bien {
+
+}
+
+Embarcacion  -right-|> Bien
+
+class PublicacionBien {
+
+}
+
+PublicacionBien *-left-> Bien: bien (1,1)
+
+Usuario o--> PublicacionBien: publicacionesDeBienes (0,N)
+
+class PublicacionAmarra {
+-periodo: DateLapse
+}
+
+Usuario o--> PublicacionAmarra: publicacionesDeAmarras (0,N)
+PublicacionAmarra *--> Amarra: amarra (1,1)
+
+class Sistema {
+
+}
+
+Sistema o--> Usuario: usuarios (1,N)
+Sistema *--> Puerto: puertos (1,N)
+
+@enduml
