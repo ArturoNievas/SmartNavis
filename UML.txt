@@ -53,7 +53,13 @@ class PublicacionBien {
 
 }
 
+class SolicitudIntercambio {
+
+}
+
 PublicacionBien *-left-> Bien: bien (1,1)
+PublicacionBien -right-> SolicitudIntercambio: solicitudes (0,N)
+SolicitudIntercambio -left-> PublicacionBien: otraPublicacion (1,1)
 
 Usuario o--> PublicacionBien: publicacionesDeBienes (0,N)
 
