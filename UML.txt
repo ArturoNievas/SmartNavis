@@ -2,10 +2,17 @@
 
 class Usuario {
 -nombreUsuario: String
+-contraseña: String
 }
 
+class Administrador {
+
+}
+
+Administrador -up-|> Usuario
+
 class Embarcacion {
--matricula: String
+-nombre: String
 -eslora: Double
 -calado: Double
 -manga: Double
@@ -13,6 +20,7 @@ class Embarcacion {
 
 class Amarra {
 -id: Integer
+-nombre: String
 -eslora: Double
 -calado: Double
 -manga: Double
@@ -20,36 +28,52 @@ class Amarra {
 
 class Puerto {
 -id: Integer
+-nombre: String
 }
 
-class Dueño {
--parentezco: String
-}
-
-abstract class Persona {
+class Persona {
 -dni: Integer
 -apellido: String
 -nombre: String
--email: String
--telefono: Integer
 -fechaNacimiento: Date
 }
 
-Dueño -up-|> Persona
-Usuario -up-|> Persona
+class Alquiler {
 
-Embarcacion o-up-> Dueño: dueño (0,1)
-Usuario o-down-> Embarcacion: embarcaciones (0,N)
-Embarcacion *-left-> Amarra: amarra (1,1)
-Puerto *-down-> Amarra: amarras (1,N)
+}
+
+
+class AlquilerTercero {
+-parentezco: String
+}
+
+AlquilerTercero -up-|> Alquiler
+
+Usuario -up-|> Persona
 
 abstract class Bien {
 
 }
 
-Embarcacion  -right-|> Bien
+class Automotor {
+-patente: String
+}
 
-class PublicacionBien {
+class NauticoAeronautico {
+-matricula: String
+}
+
+class Inmueble {
+-nroCatastro: String
+}
+
+Automotor -up-|> Bien
+NauticoAeronautico -up-|> Bien
+Inmueble -up-|> Bien
+
+Embarcacion  -up-|> NauticoAeronautico 
+
+class Publicacion {
 
 }
 
@@ -57,24 +81,19 @@ class SolicitudIntercambio {
 
 }
 
-PublicacionBien *-left-> Bien: bien (1,1)
-PublicacionBien -right-> SolicitudIntercambio: solicitudes (0,N)
-SolicitudIntercambio -left-> PublicacionBien: otraPublicacion (1,1)
-
-Usuario o--> PublicacionBien: publicacionesDeBienes (0,N)
-
 class PublicacionAmarra {
 -periodo: DateLapse
 }
 
-Usuario o--> PublicacionAmarra: publicacionesDeAmarras (0,N)
-PublicacionAmarra *--> Amarra: amarra (1,1)
 
-class Sistema {
+Puerto *--> Amarra: amarras (1,N)
+Alquiler -left-> Embarcacion: embarcacion (1,1)
 
-}
+Amarra --> Alquiler: alquiler (0,1)
+AlquilerTercero -left-> Persona: titular (1,1)
 
-Sistema o--> Usuario: usuarios (1,N)
-Sistema *--> Puerto: puertos (1,N)
+Publicacion --> Bien: bien (1,1)
+Persona -right-> Bien: (0,N)
+Bien --> Persona: dueño (1,1)
 
 @enduml
