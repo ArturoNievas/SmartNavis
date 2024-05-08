@@ -1,3 +1,4 @@
+
 @startuml
 
 class Usuario {
@@ -74,20 +75,27 @@ Inmueble -up-|> Bien
 Embarcacion  -up-|> NauticoAeronautico 
 
 class Publicacion {
-
+-descripcion: String
 }
 
 class SolicitudIntercambio {
-
+-estado: boolean
 }
+
+class Mensaje {
+-texto: String
+}
+
+SolicitudIntercambio -down-> Mensaje: mensajes (0,N)
 
 class PublicacionAmarra {
 -periodo: DateLapse
 }
 
+PublicacionAmarra --> Amarra: amarra (1,1)
 
 Puerto *--> Amarra: amarras (1,N)
-Alquiler -left-> Embarcacion: embarcacion (1,1)
+Alquiler -up-> Embarcacion: embarcacion (1,1)
 
 Amarra --> Alquiler: alquiler (0,1)
 AlquilerTercero -left-> Persona: titular (1,1)
@@ -95,5 +103,8 @@ AlquilerTercero -left-> Persona: titular (1,1)
 Publicacion --> Bien: bien (1,1)
 Persona -right-> Bien: (0,N)
 Bien --> Persona: dueño (1,1)
+
+Publicacion -left-> SolicitudIntercambio: solicitudes (0,N)
+SolicitudIntercambio -right-> Publicacion: otraPublicacion (1,1)
 
 @enduml
