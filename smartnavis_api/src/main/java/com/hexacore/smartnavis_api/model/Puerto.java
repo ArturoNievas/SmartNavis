@@ -2,6 +2,9 @@ package com.hexacore.smartnavis_api.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "puertos")
 public class Puerto {
@@ -11,7 +14,12 @@ public class Puerto {
 
     private String nombre;
 
-    public Puerto() {}
+    @Transient // TODO: quitar cuando se mapee Amarra.
+    private List<Amarra> amarras;
+
+    public Puerto() {
+        this.setAmarras(new ArrayList<>());
+    }
 
     public Long getId() {
         return id;
@@ -27,5 +35,13 @@ public class Puerto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<Amarra> getAmarras() {
+        return amarras;
+    }
+
+    public void setAmarras(List<Amarra> amarras) {
+        this.amarras = amarras;
     }
 }
