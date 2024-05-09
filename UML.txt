@@ -74,26 +74,43 @@ Inmueble -up-|> Bien
 Embarcacion  -up-|> NauticoAeronautico 
 
 class Publicacion {
-
+-descripcion: String
 }
 
 class SolicitudIntercambio {
-
+-aceptada: boolean
+-registrada: boolean
+-pendiente: boolean
+-finalizada: boolean
 }
+
+class Mensaje {
+-texto: String
+-fecha: Date
+}
+
+Mensaje --> Usuario: autor (1,1)
+
+SolicitudIntercambio -down-> Mensaje: mensajes (0,N)
 
 class PublicacionAmarra {
 -periodo: DateLapse
 }
 
+PublicacionAmarra --> Amarra: amarra (1,1)
 
 Puerto *--> Amarra: amarras (1,N)
-Alquiler -left-> Embarcacion: embarcacion (1,1)
+Alquiler -up-> Embarcacion: embarcacion (1,1)
 
 Amarra --> Alquiler: alquiler (0,1)
 AlquilerTercero -left-> Persona: titular (1,1)
 
 Publicacion --> Bien: bien (1,1)
-Persona -right-> Bien: (0,N)
+Persona -right-> Bien: bienes (0,N)
 Bien --> Persona: dueño (1,1)
+
+Publicacion -left-> SolicitudIntercambio: solicitudes (0,N)
+SolicitudIntercambio -right-> Publicacion: publicacionOfertada (1,1)
+SolicitudIntercambio -right-> Publicacion: publicacionSolicitada (1,1)
 
 @enduml
