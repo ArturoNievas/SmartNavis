@@ -1,116 +1,104 @@
 @startuml
-
-class Usuario {
--nombreUsuario: String
--contraseña: String
+abstract class Bien {
 }
+Bien --> Persona: - titular
 
-class Administrador {
-
+class BienAutomotor {
+-patente: String
 }
+BienAutomotor -left-|> Bien
 
-Administrador -up-|> Usuario
+class BienInmueble {
+- partida: String
+}
+BienInmueble -up-|> Bien
+
+class BienNauticoAeronautico {
+-matricula: String
+}
+BienNauticoAeronautico -up-|> Bien
 
 class Embarcacion {
 -nombre: String
--eslora: Double
--calado: Double
--manga: Double
+-eslora: Real
+-calado: Real
+-manga: Real
 }
-
-class Amarra {
--id: Integer
--nombre: String
--eslora: Double
--calado: Double
--manga: Double
-}
-
-class Puerto {
--id: Integer
--nombre: String
-}
+Embarcacion  -up-|> BienNauticoAeronautico 
 
 class Persona {
--dni: Integer
--apellido: String
--nombre: String
--fechaNacimiento: Date
+- dni: Integer
+- apellidos: String
+- nombres: String
+- fechaNacimiento: Date
 }
+Persona -right-> Bien: - bienes [*]
 
-class Alquiler {
-
+class Usuario {
+- username: String
+- password: String
 }
+Usuario -right-|> Persona
 
-
-class AlquilerTercero {
--parentezco: String
+class Administrador {
 }
-
-AlquilerTercero -up-|> Alquiler
-
-Usuario -up-|> Persona
-
-abstract class Bien {
-
-}
-
-class Automotor {
--patente: String
-}
-
-class NauticoAeronautico {
--matricula: String
-}
-
-class Inmueble {
--nroCatastro: String
-}
-
-Automotor -up-|> Bien
-NauticoAeronautico -up-|> Bien
-Inmueble -up-|> Bien
-
-Embarcacion  -up-|> NauticoAeronautico 
-
-class Publicacion {
--descripcion: String
-}
-
-class SolicitudIntercambio {
--aceptada: boolean
--registrada: boolean
--pendiente: boolean
--finalizada: boolean
-}
+Administrador -up-|> Usuario
 
 class Mensaje {
 -texto: String
 -fecha: Date
 }
+Mensaje -down-> Usuario: - autor
 
-Mensaje --> Usuario: autor (1,1)
+class Permuta {
+-aceptada: boolean
+-registrada: boolean
+-pendiente: boolean
+-finalizada: boolean
+}
+Permuta -left-> Mensaje: - mensajes [*]
+Permuta -right-> Publicacion: - ofertada
+Permuta -right-> Publicacion: - solicitada
 
-SolicitudIntercambio -down-> Mensaje: mensajes (0,N)
+class Publicacion {
+-titulo: String
+-descripcion: String
+}
+Publicacion --> Bien: - bien
+Publicacion -left-> Permuta : - permutas [*]
 
-class PublicacionAmarra {
--periodo: DateLapse
+class Amarra {
+- nombre: String
+- eslora: Real
+- calado: Real
+- manga: Real
 }
 
-PublicacionAmarra --> Amarra: amarra (1,1)
+class DisponibilidadAmarra {
+- inicio: Date
+- fin: Date
+}
+DisponibilidadAmarra -up-> Amarra: - amarra
 
-Puerto *--> Amarra: amarras (1,N)
-Alquiler -up-> Embarcacion: embarcacion (1,1)
+class Puerto {
+- nombre: String
+}
+Puerto *-down-> Amarra: - amarras [*]
 
-Amarra --> Alquiler: alquiler (0,1)
-AlquilerTercero -left-> Persona: titular (1,1)
+class Alquiler {
+- inicio: Date
+- fin: Date
+}
+Alquiler -left-> Embarcacion: - embarcacion
+Alquiler -right-> Amarra: - amarra
 
-Publicacion --> Bien: bien (1,1)
-Persona -right-> Bien: bienes (0,N)
-Bien --> Persona: dueño (1,1)
+class AlquilerTercero {
+- parentezco: String
+}
+AlquilerTercero -up-|> Alquiler
+AlquilerTercero -left-> Persona: - titular
 
-Publicacion -left-> SolicitudIntercambio: solicitudes (0,N)
-SolicitudIntercambio -right-> Publicacion: publicacionOfertada (1,1)
-SolicitudIntercambio -right-> Publicacion: publicacionSolicitada (1,1)
-
+class AlquilerTemporal {
+}
+AlquilerTemporal -up-|> Alquiler
 @enduml
