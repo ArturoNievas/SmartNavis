@@ -1,0 +1,17 @@
+<h1>Puertos</h1>
+<a routerLink="/home">Home</a>
+
+<div class="section">
+  <button (click)="listarPuertos()">Ver puertos</button>
+  <ul *ngIf="puertos.length">
+    <li *ngFor="let puerto of puertos">({{puerto.id}}) {{puerto.nombre}}
+      - <a href="javascript:void(0);" (click)="actualizarPuerto(puerto)">Modificar</a>
+      - <a href="javascript:void(0);" (click)="eliminarPuerto(puerto)">Eliminar</a>
+    </li>
+  </ul>
+</div>
+
+<div class="section">
+  <input #nombrePuerto type="text">
+  <button (click)="crearPuerto(nombrePuerto.value)">Crear Puerto</button>
+</div>
