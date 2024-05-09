@@ -39,7 +39,11 @@ export class PuertosPageComponent {
   }
 
   public actualizarPuerto(puerto: Puerto): void {
-    this.puertoService.actualizarPuerto(puerto).subscribe();
+    const nuevoNombre: string | null = prompt('Nuevo nombre?', puerto.nombre);
+    if (nuevoNombre !== null) {
+      puerto.nombre = nuevoNombre;
+      this.puertoService.actualizarPuerto(puerto).subscribe();
+    }
   }
 
   public eliminarPuerto(puerto: Puerto): void {
