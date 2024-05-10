@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "embarcaciones")
 @PrimaryKeyJoinColumn(name = "bien_id")
-public class Embarcacion extends BienNauticoAeronautico {
+public class Embarcacion extends Bien {
     private String nombre;
 
     private double eslora;
