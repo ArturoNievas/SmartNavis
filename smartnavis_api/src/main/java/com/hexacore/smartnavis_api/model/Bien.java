@@ -1,5 +1,6 @@
 package com.hexacore.smartnavis_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,7 @@ public abstract class Bien {
     @JoinColumn(name = "persona_id", referencedColumnName = "id")
     private Persona titular;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "bien")
     private Publicacion publicacion;
 

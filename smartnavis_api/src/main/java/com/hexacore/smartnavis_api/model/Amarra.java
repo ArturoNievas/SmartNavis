@@ -1,6 +1,7 @@
 package com.hexacore.smartnavis_api.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -25,9 +26,11 @@ public class Amarra {
     @JoinColumn(name = "puerto_id", referencedColumnName = "id")
     private Puerto puerto;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "amarra")
     private List<DisponibilidadAmarra> disponibilidades;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "amarra")
     private List<Alquiler> alquileres;
 

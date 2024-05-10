@@ -16,8 +16,8 @@ public class Puerto {
     @Column(unique = true)
     private String nombre;
 
-    @OneToMany(mappedBy = "puerto", fetch = FetchType.LAZY)
     @JsonIgnore
+    @OneToMany(mappedBy = "puerto", fetch = FetchType.LAZY)
     private List<Amarra> amarras;
 
     public Puerto() {

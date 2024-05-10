@@ -1,5 +1,6 @@
 package com.hexacore.smartnavis_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -24,9 +25,11 @@ public class Persona {
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "titular")
     private List<Bien> bienes;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "titular")
     private List<AlquilerTercero> alquilerTerceros;
 

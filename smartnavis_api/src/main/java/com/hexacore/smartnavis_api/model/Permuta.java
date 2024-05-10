@@ -1,5 +1,6 @@
 package com.hexacore.smartnavis_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class Permuta {
 
     private boolean finalizada;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "permuta", fetch = FetchType.LAZY)
     private List<Mensaje> mensajes;
 

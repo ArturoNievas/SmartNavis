@@ -1,5 +1,6 @@
 package com.hexacore.smartnavis_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -12,13 +13,16 @@ public class Publicacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String titulo;
 
     private String descripcion;
 
-    @OneToOne
+    @OneToOne(optional = false)
+    @JoinColumn(updatable = false)
     private Bien bien;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "solicitada", fetch = FetchType.LAZY)
     private List<Permuta> permutasSolicitadas;
 

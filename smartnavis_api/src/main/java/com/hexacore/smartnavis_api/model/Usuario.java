@@ -1,5 +1,6 @@
 package com.hexacore.smartnavis_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Usuario extends Persona {
 
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "autor")
     private List<Mensaje> mensajes;
 

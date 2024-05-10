@@ -1,5 +1,6 @@
 package com.hexacore.smartnavis_api.controller;
 
+import com.hexacore.smartnavis_api.exceptions.PublicacionNotFoundException;
 import com.hexacore.smartnavis_api.model.Publicacion;
 
 import java.util.*;
@@ -19,6 +20,11 @@ public class PublicacionController {
     private PublicacionRepository repository;
 
     @GetMapping("/publicaciones")
+    public List<Publicacion> getAll() {
+        return repository.findAll();
+    }
+
+    @GetMapping("/publicaciones/tipo")
     public List<Publicacion> getPublicacionesPorTipoDeBien(@RequestParam("tipos") List<String> tipos) {
         // Inicializar una lista para almacenar todas las publicaciones filtradas
         List<Publicacion> publicacionesFiltradas = new ArrayList<>();
@@ -49,23 +55,27 @@ public class PublicacionController {
         return publicacionesFiltradas;
     }
 
-    @GetMapping("/publicaciones/{id}")
+    @GetMapping("/publicacion/{id}")
     public List<Publicacion> findByNombre(@PathVariable("nombre") long id) {
-        return repository.findById(id);
+        return repository.findById(id); // FIXME: dice buscar por nombre pero esta buscando por ID
     }
 
-    @PostMapping("/publicaciones")
-    public Publicacion createPublicacion(@RequestBody Publicacion publicacion) {
+    @PostMapping("/publicacion")
+    public Publicacion create(@RequestBody Publicacion publicacion) {
         return repository.save(publicacion);
     }
 
-    @PutMapping("/publicaciones/{id}")
-    public Publicacion updatePublicacion(@PathVariable("id") Long id, @RequestBody Publicacion publicacion) {
-        return repository.save(publicacion);
+    @PutMapping("/publicacion/{id}")
+    public Publicacion update(@PathVariable("id") Long id, @RequestBody Publicacion nuevaPublicacion) {
+        return repository.findById(id).map(publicacion -> {
+            publicacion.setDescripcion(nuevaPublicacion.getDescripcion());
+            publicacion.setTitulo(nuevaPublicacion.getTitulo());
+            return repository.save(publicacion);
+        }).orElseThrow(PublicacionNotFoundException::new);
     }
 
-    @DeleteMapping("/publicaciones/{id}")
-    public void deletePublicacion(@PathVariable("id") Long id) {
+    @DeleteMapping("/publicacion/{id}")
+    public void delete(@PathVariable("id") Long id) {
         repository.deleteById(id);
     }
 }

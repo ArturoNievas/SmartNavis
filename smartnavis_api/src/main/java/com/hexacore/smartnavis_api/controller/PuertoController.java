@@ -14,7 +14,7 @@ public class PuertoController {
     private PuertoRepository repository;
 
     @GetMapping("/puertos")
-    public List<Puerto> allPuertos() {
+    public List<Puerto> getAll() {
         return repository.findAll();
     }
 
@@ -24,17 +24,17 @@ public class PuertoController {
     }
 
     @PostMapping("/puerto")
-    public Puerto createPuerto(@RequestBody Puerto puerto) {
+    public Puerto create(@RequestBody Puerto puerto) {
         return repository.save(puerto);
     }
 
     @PutMapping("/puerto/{id}")
-    public Puerto updatePuerto(@PathVariable("id") Long id, @RequestBody Puerto puerto) {
+    public Puerto update(@PathVariable("id") Long id, @RequestBody Puerto puerto) {
         return repository.save(puerto);
     }
 
     @DeleteMapping("/puerto/{id}")
-    public void deletePuerto(@PathVariable("id") Long id) {
+    public void delete(@PathVariable("id") Long id) {
         repository.deleteById(id);
     }
 }
