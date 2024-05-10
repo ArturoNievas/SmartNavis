@@ -1,7 +1,9 @@
 package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.model.Publicacion;
+
 import java.util.*;
+
 import com.hexacore.smartnavis_api.repository.PublicacionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class PublicacionController {
 
-	@Autowired
+    @Autowired
     private PublicacionRepository repository;
 
-	@GetMapping("/publicaciones")
+    @GetMapping("/publicaciones")
     public List<Publicacion> getPublicacionesPorTipoDeBien(@RequestParam("tipos") List<String> tipos) {
         // Inicializar una lista para almacenar todas las publicaciones filtradas
         List<Publicacion> publicacionesFiltradas = new ArrayList<>();
@@ -26,16 +28,16 @@ public class PublicacionController {
             // Filtrar las publicaciones según el tipo especificado
             switch (tipo.toLowerCase()) {
                 case "inmueble":
-                    publicacionesFiltradas.addAll(repository.findByBienInmuebleIsNotNull());
+                    // publicacionesFiltradas.addAll(repository.findByBienInmuebleIsNotNull()); // FIXME: corregir.
                     break;
                 case "aeronautico":
-                    publicacionesFiltradas.addAll(repository.findByBienAeronauticoIsNotNull());
+                    // publicacionesFiltradas.addAll(repository.findByBienAeronauticoIsNotNull()); // FIXME: corregir.
                     break;
                 case "embarcacion":
-                    publicacionesFiltradas.addAll(repository.findByEmbarcacionIsNotNull());
+                    // publicacionesFiltradas.addAll(repository.findByEmbarcacionIsNotNull()); // FIXME: corregir.
                     break;
                 case "automotor":
-                    publicacionesFiltradas.addAll(repository.findByBienAutomotorIsNotNull());
+                    // publicacionesFiltradas.addAll(repository.findByBienAutomotorIsNotNull()); // FIXME: corregir.
                     break;
                 default:
                     // Enviar una respuesta adecuada si el tipo no es válido

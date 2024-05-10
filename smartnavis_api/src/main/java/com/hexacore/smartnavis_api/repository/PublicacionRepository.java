@@ -10,11 +10,11 @@ import java.util.List;
 
 @Repository
 public interface PublicacionRepository extends JpaRepository<Publicacion, Long> {
-	List<Publicacion> findById(@Param("id") long id);
-	
-	List<Publicacion> findByBienAutomotorIsNotNull();
+    List<Publicacion> findById(@Param("id") long id);
+    /*  FIXME: corregir.
+    List<Publicacion> findByBienAutomotorIsNotNull();
     List<Publicacion> findByBienInmuebleIsNotNull();
     List<Publicacion> findByBienAeronauticoIsNotNull();
     List<Publicacion> findByEmbarcacionIsNotNull();
-	
+    */
 }
