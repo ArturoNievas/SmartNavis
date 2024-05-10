@@ -1,11 +1,18 @@
 package com.hexacore.smartnavis_api.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "alquileres_terceros")
+@PrimaryKeyJoinColumn(name = "alquiler_id")
 public class AlquilerTercero extends Alquiler {
     private String parentezco;
+
+    @ManyToOne
+    @JoinColumn(name = "persona_id", referencedColumnName = "id")
     private Persona titular;
 
     public AlquilerTercero() {
-
     }
 
     public String getParentezco() {

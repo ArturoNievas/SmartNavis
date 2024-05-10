@@ -1,18 +1,44 @@
 package com.hexacore.smartnavis_api.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
+@Table(name = "personas")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Persona {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private int dni;
+
     private String nombres;
+
     private String apellidos;
+
     private Date fechaNacimiento;
+
+    @OneToMany(mappedBy = "titular")
     private List<Bien> bienes;
+
+    @OneToMany(mappedBy = "titular")
+    private List<AlquilerTercero> alquilerTerceros;
 
     public Persona() {
         this.setBienes(new ArrayList<>());
+        this.setAlquilerTerceros(new ArrayList<>());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getDni() {
@@ -53,5 +79,13 @@ public class Persona {
 
     public void setBienes(List<Bien> bienes) {
         this.bienes = bienes;
+    }
+
+    public List<AlquilerTercero> getAlquilerTerceros() {
+        return alquilerTerceros;
+    }
+
+    public void setAlquilerTerceros(List<AlquilerTercero> alquilerTerceros) {
+        this.alquilerTerceros = alquilerTerceros;
     }
 }

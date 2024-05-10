@@ -14,7 +14,7 @@ public class Puerto {
 
     private String nombre;
 
-    @Transient // TODO: quitar cuando se mapee Amarra.
+    @OneToMany(mappedBy = "puerto")
     private List<Amarra> amarras;
 
     public Puerto() {
@@ -43,5 +43,23 @@ public class Puerto {
 
     public void setAmarras(List<Amarra> amarras) {
         this.amarras = amarras;
+    }
+
+    public void addAmarra(Amarra amarra) {
+        if (amarra == null) {
+            return;
+        }
+        List<Amarra> amarras = this.getAmarras();
+        if (!amarras.contains(amarra)) {
+            amarras.add(amarra);
+            amarra.setPuerto(this);
+        }
+    }
+
+    public void removeAmarra(Amarra amarra) {
+        if (amarra == null) {
+            return;
+        }
+        this.getAmarras().remove(amarra);
     }
 }

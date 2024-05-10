@@ -1,11 +1,24 @@
 package com.hexacore.smartnavis_api.model;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "usuarios")
+@PrimaryKeyJoinColumn(name = "persona_id")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario extends Persona {
     private String username;
+
     private String password;
 
-    public Usuario() {
+    @OneToMany(mappedBy = "autor")
+    private List<Mensaje> mensajes;
 
+    public Usuario() {
+        this.setMensajes(new ArrayList<>());
     }
 
     public String getUsername() {
@@ -22,5 +35,13 @@ public class Usuario extends Persona {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Mensaje> getMensajes() {
+        return mensajes;
+    }
+
+    public void setMensajes(List<Mensaje> mensajes) {
+        this.mensajes = mensajes;
     }
 }

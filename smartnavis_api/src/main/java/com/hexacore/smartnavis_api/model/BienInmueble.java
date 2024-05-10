@@ -1,5 +1,10 @@
 package com.hexacore.smartnavis_api.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "bienes_inmuebles")
+@PrimaryKeyJoinColumn(name = "bien_id")
 public class BienInmueble extends Bien {
     private String partida;
 

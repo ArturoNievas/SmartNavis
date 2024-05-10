@@ -1,19 +1,47 @@
 package com.hexacore.smartnavis_api.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "permutas")
 public class Permuta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "publicacion_id_solicitada", referencedColumnName = "id")
     private Publicacion solicitada;
+
+    @ManyToOne
+    @JoinColumn(name = "publicacion_id_ofertada", referencedColumnName = "id")
     private Publicacion ofertada;
+
     private boolean pendiente;
+
     private boolean aceptada;
+
     private boolean registrada;
+
     private boolean finalizada;
+
+    @OneToMany(mappedBy = "permuta", fetch = FetchType.LAZY)
     private List<Mensaje> mensajes;
+
 
     public Permuta() {
         this.setMensajes(new ArrayList<>());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Publicacion getSolicitada() {

@@ -1,9 +1,17 @@
 package com.hexacore.smartnavis_api.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "embarcaciones")
+@PrimaryKeyJoinColumn(name = "bien_id")
 public class Embarcacion extends BienNauticoAeronautico {
     private String nombre;
+
     private double slora;
+
     private double calado;
+
     private double manga;
 
     public Embarcacion() {

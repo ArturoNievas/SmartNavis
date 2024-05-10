@@ -1,16 +1,37 @@
 package com.hexacore.smartnavis_api.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "publicaciones")
 public class Publicacion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String titulo;
+
     private String descripcion;
+
+    @OneToOne
     private Bien bien;
-    private List<Permuta> permutas;
+
+    @OneToMany(mappedBy = "solicitada", fetch = FetchType.LAZY)
+    private List<Permuta> permutasSolicitadas;
 
     public Publicacion() {
-        this.setPermutas(new ArrayList<>());
+        this.setPermutasSolicitadas(new ArrayList<>());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -37,11 +58,11 @@ public class Publicacion {
         this.bien = bien;
     }
 
-    public List<Permuta> getPermutas() {
-        return permutas;
+    public List<Permuta> getPermutasSolicitadas() {
+        return permutasSolicitadas;
     }
 
-    public void setPermutas(List<Permuta> permutas) {
-        this.permutas = permutas;
+    public void setPermutasSolicitadas(List<Permuta> permutasSolicitadas) {
+        this.permutasSolicitadas = permutasSolicitadas;
     }
 }
