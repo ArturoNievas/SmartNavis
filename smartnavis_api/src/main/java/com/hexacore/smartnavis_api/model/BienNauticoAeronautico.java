@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "bienes_nauticoaeronaticos")
 @PrimaryKeyJoinColumn(name = "bien_id")
+@DiscriminatorValue("N")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class BienNauticoAeronautico extends Bien {
     @Column(unique = true)

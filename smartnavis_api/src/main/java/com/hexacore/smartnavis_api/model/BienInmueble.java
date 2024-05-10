@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "bienes_inmuebles")
+@DiscriminatorValue("I")
 @PrimaryKeyJoinColumn(name = "bien_id")
 public class BienInmueble extends Bien {
     @Column(unique = true)

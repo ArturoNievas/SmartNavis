@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "embarcaciones")
 @PrimaryKeyJoinColumn(name = "bien_id")
+@DiscriminatorValue("E")
 public class Embarcacion extends BienNauticoAeronautico {
     private String nombre;
 

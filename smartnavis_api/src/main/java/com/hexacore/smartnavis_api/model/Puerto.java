@@ -1,5 +1,6 @@
 package com.hexacore.smartnavis_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ public class Puerto {
     @Column(unique = true)
     private String nombre;
 
-    @OneToMany(mappedBy = "puerto")
+    @OneToMany(mappedBy = "puerto", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Amarra> amarras;
 
     public Puerto() {

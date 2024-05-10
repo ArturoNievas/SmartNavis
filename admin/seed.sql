@@ -1,3 +1,5 @@
+USE smartnavis;
+
 INSERT INTO smartnavis.puertos (nombre) VALUES
 	 ('La Plata'),
 	 ('La Plata II'),
@@ -7,38 +9,119 @@ INSERT INTO smartnavis.puertos (nombre) VALUES
 	 ('San Fernando'),
 	 ('San Isidro');
 
+SET @la_plata = (SELECT id FROM smartnavis.puertos WHERE nombre = 'La Plata');
+SET @la_plata_2 = (SELECT id FROM smartnavis.puertos WHERE nombre = 'La Plata II');
+SET @ensenada = (SELECT id FROM smartnavis.puertos WHERE nombre = 'Ensenada');
+SET @quilmes = (SELECT id FROM smartnavis.puertos WHERE nombre = 'Quilmes');
+SET @pto_madero = (SELECT id FROM smartnavis.puertos WHERE nombre = 'Puerto Madero');
 INSERT INTO smartnavis.amarras (calado,eslora,manga,nombre,puerto_id) VALUES
-	 (120.0,140.0,300.0,'1-A',1),
-	 (120.0,140.0,300.0,'1-B',1),
-	 (120.0,140.0,300.0,'1-C',1),
-	 (120.0,140.0,300.0,'1-D',1),
-	 (210.0,500.0,180.0,'2-A',1),
-	 (340.0,900.0,250.0,'2-B',1),
-	 (120.0,140.0,300.0,'1-A',2),
-	 (120.0,140.0,300.0,'1-B',2),
-	 (210.0,500.0,180.0,'2-A',2),
-	 (340.0,900.0,250.0,'2-B',2),
-	 (120.0,140.0,300.0,'Marina Norte - 1',3),
-	 (120.0,140.0,300.0,'Marina Norte - 2',3),
-	 (120.0,140.0,300.0,'Marina Norte - 3',3),
-	 (120.0,140.0,300.0,'Marina Norte - 4',3),
-	 (210.0,500.0,180.0,'Marina Sur - 1',3),
-	 (340.0,900.0,250.0,'Marina Sur - 2',3),
-	 (120.0,140.0,300.0,'A',4),
-	 (120.0,140.0,300.0,'B',4),
-	 (120.0,140.0,300.0,'C',4),
-	 (120.0,140.0,300.0,'I',4),
-	 (120.0,140.0,300.0,'II',4),
-	 (120.0,140.0,300.0,'III',4),
-	 (120.0,140.0,300.0,'IV',4),
-	 (120.0,140.0,300.0,'V',4),
-	 (120.0,140.0,300.0,'C01',2),
-	 (120.0,140.0,300.0,'C02',2),
-	 (120.0,140.0,300.0,'C03',2),
-	 (120.0,140.0,300.0,'C04',2),
-	 (120.0,140.0,300.0,'C05',2),
-	 (210.0,500.0,180.0,'M01',5),
-	 (210.0,500.0,180.0,'M02',5),
-	 (340.0,900.0,250.0,'G01',5),
-	 (340.0,900.0,250.0,'G02',5),
-	 (340.0,900.0,250.0,'G03',5);
+	 (120.0,140.0,300.0,'1-A',@la_plata),
+	 (120.0,140.0,300.0,'1-B',@la_plata),
+	 (120.0,140.0,300.0,'1-C',@la_plata),
+	 (120.0,140.0,300.0,'1-D',@la_plata),
+	 (210.0,500.0,180.0,'2-A',@la_plata),
+	 (340.0,900.0,250.0,'2-B',@la_plata),
+	 (120.0,140.0,300.0,'1-A',@la_plata_2),
+	 (120.0,140.0,300.0,'1-B',@la_plata_2),
+	 (210.0,500.0,180.0,'2-A',@la_plata_2),
+	 (340.0,900.0,250.0,'2-B',@la_plata_2),
+	 (120.0,140.0,300.0,'Marina Norte - 1',@ensenada),
+	 (120.0,140.0,300.0,'Marina Norte - 2',@ensenada),
+	 (120.0,140.0,300.0,'Marina Norte - 3',@ensenada),
+	 (120.0,140.0,300.0,'Marina Norte - 4',@ensenada),
+	 (210.0,500.0,180.0,'Marina Sur - 1',@ensenada),
+	 (340.0,900.0,250.0,'Marina Sur - 2',@ensenada),
+	 (120.0,140.0,300.0,'A',@quilmes),
+	 (120.0,140.0,300.0,'B',@quilmes),
+	 (120.0,140.0,300.0,'C',@quilmes),
+	 (120.0,140.0,300.0,'I',@quilmes),
+	 (120.0,140.0,300.0,'II',@quilmes),
+	 (120.0,140.0,300.0,'III',@quilmes),
+	 (120.0,140.0,300.0,'IV',@quilmes),
+	 (120.0,140.0,300.0,'V',@quilmes),
+	 (120.0,140.0,300.0,'C01',@pto_madero),
+	 (120.0,140.0,300.0,'C02',@pto_madero),
+	 (120.0,140.0,300.0,'C03',@pto_madero),
+	 (120.0,140.0,300.0,'C04',@pto_madero),
+	 (120.0,140.0,300.0,'C05',@pto_madero),
+	 (210.0,500.0,180.0,'M01',@pto_madero),
+	 (210.0,500.0,180.0,'M02',@pto_madero),
+	 (340.0,900.0,250.0,'G01',@pto_madero),
+	 (340.0,900.0,250.0,'G02',@pto_madero),
+	 (340.0,900.0,250.0,'G03',@pto_madero);
+
+INSERT INTO smartnavis.personas (apellidos,dni,fecha_nacimiento,nombres) VALUES
+	 ('Marino',11111111,'1950-03-13 00:00:00','Simbad'),
+	 ('Colon',22222222,'1940-05-17 00:00:00','Cristobal'),
+	 ('Magallanes',33333333,'1955-06-20 00:00:00','Fernando'),
+	 ('Cook',11222333,'1969-10-11 00:00:00','James'),
+	 ('Crusoe',22333444,'1975-12-20 00:00:00','Robinson'),
+	 ('Argonauta',33222111,'1980-02-14 00:00:00','Jason'),
+	 ('Itaca',33444555,'1986-12-27 00:00:00','Odiseo'),
+	 ('Nemo',12345678,'1976-04-30 00:00:00','Cap'),
+	 ('Sparrow',21543876,'1969-09-16 00:00:00','Jack'),
+	 ('Brown',22888999,'1977-12-17 00:00:00','Guillermo'),
+	 ('Dumas',33777666,'1965-03-28 00:00:00','Vito');
+	 
+SET @simbad = (SELECT id FROM smartnavis.personas WHERE nombres = 'Simbad');
+SET @cristobal = (SELECT id FROM smartnavis.personas WHERE nombres = 'Cristobal');
+SET @jason = (SELECT id FROM smartnavis.personas WHERE nombres = 'Jason');
+SET @odiseo = (SELECT id FROM smartnavis.personas WHERE nombres = 'Odiseo');
+SET @jack = (SELECT id FROM smartnavis.personas WHERE nombres = 'Jack');
+SET @guillermo = (SELECT id FROM smartnavis.personas WHERE nombres = 'Guillermo');
+SET @vito = (SELECT id FROM smartnavis.personas WHERE nombres = 'Vito');
+INSERT INTO smartnavis.usuarios (password,username,persona_id) VALUES
+	 ('simbad','simbad',@simbad),
+	 ('cristobal','cristobal',@cristobal),
+	 ('odiseo','odiseo',@odiseo),
+	 ('jack','jack',@jack),
+	 ('guillermo','guillermo',@guillermo),
+	 ('vito','vito',@vito);
+
+INSERT INTO smartnavis.administradores (usuario_id) VALUES
+	 (@cristobal),
+	 (@guillermo);
+	 
+INSERT INTO smartnavis.bienes (tipo,patente,partida,matricula,calado,eslora,manga,nombre,persona_id) VALUES
+	 ('E',NULL,NULL,'REY 12345',120.0,140.0,300,'Dhow',@simbad),
+	 ('E',NULL,NULL,'REY 54321',340.0,900.0,250.0,'Santa Maria',@cristobal),
+	 ('E',NULL,NULL,'REY 54322',340.0,900.0,250.0,'Pinta',@cristobal),
+	 ('E',NULL,NULL,'REY 54323',340.0,900.0,250.0,'Niña',@cristobal),
+	 ('E',NULL,NULL,'REY 11222',340.0,900.0,250.0,'Argo',@jason),
+	 ('E',NULL,NULL,'REY 11223',340.0,900.0,250.0,'Arquero',@odiseo),
+	 ('E',NULL,NULL,'REY 11224',340.0,900.0,250.0,'Arquero II',@odiseo),
+	 ('E',NULL,NULL,'REY 22334',450.0,1100.0,350.0,'Perla Negra',@jack),
+	 ('E',NULL,NULL,'REY 33224',450.0,1100.0,350.0,'Holandes Errante',@jack),
+	 ('E',NULL,NULL,'REY 45555',210.0,500.0,180.0,'Lehg I',@vito),
+	 ('E',NULL,NULL,'REY 45556',210.0,500.0,180.0,'Lehg II',@vito),
+	 ('I',NULL,'123-123123-1',NULL,NULL,NULL,NULL,NULL,@simbad),
+	 ('I',NULL,'321-321321-3',NULL,NULL,NULL,NULL,NULL,@cristobal),
+	 ('I',NULL,'111-222222-1',NULL,NULL,NULL,NULL,NULL,@odiseo),
+	 ('I',NULL,'111-222222-2',NULL,NULL,NULL,NULL,NULL,@odiseo),
+	 ('I',NULL,'111-222222-3',NULL,NULL,NULL,NULL,NULL,@odiseo),
+	 ('A','ABC-123',NULL,NULL,NULL,NULL,NULL,NULL,@jack),
+	 ('A','AAA-111',NULL,NULL,NULL,NULL,NULL,NULL,@vito),
+	 ('A','AAA-222',NULL,NULL,NULL,NULL,NULL,NULL,@vito);
+	 
+SET @dhow = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Dhow');
+SET @lehg_2 = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Lehg II');
+SET @santa_maria = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Santa Maria');
+SET @arquero = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Arquero');
+SET @argo = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Argo');
+INSERT INTO smartnavis.alquileres (fin,inicio,amarra_id,embarcacion_id) VALUES
+	 ('2025-04-30', '2024-05-01', (SELECT id FROM smartnavis.amarras WHERE nombre = '1-A' AND puerto_id = @laplata), @dhow),
+	 ('2024-06-12', '2023-06-13', (SELECT id FROM smartnavis.amarras WHERE nombre = '1-B' AND puerto_id = @laplata), @lehg_2),
+	 ('2024-12-31', '2024-01-01', (SELECT id FROM smartnavis.amarras WHERE nombre = 'G01'), @santa_maria),
+	 ('2025-03-14', '2024-03-15', (SELECT id FROM smartnavis.amarras WHERE nombre = 'G02'), @arquero),
+	 ('2025-03-14', '2024-03-15', (SELECT id FROM smartnavis.amarras WHERE nombre = 'G03'), @argo);
+	 
+INSERT INTO smartnavis.alquileres_terceros (parentezco,alquiler_id,persona_id) VALUES
+('Amigo', (SELECT id FROM smartnavis.alquileres WHERE embarcacion_id = @argo), @odiseo);
+
+INSERT INTO smartnavis.publicaciones (descripcion,titulo,bien_id) VALUES
+	 ('Dos o tres viajes. Unica mano.', 'Carabela casi sin uso', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 54321')),
+	 ('Cambio por cualquier cosa ya!', 'Cambio barco', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 45556')),
+	 ('Lo cambio porque ya no lo uso', 'Barco sin uso', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 11224')),
+	 ('Hermoso dpto. 3 ambientes.', 'Dpto. f/ al mar', (SELECT id FROM smartnavis.bienes WHERE partida = '321-321321-3')),
+	 ('Casa con pileta.', 'Casa quinta', (SELECT id FROM smartnavis.bienes WHERE partida = '111-222222-2')),
+	 ('Sin papeles.', 'Moto joyita oportuniad!', (SELECT id FROM smartnavis.bienes WHERE patente = 'ABC-123'));

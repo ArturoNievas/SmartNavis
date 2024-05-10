@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "bienes")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="tipo", discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorValue("B")
 public abstract class Bien {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
