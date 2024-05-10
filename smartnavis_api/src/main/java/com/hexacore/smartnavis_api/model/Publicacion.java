@@ -65,4 +65,18 @@ public class Publicacion {
     public void setPermutasSolicitadas(List<Permuta> permutasSolicitadas) {
         this.permutasSolicitadas = permutasSolicitadas;
     }
+
+    public void addPermutaSolicitada(Permuta permuta) {
+        if (permuta != null) {
+            List<Permuta> permutas = this.getPermutasSolicitadas();
+            if (!permutas.contains(permuta)) {
+                permutas.add(permuta);
+                permuta.setSolicitada(this);
+            }
+        }
+    }
+
+    public void removePermutaSolicitada(Permuta permuta) {
+        this.getPermutasSolicitadas().remove(permuta);
+    }
 }

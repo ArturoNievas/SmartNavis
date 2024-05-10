@@ -32,4 +32,12 @@ public abstract class Bien {
     public void setTitular(Persona titular) {
         this.titular = titular;
     }
+
+    public Publicacion getPublicacion() {
+        return publicacion;
+    }
+
+    public void setPublicacion(Publicacion publicacion) {
+        this.publicacion = publicacion;
+    }
 }

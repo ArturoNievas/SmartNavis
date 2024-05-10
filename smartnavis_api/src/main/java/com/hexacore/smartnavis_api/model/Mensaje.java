@@ -50,6 +50,14 @@ public class Mensaje {
         this.fecha = fecha;
     }
 
+    public Permuta getPermuta() {
+        return permuta;
+    }
+
+    public void setPermuta(Permuta permuta) {
+        this.permuta = permuta;
+    }
+
     public Usuario getAutor() {
         return autor;
     }

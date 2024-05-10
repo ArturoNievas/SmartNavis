@@ -99,4 +99,18 @@ public class Permuta {
     public void setMensajes(List<Mensaje> mensajes) {
         this.mensajes = mensajes;
     }
+
+    public void addMensaje(Mensaje mensaje) {
+        if (mensaje != null) {
+            List<Mensaje> mensajes = getMensajes();
+            if (!mensajes.contains(mensaje)) {
+                mensajes.add(mensaje);
+                mensaje.setPermuta(this);
+            }
+        }
+    }
+
+    public void removeMensaje(Mensaje mensaje) {
+        this.getMensajes().remove(mensaje);
+    }
 }

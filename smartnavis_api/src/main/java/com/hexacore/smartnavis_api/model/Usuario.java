@@ -10,6 +10,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "persona_id")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario extends Persona {
+    @Column(unique = true, updatable = false)
     private String username;
 
     private String password;
@@ -43,5 +44,19 @@ public class Usuario extends Persona {
 
     public void setMensajes(List<Mensaje> mensajes) {
         this.mensajes = mensajes;
+    }
+
+    public void addMensaje(Mensaje mensaje) {
+        if (mensaje != null) {
+            List<Mensaje> mensajes = getMensajes();
+            if (!mensajes.contains(mensaje)) {
+                mensajes.add(mensaje);
+                mensaje.setAutor(this);
+            }
+        }
+    }
+
+    public void removeMensaje(Mensaje mensaje) {
+        this.getMensajes().remove(mensaje);
     }
 }

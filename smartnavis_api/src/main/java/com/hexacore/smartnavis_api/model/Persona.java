@@ -20,6 +20,7 @@ public class Persona {
 
     private String apellidos;
 
+    @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
     @OneToMany(mappedBy = "titular")
@@ -81,11 +82,39 @@ public class Persona {
         this.bienes = bienes;
     }
 
+    public void addBien(Bien bien) {
+        if (bien != null) {
+            List<Bien> bienes = getBienes();
+            if (!bienes.contains(bien)) {
+                bienes.add(bien);
+                bien.setTitular(this);
+            }
+        }
+    }
+
+    public void removeBien(Bien bien) {
+        this.bienes.remove(bien);
+    }
+
     public List<AlquilerTercero> getAlquilerTerceros() {
         return alquilerTerceros;
     }
 
     public void setAlquilerTerceros(List<AlquilerTercero> alquilerTerceros) {
         this.alquilerTerceros = alquilerTerceros;
+    }
+
+    public void addAlquilerTercero(AlquilerTercero alquilerTercero) {
+        if (alquilerTercero != null) {
+            List<AlquilerTercero> alquileres = getAlquilerTerceros();
+            if (!alquileres.contains(alquilerTercero)) {
+                alquileres.add(alquilerTercero);
+                alquilerTercero.setTitular(this);
+            }
+        }
+    }
+
+    public void removeAlquilerTercero(AlquilerTercero alquilerTercero) {
+        this.getAlquilerTerceros().remove(alquilerTercero);
     }
 }

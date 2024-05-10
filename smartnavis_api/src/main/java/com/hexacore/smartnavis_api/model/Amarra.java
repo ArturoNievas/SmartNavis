@@ -15,7 +15,7 @@ public class Amarra {
 
     private String nombre;
 
-    private double slora;
+    private double eslora;
 
     private double calado;
 
@@ -52,12 +52,12 @@ public class Amarra {
         this.nombre = nombre;
     }
 
-    public double getSlora() {
-        return slora;
+    public double getEslora() {
+        return eslora;
     }
 
-    public void setSlora(double slora) {
-        this.slora = slora;
+    public void setEslora(double slora) {
+        this.eslora = slora;
     }
 
     public double getCalado() {
@@ -92,11 +92,39 @@ public class Amarra {
         this.disponibilidades = disponibilidades;
     }
 
+    public void addDisponibilidad(DisponibilidadAmarra disponibilidad) {
+        if (disponibilidad != null) {
+            List<DisponibilidadAmarra> disponibilidades = this.getDisponibilidades();
+            if (!disponibilidades.contains(disponibilidad)) {
+                disponibilidades.add(disponibilidad);
+                disponibilidad.setAmarra(this);
+            }
+        }
+    }
+
+    public void removeDisponibilidad(DisponibilidadAmarra disponibilidad) {
+        this.getDisponibilidades().remove(disponibilidad);
+    }
+
     public List<Alquiler> getAlquileres() {
         return alquileres;
     }
 
     public void setAlquileres(List<Alquiler> alquileres) {
         this.alquileres = alquileres;
+    }
+
+    public void addAlquiler(Alquiler alquiler) {
+        if (alquiler != null) {
+            List<Alquiler> alquileres = this.getAlquileres();
+            if (!alquileres.contains(alquiler)) {
+                alquileres.add(alquiler);
+                alquiler.setAmarra(this);
+            }
+        }
+    }
+
+    public void removeAlquiler(Alquiler alquiler) {
+        this.getAlquileres().remove(alquiler);
     }
 }

@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Embarcacion extends BienNauticoAeronautico {
     private String nombre;
 
-    private double slora;
+    private double eslora;
 
     private double calado;
 
@@ -25,12 +25,12 @@ public class Embarcacion extends BienNauticoAeronautico {
         this.nombre = nombre;
     }
 
-    public double getSlora() {
-        return slora;
+    public double getEslora() {
+        return eslora;
     }
 
-    public void setSlora(double slora) {
-        this.slora = slora;
+    public void setEslora(double slora) {
+        this.eslora = slora;
     }
 
     public double getCalado() {

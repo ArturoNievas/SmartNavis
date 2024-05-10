@@ -46,20 +46,16 @@ public class Puerto {
     }
 
     public void addAmarra(Amarra amarra) {
-        if (amarra == null) {
-            return;
-        }
-        List<Amarra> amarras = this.getAmarras();
-        if (!amarras.contains(amarra)) {
-            amarras.add(amarra);
-            amarra.setPuerto(this);
+        if (amarra != null) {
+            List<Amarra> amarras = this.getAmarras();
+            if (!amarras.contains(amarra)) {
+                amarras.add(amarra);
+                amarra.setPuerto(this);
+            }
         }
     }
 
     public void removeAmarra(Amarra amarra) {
-        if (amarra == null) {
-            return;
-        }
         this.getAmarras().remove(amarra);
     }
 }
