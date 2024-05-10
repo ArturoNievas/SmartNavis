@@ -1,7 +1,7 @@
 @startuml
 abstract class Bien {
 }
-Bien --> Persona: - titular
+Bien "0..N" --> "1" Persona: - titular
 
 class BienAutomotor {
 -patente: String
@@ -11,7 +11,7 @@ BienAutomotor -left-|> Bien
 class BienInmueble {
 - partida: String
 }
-BienInmueble -up-|> Bien
+BienInmueble -right-|> Bien
 
 class BienNauticoAeronautico {
 -matricula: String
@@ -24,7 +24,7 @@ class Embarcacion {
 -calado: Real
 -manga: Real
 }
-Embarcacion  -up-|> BienNauticoAeronautico 
+Embarcacion  -left-|> BienNauticoAeronautico 
 
 class Persona {
 - dni: Integer
@@ -32,13 +32,12 @@ class Persona {
 - nombres: String
 - fechaNacimiento: Date
 }
-Persona -right-> Bien: - bienes [*]
 
 class Usuario {
 - username: String
 - password: String
 }
-Usuario -right-|> Persona
+Usuario -up-|> Persona
 
 class Administrador {
 }
@@ -48,7 +47,8 @@ class Mensaje {
 -texto: String
 -fecha: Date
 }
-Mensaje -down-> Usuario: - autor
+Mensaje "0..N" -down-> "1" Usuario: - autor
+Mensaje "0..N" -right-> "1" Permuta: - permuta
 
 class Permuta {
 -aceptada: boolean
@@ -56,16 +56,14 @@ class Permuta {
 -pendiente: boolean
 -finalizada: boolean
 }
-Permuta -left-> Mensaje: - mensajes [*]
-Permuta -right-> Publicacion: - ofertada
-Permuta -right-> Publicacion: - solicitada
+Permuta "0..N" -right-> "1" Publicacion: - ofertada
+Permuta "0..N" -right-> "1" Publicacion: - solicitada
 
 class Publicacion {
 -titulo: String
 -descripcion: String
 }
-Publicacion --> Bien: - bien
-Publicacion -left-> Permuta : - permutas [*]
+Publicacion "1" --> "1" Bien: - bien
 
 class Amarra {
 - nombre: String
@@ -78,25 +76,25 @@ class DisponibilidadAmarra {
 - inicio: Date
 - fin: Date
 }
-DisponibilidadAmarra -up-> Amarra: - amarra
+DisponibilidadAmarra "0..N" -up-> "1" Amarra: - amarra
 
 class Puerto {
 - nombre: String
 }
-Puerto *-down-> Amarra: - amarras [*]
+Puerto "- puerto" *-down-> "0..N" Amarra: - amarras [*]
 
 class Alquiler {
 - inicio: Date
 - fin: Date
 }
-Alquiler -left-> Embarcacion: - embarcacion
-Alquiler -right-> Amarra: - amarra
+Alquiler "0..N" -up-> "1" Embarcacion: - embarcacion
+Alquiler "0..N" -right-> "1" Amarra: - amarra
 
 class AlquilerTercero {
 - parentezco: String
 }
 AlquilerTercero -up-|> Alquiler
-AlquilerTercero -left-> Persona: - titular
+AlquilerTercero "0..N" -left-> "1" Persona: - titular
 
 class AlquilerTemporal {
 }
