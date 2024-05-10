@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "bienes_automotores")
 @PrimaryKeyJoinColumn(name = "bien_id")
 public class BienAutomotor extends Bien {
+    @Column(unique = true)
     private String patente;
 
     public BienAutomotor() {

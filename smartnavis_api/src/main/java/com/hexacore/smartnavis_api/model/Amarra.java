@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "amarras")
+@Table(name = "amarras", uniqueConstraints = @UniqueConstraint(columnNames = {"puerto_id", "nombre"}))
 public class Amarra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
