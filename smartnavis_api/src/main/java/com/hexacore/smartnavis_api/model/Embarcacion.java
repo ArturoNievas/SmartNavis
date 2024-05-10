@@ -6,7 +6,10 @@ import jakarta.persistence.*;
 @Table(name = "embarcaciones")
 @PrimaryKeyJoinColumn(name = "bien_id")
 @DiscriminatorValue("E")
-public class Embarcacion extends BienNauticoAeronautico {
+public class Embarcacion extends Bien {
+    @Column(unique = true)
+    private String matricula;
+
     private String nombre;
 
     private double eslora;
@@ -16,6 +19,14 @@ public class Embarcacion extends BienNauticoAeronautico {
     private double manga;
 
     public Embarcacion() {
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 
     public String getNombre() {

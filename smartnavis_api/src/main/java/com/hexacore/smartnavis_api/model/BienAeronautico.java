@@ -7,11 +7,11 @@ import jakarta.persistence.*;
 @PrimaryKeyJoinColumn(name = "bien_id")
 @DiscriminatorValue("N")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class BienNauticoAeronautico extends Bien {
+public class BienAeronautico extends Bien {
     @Column(unique = true)
     private String matricula;
 
-    public BienNauticoAeronautico() {
+    public BienAeronautico() {
     }
 
     public String getMatricula() {
