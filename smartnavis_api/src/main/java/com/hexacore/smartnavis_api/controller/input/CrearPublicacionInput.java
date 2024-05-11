@@ -1,6 +1,6 @@
 package com.hexacore.smartnavis_api.controller.input;
 
-public class PublicarEmbarcacionInput {
+public class CrearPublicacionInput {
     private String titulo;
     private String descripcion;
 

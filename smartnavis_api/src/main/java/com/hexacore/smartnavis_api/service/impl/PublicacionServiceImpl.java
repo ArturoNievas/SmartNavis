@@ -1,5 +1,6 @@
 package com.hexacore.smartnavis_api.service.impl;
 
+import com.hexacore.smartnavis_api.model.Bien;
 import com.hexacore.smartnavis_api.model.Embarcacion;
 import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.repository.PublicacionRepository;
@@ -17,12 +18,17 @@ public class PublicacionServiceImpl implements PublicacionService {
     private PublicacionRepository repository;
 
     @Override
-    public Optional<Publicacion> findByEmbarcacion(Embarcacion embarcacion) {
-        return this.repository.findByBien(embarcacion);
+    public Optional<Publicacion> findByBien(Bien bien) {
+        return this.repository.findByBien(bien);
     }
 
     @Override
-    public Publicacion crear(String titulo, String descripcion, Embarcacion embarcacion) {
-        return this.repository.save(new Publicacion(titulo, descripcion, embarcacion));
+    public Optional<Publicacion> findByEmbarcacion(Embarcacion embarcacion) {
+        return this.findByBien(embarcacion);
+    }
+
+    @Override
+    public Publicacion crear(String titulo, String descripcion, Bien bien) {
+        return this.repository.save(new Publicacion(titulo, descripcion, bien));
     }
 }

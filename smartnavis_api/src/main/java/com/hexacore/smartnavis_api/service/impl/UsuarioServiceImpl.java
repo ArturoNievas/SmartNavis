@@ -18,6 +18,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Optional<Usuario> findByPersona(Persona persona) {
-        return this.repository.findByPersona(persona);
+        return this.repository.findById(persona.getId());
     }
 }
