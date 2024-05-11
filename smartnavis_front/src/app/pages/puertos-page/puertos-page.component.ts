@@ -3,6 +3,7 @@ import {PuertoService} from "../../services/puerto/puerto.service";
 import {Puerto} from "../../interfaces/puerto";
 import {RouterLink} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
+import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
 
 @Component({
   selector: 'app-puertos-page',
@@ -10,7 +11,8 @@ import {NgForOf, NgIf} from "@angular/common";
   imports: [
     RouterLink,
     NgIf,
-    NgForOf
+    NgForOf,
+    SectionHeaderComponent
   ],
   templateUrl: './puertos-page.component.html',
   styleUrl: './puertos-page.component.scss'
