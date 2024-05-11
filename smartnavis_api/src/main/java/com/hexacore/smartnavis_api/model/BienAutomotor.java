@@ -11,6 +11,7 @@ public class BienAutomotor extends Bien {
     private String patente;
 
     public BienAutomotor() {
+        super();
     }
 
     public String getPatente() {

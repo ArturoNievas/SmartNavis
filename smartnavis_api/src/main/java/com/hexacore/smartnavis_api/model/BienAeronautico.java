@@ -12,6 +12,7 @@ public class BienAeronautico extends Bien {
     private String matricula;
 
     public BienAeronautico() {
+        super();
     }
 
     public String getMatricula() {

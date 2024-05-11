@@ -11,6 +11,7 @@ public class BienInmueble extends Bien {
     private String partida;
 
     public BienInmueble() {
+        super();
     }
 
     public String getPartida() {

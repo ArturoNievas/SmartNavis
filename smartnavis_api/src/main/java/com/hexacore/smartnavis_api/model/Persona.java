@@ -25,6 +25,9 @@ public class Persona {
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
+    @Column(name = "habilitada_intercambio")
+    private boolean habilitadaIntercambio;
+
     @JsonIgnore
     @OneToMany(mappedBy = "titular")
     private List<Bien> bienes;
@@ -36,6 +39,7 @@ public class Persona {
     public Persona() {
         this.setBienes(new ArrayList<>());
         this.setAlquilerTerceros(new ArrayList<>());
+        this.setHabilitadaIntercambio(true);
     }
 
     public Long getId() {
@@ -76,6 +80,14 @@ public class Persona {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public boolean isHabilitadaIntercambio() {
+        return this.habilitadaIntercambio;
+    }
+
+    public void setHabilitadaIntercambio(boolean habilitadaIntercambio) {
+        this.habilitadaIntercambio = habilitadaIntercambio;
     }
 
     public List<Bien> getBienes() {

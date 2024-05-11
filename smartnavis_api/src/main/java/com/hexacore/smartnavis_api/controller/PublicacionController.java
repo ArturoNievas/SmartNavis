@@ -1,6 +1,6 @@
 package com.hexacore.smartnavis_api.controller;
 
-import com.hexacore.smartnavis_api.exceptions.PublicacionNotFoundException;
+import com.hexacore.smartnavis_api.exception.NotFoundException;
 import com.hexacore.smartnavis_api.model.Publicacion;
 
 import java.util.*;
@@ -71,7 +71,7 @@ public class PublicacionController {
             publicacion.setDescripcion(nuevaPublicacion.getDescripcion());
             publicacion.setTitulo(nuevaPublicacion.getTitulo());
             return repository.save(publicacion);
-        }).orElseThrow(PublicacionNotFoundException::new);
+        }).orElseThrow(NotFoundException::new);
     }
 
     @DeleteMapping("/publicacion/{id}")

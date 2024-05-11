@@ -19,6 +19,7 @@ public class Embarcacion extends Bien {
     private double manga;
 
     public Embarcacion() {
+        super();
     }
 
     public String getMatricula() {

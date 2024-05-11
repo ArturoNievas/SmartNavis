@@ -30,6 +30,14 @@ public class Publicacion {
         this.setPermutasSolicitadas(new ArrayList<>());
     }
 
+    public Publicacion(String titulo, String descripcion, Bien bien) {
+        this.setTitulo(titulo);
+        this.setDescripcion(descripcion);
+        this.setBien(bien);
+        bien.setPublicacion(this);
+        this.setPermutasSolicitadas(new ArrayList<>());
+    }
+
     public Long getId() {
         return id;
     }

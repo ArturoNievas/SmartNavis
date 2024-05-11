@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "bienes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipo", discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("B")
 public abstract class Bien {
     @Id
@@ -20,6 +20,13 @@ public abstract class Bien {
     @JsonIgnore
     @OneToOne(mappedBy = "bien")
     private Publicacion publicacion;
+
+    @Column(name = "habilitado_intercambio")
+    private boolean habilitadoIntercambio;
+
+    protected Bien() {
+        this.setHabilitadoIntercambio(true);
+    }
 
     public Persona getTitular() {
         return titular;
@@ -43,5 +50,13 @@ public abstract class Bien {
 
     public void setPublicacion(Publicacion publicacion) {
         this.publicacion = publicacion;
+    }
+
+    public boolean isHabilitadoIntercambio() {
+        return habilitadoIntercambio;
+    }
+
+    public void setHabilitadoIntercambio(boolean habilitado) {
+        this.habilitadoIntercambio = habilitado;
     }
 }
