@@ -1,5 +1,6 @@
 @startuml
 abstract class Bien {
+- habilitadoIntercambio: Boolean
 }
 Bien "0..N" --> "1" Persona: - titular
 
@@ -13,24 +14,26 @@ class BienInmueble {
 }
 BienInmueble -right-|> Bien
 
-class BienNauticoAeronautico {
--matricula: String
+class BienAeronautico {
+- matricula: String
 }
-BienNauticoAeronautico -up-|> Bien
+BienAeronautico -up-|> Bien
 
 class Embarcacion {
--nombre: String
--eslora: Real
--calado: Real
--manga: Real
+- matricula: String
+- nombre: String
+- eslora: Real
+- calado: Real
+- manga: Real
 }
-Embarcacion  -left-|> BienNauticoAeronautico 
+Embarcacion  -up-|> Bien
 
 class Persona {
 - dni: Integer
 - apellidos: String
 - nombres: String
 - fechaNacimiento: Date
+- habilitadaIntercambio: Boolean
 }
 
 class Usuario {
@@ -44,24 +47,24 @@ class Administrador {
 Administrador -up-|> Usuario
 
 class Mensaje {
--texto: String
--fecha: Date
+- texto: String
+- fecha: Date
 }
 Mensaje "0..N" -down-> "1" Usuario: - autor
 Mensaje "0..N" -right-> "1" Permuta: - permuta
 
 class Permuta {
--aceptada: boolean
--registrada: boolean
--pendiente: boolean
--finalizada: boolean
+- aceptada: boolean
+- registrada: boolean
+- pendiente: boolean
+- finalizada: boolean
 }
 Permuta "0..N" -right-> "1" Publicacion: - ofertada
 Permuta "0..N" -right-> "1" Publicacion: - solicitada
 
 class Publicacion {
--titulo: String
--descripcion: String
+- titulo: String
+- descripcion: String
 }
 Publicacion "1" --> "1" Bien: - bien
 
