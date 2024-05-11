@@ -2,14 +2,16 @@ package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.model.Permuta;
 import com.hexacore.smartnavis_api.service.PermutaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class PermutaController {
-    @Autowired
-    private PermutaService service;
+    private final PermutaService service;
+
+    public PermutaController(PermutaService service) {
+        this.service = service;
+    }
 
     @GetMapping("/permutas")
     public Iterable<Permuta> listarPermutas() {

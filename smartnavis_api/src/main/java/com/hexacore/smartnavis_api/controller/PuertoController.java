@@ -2,7 +2,6 @@ package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.model.Puerto;
 import com.hexacore.smartnavis_api.repository.PuertoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class PuertoController {
-    @Autowired
-    private PuertoRepository repository;
+    private final PuertoRepository repository;
+
+    public PuertoController(PuertoRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/puertos")
     public List<Puerto> getAll() {

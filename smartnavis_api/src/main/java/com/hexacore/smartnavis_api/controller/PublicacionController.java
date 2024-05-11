@@ -2,12 +2,8 @@ package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.exception.NotFoundException;
 import com.hexacore.smartnavis_api.model.Publicacion;
-
 import java.util.*;
-
 import com.hexacore.smartnavis_api.repository.PublicacionRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +11,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class PublicacionController {
+    private final PublicacionRepository repository;
 
-    @Autowired
-    private PublicacionRepository repository;
+    public PublicacionController(PublicacionRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/publicaciones")
     public List<Publicacion> getAll() {
