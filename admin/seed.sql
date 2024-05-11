@@ -50,18 +50,18 @@ INSERT INTO smartnavis.amarras (calado,eslora,manga,nombre,puerto_id) VALUES
 	 (340.0,900.0,250.0,'G02',@pto_madero),
 	 (340.0,900.0,250.0,'G03',@pto_madero);
 
-INSERT INTO smartnavis.personas (apellidos,dni,fecha_nacimiento,nombres) VALUES
-	 ('Marino',11111111,'1950-03-13 00:00:00','Simbad'),
-	 ('Colon',22222222,'1940-05-17 00:00:00','Cristobal'),
-	 ('Magallanes',33333333,'1955-06-20 00:00:00','Fernando'),
-	 ('Cook',11222333,'1969-10-11 00:00:00','James'),
-	 ('Crusoe',22333444,'1975-12-20 00:00:00','Robinson'),
-	 ('Argonauta',33222111,'1980-02-14 00:00:00','Jason'),
-	 ('Itaca',33444555,'1986-12-27 00:00:00','Odiseo'),
-	 ('Nemo',12345678,'1976-04-30 00:00:00','Cap'),
-	 ('Sparrow',21543876,'1969-09-16 00:00:00','Jack'),
-	 ('Brown',22888999,'1977-12-17 00:00:00','Guillermo'),
-	 ('Dumas',33777666,'1965-03-28 00:00:00','Vito');
+INSERT INTO smartnavis.personas (apellidos,dni,fecha_nacimiento,nombres, habilitada_intercambio) VALUES
+	 ('Marino',11111111,'1950-03-13 00:00:00','Simbad',0),
+	 ('Colon',22222222,'1940-05-17 00:00:00','Cristobal',1),
+	 ('Magallanes',33333333,'1955-06-20 00:00:00','Fernando',1),
+	 ('Cook',11222333,'1969-10-11 00:00:00','James',1),
+	 ('Crusoe',22333444,'1975-12-20 00:00:00','Robinson',1),
+	 ('Argonauta',33222111,'1980-02-14 00:00:00','Jason',1),
+	 ('Itaca',33444555,'1986-12-27 00:00:00','Odiseo',1),
+	 ('Nemo',12345678,'1976-04-30 00:00:00','Cap',0),
+	 ('Sparrow',21543876,'1969-09-16 00:00:00','Jack',1),
+	 ('Brown',22888999,'1977-12-17 00:00:00','Guillermo',1),
+	 ('Dumas',33777666,'1965-03-28 00:00:00','Vito',1);
 	 
 SET @simbad = (SELECT id FROM smartnavis.personas WHERE nombres = 'Simbad');
 SET @cristobal = (SELECT id FROM smartnavis.personas WHERE nombres = 'Cristobal');
@@ -82,26 +82,26 @@ INSERT INTO smartnavis.administradores (usuario_id) VALUES
 	 (@cristobal),
 	 (@guillermo);
 	 
-INSERT INTO smartnavis.bienes (tipo,patente,partida,matricula,calado,eslora,manga,nombre,persona_id) VALUES
-	 ('E',NULL,NULL,'REY 12345',120.0,140.0,300,'Dhow',@simbad),
-	 ('E',NULL,NULL,'REY 54321',340.0,900.0,250.0,'Santa Maria',@cristobal),
-	 ('E',NULL,NULL,'REY 54322',340.0,900.0,250.0,'Pinta',@cristobal),
-	 ('E',NULL,NULL,'REY 54323',340.0,900.0,250.0,'Niña',@cristobal),
-	 ('E',NULL,NULL,'REY 11222',340.0,900.0,250.0,'Argo',@jason),
-	 ('E',NULL,NULL,'REY 11223',340.0,900.0,250.0,'Arquero',@odiseo),
-	 ('E',NULL,NULL,'REY 11224',340.0,900.0,250.0,'Arquero II',@odiseo),
-	 ('E',NULL,NULL,'REY 22334',450.0,1100.0,350.0,'Perla Negra',@jack),
-	 ('E',NULL,NULL,'REY 33224',450.0,1100.0,350.0,'Holandes Errante',@jack),
-	 ('E',NULL,NULL,'REY 45555',210.0,500.0,180.0,'Lehg I',@vito),
-	 ('E',NULL,NULL,'REY 45556',210.0,500.0,180.0,'Lehg II',@vito),
-	 ('I',NULL,'123-123123-1',NULL,NULL,NULL,NULL,NULL,@simbad),
-	 ('I',NULL,'321-321321-3',NULL,NULL,NULL,NULL,NULL,@cristobal),
-	 ('I',NULL,'111-222222-1',NULL,NULL,NULL,NULL,NULL,@odiseo),
-	 ('I',NULL,'111-222222-2',NULL,NULL,NULL,NULL,NULL,@odiseo),
-	 ('I',NULL,'111-222222-3',NULL,NULL,NULL,NULL,NULL,@odiseo),
-	 ('A','ABC-123',NULL,NULL,NULL,NULL,NULL,NULL,@jack),
-	 ('A','AAA-111',NULL,NULL,NULL,NULL,NULL,NULL,@vito),
-	 ('A','AAA-222',NULL,NULL,NULL,NULL,NULL,NULL,@vito);
+INSERT INTO smartnavis.bienes (tipo,patente,partida,matricula,calado,eslora,manga,nombre,persona_id,habilitado_intercambio) VALUES
+	 ('E',NULL,NULL,'REY 12345',120.0,140.0,300,'Dhow',@simbad,0),
+	 ('E',NULL,NULL,'REY 54321',340.0,900.0,250.0,'Santa Maria',@cristobal,1),
+	 ('E',NULL,NULL,'REY 54322',340.0,900.0,250.0,'Pinta',@cristobal,1),
+	 ('E',NULL,NULL,'REY 54323',340.0,900.0,250.0,'Niña',@cristobal,0),
+	 ('E',NULL,NULL,'REY 11222',340.0,900.0,250.0,'Argo',@jason,0),
+	 ('E',NULL,NULL,'REY 11223',340.0,900.0,250.0,'Arquero',@odiseo,1),
+	 ('E',NULL,NULL,'REY 11224',340.0,900.0,250.0,'Arquero II',@odiseo,1),
+	 ('E',NULL,NULL,'REY 22334',450.0,1100.0,350.0,'Perla Negra',@jack,1),
+	 ('E',NULL,NULL,'REY 33224',450.0,1100.0,350.0,'Holandes Errante',@jack,0),
+	 ('E',NULL,NULL,'REY 45555',210.0,500.0,180.0,'Lehg I',@vito,1),
+	 ('E',NULL,NULL,'REY 45556',210.0,500.0,180.0,'Lehg II',@vito,1),
+	 ('I',NULL,'123-123123-1',NULL,NULL,NULL,NULL,NULL,@simbad,1),
+	 ('I',NULL,'321-321321-3',NULL,NULL,NULL,NULL,NULL,@cristobal,1),
+	 ('I',NULL,'111-222222-1',NULL,NULL,NULL,NULL,NULL,@odiseo,1),
+	 ('I',NULL,'111-222222-2',NULL,NULL,NULL,NULL,NULL,@odiseo,1),
+	 ('I',NULL,'111-222222-3',NULL,NULL,NULL,NULL,NULL,@odiseo,0),
+	 ('A','ABC-123',NULL,NULL,NULL,NULL,NULL,NULL,@jack,1),
+	 ('A','AAA-111',NULL,NULL,NULL,NULL,NULL,NULL,@vito,1),
+	 ('A','AAA-222',NULL,NULL,NULL,NULL,NULL,NULL,@vito,0);
 	 
 SET @dhow = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Dhow');
 SET @lehg_2 = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Lehg II');
@@ -119,9 +119,29 @@ INSERT INTO smartnavis.alquileres_terceros (parentezco,alquiler_id,persona_id) V
 ('Amigo', (SELECT id FROM smartnavis.alquileres WHERE embarcacion_id = @argo), @odiseo);
 
 INSERT INTO smartnavis.publicaciones (descripcion,titulo,bien_id) VALUES
-	 ('Dos o tres viajes. Unica mano.', 'Carabela casi sin uso', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 54321')),
-	 ('Cambio por cualquier cosa ya!', 'Cambio barco', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 45556')),
+	 ('Dos o tres viajes. Unica mano.', 'Carabela casi sin uso', @santa_maria),
+	 ('Cambio por cualquier cosa ya!', 'Cambio barco', @lehg_2),
 	 ('Lo cambio porque ya no lo uso', 'Barco sin uso', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 11224')),
 	 ('Hermoso dpto. 3 ambientes.', 'Dpto. f/ al mar', (SELECT id FROM smartnavis.bienes WHERE partida = '321-321321-3')),
 	 ('Casa con pileta.', 'Casa quinta', (SELECT id FROM smartnavis.bienes WHERE partida = '111-222222-2')),
 	 ('Sin papeles.', 'Moto joyita oportuniad!', (SELECT id FROM smartnavis.bienes WHERE patente = 'ABC-123'));
+
+INSERT INTO smartnavis.permutas (aceptada,finalizada,pendiente,registrada,publicacion_id_ofertada,publicacion_id_solicitada) VALUES
+	 (0, 0, 1, 0,
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE partida = '111-222222-2')),
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @santa_maria)),
+	 (0, 1, 0, 0,
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE patente = 'ABC-123')),
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @santa_maria)),
+	 (1, 0, 0, 0,
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE patente = 'ABC-123')),
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @lehg_2)),
+	 (0, 0, 1, 0,
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @santa_maria),
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE partida = '321-321321-3'))),
+	 (0, 1, 0, 0,
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @santa_maria),
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @lehg_2)),
+	 (0, 0, 1, 0,
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @santa_maria),
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 11224')));
