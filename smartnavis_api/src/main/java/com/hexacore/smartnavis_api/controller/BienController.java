@@ -14,6 +14,6 @@ public class BienController {
 
     @PostMapping("/bien/{id}/publicar")
     public Publicacion publicarBien(@PathVariable("id") Long id, @RequestBody CrearPublicacionInput input) {
-        return this.service.publicarBien(this.service.getById(id), input.getTitulo(), input.getDescripcion());
+        return this.service.publicarBien(this.service.getMustExist(id), input.getTitulo(), input.getDescripcion());
     }
 }

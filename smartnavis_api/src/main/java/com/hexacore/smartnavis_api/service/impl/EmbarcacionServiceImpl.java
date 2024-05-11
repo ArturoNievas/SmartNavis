@@ -6,23 +6,24 @@ import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.repository.EmbarcacionRepository;
 import com.hexacore.smartnavis_api.service.BienService;
 import com.hexacore.smartnavis_api.service.EmbarcacionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class EmbarcacionServiceImpl implements EmbarcacionService {
-    @Autowired
-    private EmbarcacionRepository repository;
+public class EmbarcacionServiceImpl extends SmartNavisServiceImpl<Embarcacion, Long> implements EmbarcacionService {
+    private final BienService bienService;
 
-    @Autowired
-    private BienService bienService;
+    public EmbarcacionServiceImpl(EmbarcacionRepository repository, BienService bienService) {
+        super(repository);
+        this.bienService = bienService;
+    }
 
     @Override
-    public Embarcacion getById(Long id) {
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException("La embarcación no existe."));
+    protected NotFoundException getNotFoundException() {
+        return new NotFoundException("La embarcación no existe.");
     }
+
 
     @Override
     public Publicacion publicarEmbarcacion(Embarcacion embarcacion, String titulo, String descripcion) {

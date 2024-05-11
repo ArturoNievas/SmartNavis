@@ -14,6 +14,6 @@ public class BienInmuebleController {
 
     @PostMapping("/bien/inmueble/{id}/publicar")
     public Publicacion publicarInmueble(@PathVariable("id") Long id, @RequestBody CrearPublicacionInput input) {
-        return this.service.publicarInmueble(this.service.getById(id), input.getTitulo(), input.getDescripcion());
+        return this.service.publicarInmueble(this.service.getMustExist(id), input.getTitulo(), input.getDescripcion());
     }
 }

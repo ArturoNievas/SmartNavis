@@ -7,7 +7,6 @@ import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.repository.BienRepository;
 import com.hexacore.smartnavis_api.service.BienService;
 import com.hexacore.smartnavis_api.service.PublicacionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,17 +14,19 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class BienServiceImpl implements BienService {
-    @Autowired
-    private BienRepository repository;
+public class BienServiceImpl extends SmartNavisServiceImpl<Bien, Long> implements BienService {
+    private final PublicacionService publicacionService;
 
-    @Autowired
-    private PublicacionService publicacionService;
+    public BienServiceImpl(BienRepository repository, PublicacionService publicacionService) {
+        super(repository);
+        this.publicacionService = publicacionService;
+    }
 
     @Override
-    public Bien getById(Long id) {
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException("El bien no existe."));
+    protected NotFoundException getNotFoundException() {
+        return new NotFoundException("El bien no existe.");
     }
+
 
     @Override
     public Publicacion publicarBien(Bien bien, String titulo, String descripcion) {
@@ -39,6 +40,6 @@ public class BienServiceImpl implements BienService {
         if (opPub.isPresent()) {
             throw new BadRequestException("El bien ya se encuentra publicado.");
         }
-        return this.publicacionService.crear(titulo, descripcion, bien);
+        return this.publicacionService.crearPublicacion(titulo, descripcion, bien);
     }
 }

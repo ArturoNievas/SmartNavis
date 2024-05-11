@@ -1,4 +1,6 @@
 package com.hexacore.smartnavis_api.service;
 
-public interface PuertoService {
+import com.hexacore.smartnavis_api.model.Puerto;
+
+public interface PuertoService extends SmartNavisService<Puerto, Long> {
 }

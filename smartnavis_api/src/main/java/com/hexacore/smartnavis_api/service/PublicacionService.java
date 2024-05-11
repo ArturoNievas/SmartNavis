@@ -6,10 +6,10 @@ import com.hexacore.smartnavis_api.model.Publicacion;
 
 import java.util.Optional;
 
-public interface PublicacionService {
+public interface PublicacionService extends SmartNavisService<Publicacion, Long> {
     Optional<Publicacion> findByBien(Bien bien);
 
     Optional<Publicacion> findByEmbarcacion(Embarcacion embarcacion);
 
-    Publicacion crear(String titulo, String descripcion, Bien bien);
+    Publicacion crearPublicacion(String titulo, String descripcion, Bien bien);
 }

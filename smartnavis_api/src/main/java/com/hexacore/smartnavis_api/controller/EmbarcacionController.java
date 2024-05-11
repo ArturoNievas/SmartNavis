@@ -14,6 +14,6 @@ public class EmbarcacionController {
 
     @PostMapping("/embarcacion/{id}/publicar")
     public Publicacion publicarEmbarcacion(@PathVariable("id") Long id, @RequestBody CrearPublicacionInput input) {
-        return this.service.publicarEmbarcacion(this.service.getById(id), input.getTitulo(), input.getDescripcion());
+        return this.service.publicarEmbarcacion(this.service.getMustExist(id), input.getTitulo(), input.getDescripcion());
     }
 }

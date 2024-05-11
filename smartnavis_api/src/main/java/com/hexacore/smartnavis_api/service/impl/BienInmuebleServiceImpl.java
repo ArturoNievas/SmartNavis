@@ -6,23 +6,24 @@ import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.repository.BienInmuebleRepository;
 import com.hexacore.smartnavis_api.service.BienInmuebleService;
 import com.hexacore.smartnavis_api.service.BienService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class BienInmuebleServiceImpl implements BienInmuebleService {
-    @Autowired
-    private BienInmuebleRepository repository;
+public class BienInmuebleServiceImpl extends SmartNavisServiceImpl<BienInmueble, Long> implements BienInmuebleService {
+    private final BienService bienService;
 
-    @Autowired
-    private BienService bienService;
+    public BienInmuebleServiceImpl(BienInmuebleRepository repository, BienService bienService) {
+        super(repository);
+        this.bienService = bienService;
+    }
 
     @Override
-    public BienInmueble getById(Long id) {
-        return this.repository.findById(id).orElseThrow(() -> new NotFoundException("El inmueble no existe."));
+    protected NotFoundException getNotFoundException() {
+        return new NotFoundException("El inmueble no existe.");
     }
+
 
     @Override
     public Publicacion publicarInmueble(BienInmueble inmueble, String titulo, String descripcion) {

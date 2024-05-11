@@ -55,10 +55,10 @@ public class PublicacionController {
         return publicacionesFiltradas;
     }
 
-    @GetMapping("/publicacion/{id}")
+   /* @GetMapping("/publicacion/{id}")
     public List<Publicacion> findByNombre(@PathVariable("nombre") long id) {
         return repository.findById(id); // FIXME: dice buscar por nombre pero esta buscando por ID
-    }
+    }*/
 
     @PostMapping("/publicacion")
     public Publicacion create(@RequestBody Publicacion publicacion) {
