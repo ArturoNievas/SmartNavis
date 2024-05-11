@@ -1,42 +1,48 @@
 package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.model.Puerto;
-import com.hexacore.smartnavis_api.repository.PuertoRepository;
+import com.hexacore.smartnavis_api.service.PuertoService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class PuertoController {
-    private final PuertoRepository repository;
+    private final PuertoService service;
 
-    public PuertoController(PuertoRepository repository) {
-        this.repository = repository;
+    public PuertoController(PuertoService service) {
+        this.service = service;
     }
 
     @GetMapping("/puertos")
-    public List<Puerto> getAll() {
-        return repository.findAll();
+    public Iterable<Puerto> listarPuertos() {
+        return this.service.findAll();
     }
 
-    @GetMapping("/puerto/{nombre}")
-    public List<Puerto> findByNombre(@PathVariable("nombre") String nombre) {
-        return repository.findByNombre(nombre);
+    @GetMapping("/puertos/{nombre}")
+    public Iterable<Puerto> listarPuertosPorNombre(@PathVariable("nombre") String nombre) {
+        return this.service.buscarPuertosPorNombre(nombre);
     }
 
     @PostMapping("/puerto")
-    public Puerto create(@RequestBody Puerto puerto) {
-        return repository.save(puerto);
+    public Puerto crearPuerto(@RequestBody Puerto puerto) {
+        return this.service.persist(puerto);
+    }
+
+    @GetMapping("/puerto/{id}")
+    public Puerto detallePuerto(@PathVariable("id") Long id) {
+        return this.service.getMustExist(id);
     }
 
     @PutMapping("/puerto/{id}")
-    public Puerto update(@PathVariable("id") Long id, @RequestBody Puerto puerto) {
-        return repository.save(puerto);
+    public Puerto actualizarPuerto(@PathVariable("id") Long id, @RequestBody Puerto nuevoPuerto) {
+        return this.service.patch(id, puerto -> {
+            puerto.setNombre(nuevoPuerto.getNombre());
+            return puerto;
+        });
     }
 
     @DeleteMapping("/puerto/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        repository.deleteById(id);
+    public void eliminarPuerto(@PathVariable("id") Long id) {
+        this.service.delete(id);
     }
 }

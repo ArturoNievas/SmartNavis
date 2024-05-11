@@ -1,9 +1,10 @@
 package com.hexacore.smartnavis_api.controller;
 
-import com.hexacore.smartnavis_api.exception.NotFoundException;
 import com.hexacore.smartnavis_api.model.Publicacion;
+
 import java.util.*;
-import com.hexacore.smartnavis_api.repository.PublicacionRepository;
+
+import com.hexacore.smartnavis_api.service.PublicacionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,15 +12,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class PublicacionController {
-    private final PublicacionRepository repository;
+    private final PublicacionService service;
 
-    public PublicacionController(PublicacionRepository repository) {
-        this.repository = repository;
+    public PublicacionController(PublicacionService service) {
+        this.service = service;
     }
 
     @GetMapping("/publicaciones")
-    public List<Publicacion> getAll() {
-        return repository.findAll();
+    public Iterable<Publicacion> listarPublicaciones() {
+        return this.service.findAll();
     }
 
     @GetMapping("/publicaciones/tipo")
@@ -53,27 +54,28 @@ public class PublicacionController {
         return publicacionesFiltradas;
     }
 
-   /* @GetMapping("/publicacion/{id}")
-    public List<Publicacion> findByNombre(@PathVariable("nombre") long id) {
-        return repository.findById(id); // FIXME: dice buscar por nombre pero esta buscando por ID
-    }*/
-
     @PostMapping("/publicacion")
-    public Publicacion create(@RequestBody Publicacion publicacion) {
-        return repository.save(publicacion);
+    public Publicacion crearPublicacion(@RequestBody Publicacion publicacion) {
+        return this.service.persist(publicacion);
+    }
+
+    @GetMapping("/publicacion/{id}")
+    public Publicacion detallePublicacion(@PathVariable("id") Long id) {
+        return this.service.getMustExist(id);
     }
 
     @PutMapping("/publicacion/{id}")
-    public Publicacion update(@PathVariable("id") Long id, @RequestBody Publicacion nuevaPublicacion) {
-        return repository.findById(id).map(publicacion -> {
+    public Publicacion actualizarPublicacion(@PathVariable("id") Long id, @RequestBody Publicacion nuevaPublicacion) {
+        return this.service.patch(id, publicacion -> {
             publicacion.setDescripcion(nuevaPublicacion.getDescripcion());
             publicacion.setTitulo(nuevaPublicacion.getTitulo());
-            return repository.save(publicacion);
-        }).orElseThrow(NotFoundException::new);
+            // FIXME: esto realiza una actualización básica. La HU indica poder modificar el bien asociado. **CONSULTAR**
+            return publicacion;
+        });
     }
 
     @DeleteMapping("/publicacion/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        repository.deleteById(id);
+    public void eliminarPublicacion(@PathVariable("id") Long id) {
+        this.service.delete(id);
     }
 }

@@ -9,7 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class PuertoServiceImpl extends SmartNavisServiceImpl<Puerto, Long> implements PuertoService {
+    private final PuertoRepository repository;
+
     public PuertoServiceImpl(PuertoRepository repository) {
         super(repository);
+        this.repository = repository;
+    }
+
+    @Override
+    public Iterable<Puerto> buscarPuertosPorNombre(String nombre) {
+        return this.repository.findByNombre(nombre);
     }
 }
