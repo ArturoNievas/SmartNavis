@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AppPageComponent } from '../../components/app-page/app-page.component';
 import { NgFor, NgIf } from '@angular/common';
 
+
+
 @Component({
   selector: 'app-embarcaciones-publicadas-page',
   standalone: true,

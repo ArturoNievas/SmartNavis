@@ -1,4 +1,6 @@
-export interface Embarcacion {
+import { Bien } from "./bien";
+
+export interface Embarcacion extends Bien {
     matricula: string;
     nombre: string;
     eslora: number;

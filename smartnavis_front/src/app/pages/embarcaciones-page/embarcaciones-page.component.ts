@@ -8,12 +8,33 @@ import { EmbarcacionService } from '../../services/embarcacion/embarcacion.servi
 import { AppPageComponent } from '../../components/app-page/app-page.component';
 
 
-const embarcacionesMockup = Array.from({ length: 4 }).map((_, i) => ({
-  matricula: `matricula-${i}`,
-  nombre: `nombre-${i}`,
-  eslora: 0,
-  calado: 0,
-  manga: 0
+/* export interface Bien {
+    id: number;
+    titular: any;
+    publicacion: any;
+    habilitadoIntercambio: boolean;
+} 
+  
+
+
+export interface Embarcacion extends Bien {
+    matricula: string;
+    nombre: string;
+    eslora: number;
+    calado: number;
+    manga: number;
+}
+*/
+
+const embarcacionesMockup = Array.from({ length: 10 }).map((_, i) => ({
+  id: i + 1,
+  matricula: `MAT-${i + 1}`,
+  nombre: `Embarcacion ${i + 1}`,
+  eslora: 10 + i,
+  calado: 5 + i,
+  manga: 3 + i,
+  habilitadoIntercambio: true,
+  titular: null,
 }))
 
 
