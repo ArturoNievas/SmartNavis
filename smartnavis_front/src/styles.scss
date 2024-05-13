@@ -8,19 +8,13 @@
     --global-max-width: 1680px;
 }
 
-main.page {
+.global-container {
     display: flex;
     flex-direction: column;
 
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    max-width: var(--global-max-width);
 
-    .page-content {
-        display: flex;
-        flex-direction: column;
-
-        width: 100%;
-        max-width: var(--global-max-width);
-    }
+    margin: 0 auto;
 }
 

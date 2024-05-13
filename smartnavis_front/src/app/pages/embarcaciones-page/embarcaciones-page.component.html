@@ -1,29 +1,20 @@
-<div>
-    <!-- <app-header></app-header> -->
-    
-    <a routerLink="/home">Home</a>
-
-    <main class="page">
-        <section-header titulo="Embarcaciones"></section-header>
-        
-        <div class="page-content">
+<app-app-page titulo="Embarcaciones" subtitulo="Lista de embarcaciones disponibles para publicar">
+    <div class="global-container">
             
-            <ol *ngIf="embarcaciones.length" class="p-0 m-0">
-                <div>
-                   <li *ngFor="let embarcacion of embarcaciones">
-                        <div>
-                            <span><b>{{embarcacion.nombre}}</b> ({{embarcacion.matricula}})</span>
-                            <button class="btn btn-primary">Publicar</button>
-                        </div>
-                    </li>
-                </div>
-            </ol>
-
-            <div *ngIf="!embarcaciones.length">
-                <p>No hay embarcaciones registradas</p>
+        <ol *ngIf="embarcaciones.length" class="p-0 m-0">
+            <div>
+               <li *ngFor="let embarcacion of embarcaciones">
+                    <div>
+                        <span><b>{{embarcacion.nombre}}</b> ({{embarcacion.matricula}})</span>
+                        <button class="btn btn-primary">Publicar</button>
+                    </div>
+                </li>
             </div>
-            
+        </ol>
+
+        <div *ngIf="!embarcaciones.length">
+            <p>No hay embarcaciones registradas</p>
         </div>
-    </main>
-    
-</div>
+        
+    </div>
+</app-app-page>

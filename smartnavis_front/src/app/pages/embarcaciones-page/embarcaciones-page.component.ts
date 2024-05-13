@@ -5,6 +5,7 @@ import { NgIf, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Embarcacion } from '../../interfaces/embarcacion';
 import { EmbarcacionService } from '../../services/embarcacion/embarcacion.service';
+import { AppPageComponent } from '../../components/app-page/app-page.component';
 
 
 const embarcacionesMockup = Array.from({ length: 4 }).map((_, i) => ({
@@ -19,7 +20,7 @@ const embarcacionesMockup = Array.from({ length: 4 }).map((_, i) => ({
 @Component({
   selector: 'app-embarcaciones-page',
   standalone: true,
-  imports: [RouterLink, SectionHeaderComponent, NgFor, NgIf],
+  imports: [RouterLink, AppPageComponent, NgFor, NgIf],
   templateUrl: './embarcaciones-page.component.html',
   styleUrl: './embarcaciones-page.component.scss'
 })
