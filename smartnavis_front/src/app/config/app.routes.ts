@@ -8,6 +8,6 @@ export const routes: Routes = [
   {path: 'home', title: 'Home', component: HomePageComponent},
   {path: 'puertos', title: 'Puertos', component: PuertosPageComponent},
   {path: 'embarcaciones', title: 'Embarcaciones', component: EmbarcacionesPageComponent},
-  {path: 'embarcaciones(publicaciones', title: 'Publicaciones', component: EmbarcacionesPublicadasPageComponent},
+  {path: 'embarcaciones/publicaciones', title: 'Publicaciones', component: EmbarcacionesPublicadasPageComponent},
   {path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
