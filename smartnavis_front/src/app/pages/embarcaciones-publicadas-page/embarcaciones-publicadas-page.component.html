@@ -3,7 +3,7 @@
     <div class="global-container">
         <ul *ngIf="publicaciones.length">
             <li *ngFor="let publicacion of publicaciones; else sinPublicaciones">
-                <app-card-de-publicacion [id]="publicacion.id" [titulo]="publicacion.titulo" [descripcion]="publicacion.descripcion"></app-card-de-publicacion>
+                <app-card-de-publicacion [id]="publicacion.id" [titulo]="publicacion.titulo" [descripcion]="publicacion.descripcion" [(ngModel)]="publicacion.descripcion"></app-card-de-publicacion>
             </li>
         </ul>
 

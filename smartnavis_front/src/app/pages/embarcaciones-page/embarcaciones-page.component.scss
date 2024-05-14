@@ -19,10 +19,25 @@ li > div {
 }
 
 .embarcaciones-page-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    flex-wrap: wrap;
-    
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;    
+    gap: 48px;
+
+    article {
+        width: fit-content;
+    }
+
+    aside {
+        flex-grow: 1;
+
+        min-width: 480px;
+        max-width: 800px;
+    }
 }
+
+
 
 

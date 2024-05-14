@@ -3,6 +3,7 @@ import { AppPageComponent } from '../../shared/components/app-page/app-page.comp
 import { NgFor, NgIf } from '@angular/common';
 import { mockups } from '../../shared/mockups';
 import { CardDePublicacionComponent } from '../../shared/components/card-de-publicacion/card-de-publicacion.component';
+import { FormControl, FormsModule, NgModel } from '@angular/forms';
 
 
 
@@ -18,7 +19,7 @@ const publicaciones = Array.from({length: 10}, (_, i) => ({
 @Component({
   selector: 'app-embarcaciones-publicadas-page',
   standalone: true,
-  imports: [NgFor, NgIf, AppPageComponent, CardDePublicacionComponent],
+  imports: [NgFor, NgIf, AppPageComponent, CardDePublicacionComponent, FormsModule],
   templateUrl: './embarcaciones-publicadas-page.component.html',
   styleUrl: './embarcaciones-publicadas-page.component.scss'
 })
@@ -33,7 +34,7 @@ export class EmbarcacionesPublicadasPageComponent {
   }
 
   public listarEmbarcacionesPublicadas(): void {
-    this.publicaciones = publicaciones    
+    this.publicaciones = publicaciones;
   }
 
 

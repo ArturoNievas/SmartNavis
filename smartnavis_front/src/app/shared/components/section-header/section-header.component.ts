@@ -10,8 +10,8 @@ import { NgIf } from '@angular/common';
   styleUrl: './section-header.component.scss'
 })
 export class SectionHeaderComponent {
-    @Input() public titulo = 'Section Header';
-    @Input() public subtitulo = ""
+    @Input() public titulo?: string;
+    @Input() public subtitulo?: string;
 
     constructor() { }
 }

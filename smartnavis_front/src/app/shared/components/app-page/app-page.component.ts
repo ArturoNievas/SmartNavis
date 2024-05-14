@@ -10,8 +10,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './app-page.component.scss'
 })
 export class AppPageComponent {
-  @Input() public titulo: string = "";
-  @Input() public subtitulo: string = "";
+  @Input() public titulo?: string;
+  @Input() public subtitulo?: string;
 
   constructor() { }
 

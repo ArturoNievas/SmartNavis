@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 
 import { NgIf, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -8,54 +7,45 @@ import { EmbarcacionService } from '../../services/embarcacion/embarcacion.servi
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { generateMockups, mockups } from '../../shared/mockups';
 
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-embarcaciones-page',
   standalone: true,
-  imports: [RouterLink, AppPageComponent, NgFor, NgIf, ReactiveFormsModule],
+  imports: [RouterLink, AppPageComponent, NgFor, NgIf, FormsModule],
   templateUrl: './embarcaciones-page.component.html',
-  styleUrl: './embarcaciones-page.component.scss'
+  styleUrl: './embarcaciones-page.component.scss',
 })
 export class EmbarcacionesPageComponent {
-  
-  
   public embarcaciones: Embarcacion[] = [];
 
-  public embarcacionSeleccionada: any = null;
-  public nuevaPublicacion = {
-    titulo: "",
-    descripcion: ""
-  }
-
-  favoriteColorControl = new FormControl('');
-
-
+  public embarcacionSeleccionada?: any;
+  public nuevaPublicacion?: any = {};
 
   /* MÉTODOS */
   constructor(private embarcacionService: EmbarcacionService) {}
 
   ngOnInit(): void {
     this.listarEmbarcaciones();
-    console.log('Embarcaciones:', this.embarcaciones)
   }
 
   public listarEmbarcaciones(): void {
     this.embarcaciones = generateMockups(mockups.embarcacion, 10);
-    
+
     /* this.embarcacionService.listarEmbarcaciones().subscribe((embarcaciones: Embarcacion[]) => {
       this.embarcaciones = embarcaciones;
     }); */
   }
 
   public crearEmbarcacion(embarcacion: Embarcacion): void {
-    this.embarcacionService.crearEmbarcacion(embarcacion).subscribe((embarcacion: Embarcacion) => {
-      const index: number = this.embarcaciones.indexOf(embarcacion);
-      if (index === -1) {
-        this.embarcaciones.push(embarcacion);
-      }
-    });
+    this.embarcacionService
+      .crearEmbarcacion(embarcacion)
+      .subscribe((embarcacion: Embarcacion) => {
+        const index: number = this.embarcaciones.indexOf(embarcacion);
+        if (index === -1) {
+          this.embarcaciones.push(embarcacion);
+        }
+      });
   }
 
   public actualizarEmbarcacion(embarcacion: Embarcacion): void {
@@ -65,18 +55,31 @@ export class EmbarcacionesPageComponent {
   public eliminarEmbarcacion(embarcacion: Embarcacion): void {
     this.embarcacionService.eliminarEmbarcacion(embarcacion).subscribe(() => {
       const index: number = this.embarcaciones.indexOf(embarcacion);
-      
+
       if (index > -1) {
         this.embarcaciones.splice(index, 1);
       }
-    })
+    });
   }
 
   public abrirFormularioDePublicacion(embarcacion: Embarcacion): void {
-    this.embarcacionSeleccionada = embarcacion;    
+    this.embarcacionSeleccionada = embarcacion;
   }
 
-  public publicarEmbarcacion(a: any): void {
-    console.log(a)
+  public publicarEmbarcacion(): void {}
+
+  public nuevaPublicacionEsValida(): boolean {
+    return (
+      this.validarTituloPublicacion(this.nuevaPublicacion.titulo) &&
+      this.validarDescripcionPublicacion(this.nuevaPublicacion.descripcion)
+    );
+  }
+
+  private validarTituloPublicacion(value: string): boolean {
+    return Boolean(value);
+  }
+
+  private validarDescripcionPublicacion(value: string): boolean {
+    return Boolean(value) && value.length > 10;
   }
 }
