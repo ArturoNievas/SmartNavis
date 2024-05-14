@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class EmbarcacionesPageComponent {
   public embarcaciones: Embarcacion[] = [];
+  public embarcacionesPublicadas: Embarcacion[] = [];
 
   public embarcacionSeleccionada?: any;
   public nuevaPublicacion?: any = {};
@@ -30,7 +31,12 @@ export class EmbarcacionesPageComponent {
   }
 
   public listarEmbarcaciones(): void {
-    this.embarcaciones = generateMockups(mockups.embarcacion, 10);
+    const embarcaciones = generateMockups(mockups.embarcacion, 10);
+    this.embarcacionesPublicadas = generateMockups(mockups.embarcacion, 5);
+
+    this.embarcaciones = embarcaciones.filter((embarcacion: Embarcacion) =>
+      this.embarcacionesPublicadas.includes(embarcacion),
+    );
 
     /* this.embarcacionService.listarEmbarcaciones().subscribe((embarcaciones: Embarcacion[]) => {
       this.embarcaciones = embarcaciones;
