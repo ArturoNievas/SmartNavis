@@ -5,30 +5,32 @@ import { mockups } from '../../shared/mockups';
 import { CardDePublicacionComponent } from '../../shared/components/card-de-publicacion/card-de-publicacion.component';
 import { FormControl, FormsModule, NgModel } from '@angular/forms';
 
-
-
-const publicaciones = Array.from({length: 10}, (_, i) => ({
+const publicaciones = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
   titulo: `Embarcación ${i + 1}`,
   descripcion: `Descripción de la embarcación ${i + 1}`,
-  bien: mockups.embarcacion(i + 1), 
-  permutacionesSolicitadas: []
-}))
-
+  bien: mockups.embarcacion(i + 1),
+  permutacionesSolicitadas: [],
+}));
 
 @Component({
   selector: 'app-embarcaciones-publicadas-page',
   standalone: true,
-  imports: [NgFor, NgIf, AppPageComponent, CardDePublicacionComponent, FormsModule],
+  imports: [
+    NgFor,
+    NgIf,
+    AppPageComponent,
+    CardDePublicacionComponent,
+    FormsModule,
+  ],
   templateUrl: './embarcaciones-publicadas-page.component.html',
-  styleUrl: './embarcaciones-publicadas-page.component.scss'
+  styleUrl: './embarcaciones-publicadas-page.component.scss',
 })
 export class EmbarcacionesPublicadasPageComponent {
-  publicaciones: any[] = []
+  publicaciones: any[] = [];
 
-  constructor() {
-  }
-  
+  constructor() {}
+
   ngOnInit(): void {
     this.listarEmbarcacionesPublicadas();
   }
@@ -36,6 +38,4 @@ export class EmbarcacionesPublicadasPageComponent {
   public listarEmbarcacionesPublicadas(): void {
     this.publicaciones = publicaciones;
   }
-
-
 }

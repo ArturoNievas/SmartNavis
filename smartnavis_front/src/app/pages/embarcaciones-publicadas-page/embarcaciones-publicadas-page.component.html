@@ -1,15 +1,19 @@
 <app-app-page titulo="Embarcaciones publicadas">
+  <div class="global-container">
+    <ul *ngIf="publicaciones.length; else sinPublicaciones" class="p-0 m-0">
+      <li *ngFor="let publicacion of publicaciones">
+        <app-card-de-publicacion
+          [id]="publicacion.id"
+          [titulo]="publicacion.titulo"
+          [descripcion]="publicacion.descripcion"
+        ></app-card-de-publicacion>
+      </li>
+    </ul>
 
-    <div class="global-container">
-        <ul *ngIf="publicaciones.length">
-            <li *ngFor="let publicacion of publicaciones; else sinPublicaciones">
-                <app-card-de-publicacion [id]="publicacion.id" [titulo]="publicacion.titulo" [descripcion]="publicacion.descripcion" [(ngModel)]="publicacion.descripcion"></app-card-de-publicacion>
-            </li>
-        </ul>
-
-        <div *ngIf="!publicaciones.length" #sinPublicaciones>
-            <p>No hay publicaciones.</p>
-        </div>
-    </div>
-
+    <ng-template #sinPublicaciones>
+      <div>
+        <p class="alert alert-secondary">No hay publicaciones.</p>
+      </div>
+    </ng-template>
+  </div>
 </app-app-page>

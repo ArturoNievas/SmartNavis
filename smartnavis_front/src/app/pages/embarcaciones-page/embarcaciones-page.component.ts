@@ -66,6 +66,10 @@ export class EmbarcacionesPageComponent {
     this.embarcacionSeleccionada = embarcacion;
   }
 
+  public cerrarFormularioDePublicacion(): void {
+    this.embarcacionSeleccionada = null;
+  }
+
   public publicarEmbarcacion(): void {}
 
   public nuevaPublicacionEsValida(): boolean {

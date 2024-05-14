@@ -64,13 +64,22 @@
             ></textarea>
           </div>
 
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="!nuevaPublicacionEsValida()"
-          >
-            Publicar embarcación
-          </button>
+          <div class="form-group">
+            <button
+              type="submit"
+              class="btn btn-primary mx-2"
+              [disabled]="!nuevaPublicacionEsValida()"
+            >
+              Publicar embarcación
+            </button>
+
+            <button
+              class="btn btn-secondary mx-2"
+              (click)="cerrarFormularioDePublicacion()"
+            >
+              Cancelar
+            </button>
+          </div>
         </form>
       </div>
     </aside>

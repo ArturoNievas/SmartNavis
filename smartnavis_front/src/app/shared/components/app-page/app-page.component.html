@@ -1,18 +1,18 @@
 <div class="page">
-    <!-- <app-header></app-header> -->
-    <nav class="navbar-container" >
-        <div class="global-container" >
-            <div class="navbar-content">
-                <a class="btn btn-primary logo" routerLink="/home">YateMate</a> 
-            </div>
-        </div>
-    </nav>
+  <!-- <app-header></app-header> -->
 
-    <main class="page-content">
-        <section-header [titulo]="titulo" [subtitulo]="subtitulo"></section-header>
-        
-            <ng-content></ng-content>
-        
-    </main>
-    
+  <div class="navbar-retainer"></div>
+  <nav class="navbar-container">
+    <div class="global-container">
+      <div class="navbar-content">
+        <a class="btn btn-primary logo" routerLink="/home">YateMate</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-content">
+    <section-header [titulo]="titulo" [subtitulo]="subtitulo"></section-header>
+
+    <ng-content></ng-content>
+  </main>
 </div>
