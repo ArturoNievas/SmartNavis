@@ -11,3 +11,4 @@ export const routes: Routes = [
   {path: 'embarcaciones/publicaciones', title: 'Publicaciones', component: EmbarcacionesPublicadasPageComponent},
   {path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
+

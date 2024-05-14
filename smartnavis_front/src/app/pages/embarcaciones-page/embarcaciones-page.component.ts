@@ -7,13 +7,14 @@ import { Embarcacion } from '../../interfaces/embarcacion';
 import { EmbarcacionService } from '../../services/embarcacion/embarcacion.service';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { generateMockups, mockups } from '../../shared/mockups';
-import { Publicacion } from '../../interfaces/publicacion';
-import { NgModel } from '@angular/forms';
+
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-embarcaciones-page',
   standalone: true,
-  imports: [RouterLink, AppPageComponent, NgFor, NgIf, NgModel],
+  imports: [RouterLink, AppPageComponent, NgFor, NgIf, ReactiveFormsModule],
   templateUrl: './embarcaciones-page.component.html',
   styleUrl: './embarcaciones-page.component.scss'
 })
@@ -27,6 +28,9 @@ export class EmbarcacionesPageComponent {
     titulo: "",
     descripcion: ""
   }
+
+  favoriteColorControl = new FormControl('');
+
 
 
   /* MÉTODOS */
