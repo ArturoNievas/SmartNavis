@@ -1,20 +1,52 @@
 <app-app-page titulo="Embarcaciones" subtitulo="Lista de embarcaciones disponibles para publicar">
-    <div class="global-container">
+    <div class="global-container embarcaciones-page-container">
             
-        <ol *ngIf="embarcaciones.length" class="p-0 m-0">
-            <div>
-               <li *ngFor="let embarcacion of embarcaciones">
-                    <div>
-                        <span><b>{{embarcacion.nombre}}</b> ({{embarcacion.matricula}})</span>
-                        <button class="btn btn-primary">Publicar</button>
-                    </div>
-                </li>
-            </div>
-        </ol>
+        <article>
+            <ol *ngIf="embarcaciones.length; else sinPublicaciones" class="p-0 m-0">
+                <div>
+                <li *ngFor="let embarcacion of embarcaciones">
+                        <div>
+                            <span><b>{{embarcacion.nombre}}</b> ({{embarcacion.matricula}})</span>
+                            <button class="btn btn-primary" (click)="abrirFormularioDePublicacion(embarcacion)">Publicar</button>
+                        </div>
+                    </li>
+                </div>
+            </ol>
 
-        <div *ngIf="!embarcaciones.length">
-            <p>No hay embarcaciones registradas</p>
+            <ng-template #sinPublicaciones>
+                <div *ngIf="!embarcaciones.length">
+                    <p>No hay embarcaciones registradas</p>
+                </div>
+            </ng-template>
+            
+        </article>
+
+        <aside *ngIf="embarcacionSeleccionada">
+            
+            <div class="card">
+            <form class="card-body">
+                <h3 class="mb-4">
+                    <b>{{embarcacionSeleccionada.nombre}}</b> ({{embarcacionSeleccionada.matricula}})
+                </h3>
+
+                <div class="form-group mb-2">
+                    <label class="form-label">Título de la publicación</label>
+                    <input id="titulo" class="form-control" placeholder="Permuto {{embarcacionSeleccionada.nombre}}" [(ngModel)]="nuevaPublicacion.titulo">
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="form-label">Descripción de la publicación</label>
+                    <textarea id="descripcion" class="form-control" placeholder="Descripción de la publicación" [(ngModel)]="nuevaPublicacion.descripcion"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Publicar embarcación</button>
+                
+
+            </form>
         </div>
+            
+            
+        </aside>
         
     </div>
 </app-app-page>

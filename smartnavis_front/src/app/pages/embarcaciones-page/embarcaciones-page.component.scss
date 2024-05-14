@@ -18,4 +18,11 @@ li > div {
     gap: 8px;
 }
 
+.embarcaciones-page-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+    
+}
+
 

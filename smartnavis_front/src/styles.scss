@@ -5,7 +5,7 @@
 
 
 :root {
-    --global-max-width: 1680px;
+    --global-max-width: 1920px;
 }
 
 .global-container {
@@ -16,5 +16,6 @@
     max-width: var(--global-max-width);
 
     margin: 0 auto;
+    padding: 0 120px;
 }
 

@@ -7,17 +7,29 @@ import { Embarcacion } from '../../interfaces/embarcacion';
 import { EmbarcacionService } from '../../services/embarcacion/embarcacion.service';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { generateMockups, mockups } from '../../shared/mockups';
+import { Publicacion } from '../../interfaces/publicacion';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-embarcaciones-page',
   standalone: true,
-  imports: [RouterLink, AppPageComponent, NgFor, NgIf],
+  imports: [RouterLink, AppPageComponent, NgFor, NgIf, NgModel],
   templateUrl: './embarcaciones-page.component.html',
   styleUrl: './embarcaciones-page.component.scss'
 })
 export class EmbarcacionesPageComponent {
+  
+  
   public embarcaciones: Embarcacion[] = [];
 
+  public embarcacionSeleccionada: any = null;
+  public nuevaPublicacion = {
+    titulo: "",
+    descripcion: ""
+  }
+
+
+  /* MÉTODOS */
   constructor(private embarcacionService: EmbarcacionService) {}
 
   ngOnInit(): void {
@@ -54,5 +66,13 @@ export class EmbarcacionesPageComponent {
         this.embarcaciones.splice(index, 1);
       }
     })
+  }
+
+  public abrirFormularioDePublicacion(embarcacion: Embarcacion): void {
+    this.embarcacionSeleccionada = embarcacion;    
+  }
+
+  public publicarEmbarcacion(a: any): void {
+    console.log(a)
   }
 }
