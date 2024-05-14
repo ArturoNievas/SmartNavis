@@ -3,12 +3,12 @@
     <div class="global-container">
         <ul *ngIf="publicaciones.length">
             <li *ngFor="let publicacion of publicaciones">
-                {{publicacion.nombre}}
+                {{publicacion.titulo}}
             </li>
         </ul>
 
         <div *ngIf="!publicaciones.length">
-            <p>No hay publicaciones</p>
+            <p>No hay publicaciones.</p>
         </div>
     </div>
 

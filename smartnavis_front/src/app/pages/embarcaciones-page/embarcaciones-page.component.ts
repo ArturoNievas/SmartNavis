@@ -1,42 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
+import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 
 import { NgIf, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Embarcacion } from '../../interfaces/embarcacion';
 import { EmbarcacionService } from '../../services/embarcacion/embarcacion.service';
-import { AppPageComponent } from '../../components/app-page/app-page.component';
-
-
-/* export interface Bien {
-    id: number;
-    titular: any;
-    publicacion: any;
-    habilitadoIntercambio: boolean;
-} 
-  
-
-
-export interface Embarcacion extends Bien {
-    matricula: string;
-    nombre: string;
-    eslora: number;
-    calado: number;
-    manga: number;
-}
-*/
-
-const embarcacionesMockup = Array.from({ length: 10 }).map((_, i) => ({
-  id: i + 1,
-  matricula: `MAT-${i + 1}`,
-  nombre: `Embarcacion ${i + 1}`,
-  eslora: 10 + i,
-  calado: 5 + i,
-  manga: 3 + i,
-  habilitadoIntercambio: true,
-  titular: null,
-}))
-
+import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
+import { generateMockups, mockups } from '../../shared/mockups';
 
 @Component({
   selector: 'app-embarcaciones-page',
@@ -56,7 +26,7 @@ export class EmbarcacionesPageComponent {
   }
 
   public listarEmbarcaciones(): void {
-    this.embarcaciones = embarcacionesMockup;
+    this.embarcaciones = generateMockups(mockups.embarcacion, 10);
     
     /* this.embarcacionService.listarEmbarcaciones().subscribe((embarcaciones: Embarcacion[]) => {
       this.embarcaciones = embarcaciones;

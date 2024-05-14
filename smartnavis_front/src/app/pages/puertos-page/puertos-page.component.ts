@@ -3,8 +3,8 @@ import {PuertoService} from "../../services/puerto/puerto.service";
 import {Puerto} from "../../interfaces/puerto";
 import {RouterLink} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
-import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
-import { AppPageComponent } from '../../components/app-page/app-page.component';
+import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
+import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 
 @Component({
   selector: 'app-puertos-page',

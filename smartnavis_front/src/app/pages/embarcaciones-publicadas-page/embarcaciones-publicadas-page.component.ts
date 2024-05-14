@@ -1,6 +1,17 @@
 import { Component } from '@angular/core';
-import { AppPageComponent } from '../../components/app-page/app-page.component';
+import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { NgFor, NgIf } from '@angular/common';
+import { mockups } from '../../shared/mockups';
+
+
+
+const publicaciones = Array.from({length: 10}, (_, i) => ({
+  id: i + 1,
+  titulo: `Embarcación ${i + 1}`,
+  descripcion: `Descripción de la embarcación ${i + 1}`,
+  bien: mockups.embarcacion(i + 1), 
+  permutacionesSolicitadas: []
+}))
 
 
 
@@ -22,7 +33,9 @@ export class EmbarcacionesPublicadasPageComponent {
   }
 
   public listarEmbarcacionesPublicadas(): void {
-    console.log('Listando embarcaciones publicadas')
+    this.publicaciones = publicaciones
+    console.log('Listando embarcaciones publicadas', this.publicaciones)
+    
   }
 
 
