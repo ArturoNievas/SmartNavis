@@ -8,6 +8,7 @@ import com.hexacore.smartnavis_api.service.PublicacionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,4 +35,9 @@ public class PublicacionServiceImpl extends SmartNavisServiceImpl<Publicacion, L
     public Publicacion crearPublicacion(String titulo, String descripcion, Bien bien) {
         return this.repository.save(new Publicacion(titulo, descripcion, bien));
     }
+
+	@Override
+	public List<Publicacion> buscarPorTipo(Class<? extends Bien> tipo) {
+		return this.repository.buscarPorTipo(tipo);
+	}
 }
