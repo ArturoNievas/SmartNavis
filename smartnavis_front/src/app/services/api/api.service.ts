@@ -22,6 +22,9 @@ export class ApiService {
     } else {
       console.error(`Backend error ${error.status}; body:`, error.error);
     }
+    if ((error.status === 400) || (error.status === 404) || (error.status === 500)) {
+      return throwError(() => new Error(error.error));
+    }
     return throwError(() => new Error('Ocurrió un error inesperado; por favor intenta nuevamente en unos instantes.'));
   }
 

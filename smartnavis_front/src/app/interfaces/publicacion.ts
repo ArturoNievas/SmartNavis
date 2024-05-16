@@ -1,7 +1,9 @@
+import {Bien} from "./bien";
+
 export interface Publicacion {
-  id: number;
+  id?: number;
   titulo: string;
   descripcion: string;
-  bien: any;
-  permutasSolicitadas: any;
+  bien: Bien;
+  permutasSolicitadas?: any[]; // FIXME: cambiar tipo
 }

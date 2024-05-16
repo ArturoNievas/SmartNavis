@@ -1,14 +1,14 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 
-import { NgIf, NgFor } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { Embarcacion } from '../../interfaces/embarcacion';
-import { EmbarcacionService } from '../../services/embarcacion/embarcacion.service';
-import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
-import { generateMockups, mockups } from '../../shared/mockups';
+import {NgIf, NgFor} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {Embarcacion} from '../../interfaces/embarcacion';
+import {EmbarcacionService} from '../../services/embarcacion/embarcacion.service';
+import {AppPageComponent} from '../../shared/components/app-page/app-page.component';
+import {generateMockups, mockups} from '../../shared/mockups';
 
-import { FormsModule } from '@angular/forms';
-import { Publicacion } from '../../interfaces/publicacion';
+import {FormsModule} from '@angular/forms';
+import {Publicacion} from '../../interfaces/publicacion';
 
 const embarcacionesPublicadas: any[] = [];
 
@@ -31,18 +31,17 @@ export class EmbarcacionesPageComponent {
   };
 
   /* MÉTODOS */
-  constructor(private embarcacionService: EmbarcacionService) {}
+  constructor(private embarcacionService: EmbarcacionService) {
+  }
 
   ngOnInit(): void {
     this.listarEmbarcaciones();
   }
 
   public listarEmbarcaciones(): void {
-    this.embarcaciones = generateMockups(mockups.embarcacion, 10);
-
-    /* this.embarcacionService.listarEmbarcaciones().subscribe((embarcaciones: Embarcacion[]) => {
+    this.embarcacionService.listarEmbarcaciones().subscribe((embarcaciones: Embarcacion[]) => {
       this.embarcaciones = embarcaciones;
-    }); */
+    });
   }
 
   public abrirFormularioDePublicacion(embarcacion: Embarcacion): void {
@@ -73,20 +72,24 @@ export class EmbarcacionesPageComponent {
   }
 
   public publicarEmbarcacion(): void {
-    const nuevaPublicacion = {
+    if (!this.embarcacionSeleccionada) {
+      throw new Error("no existe...."); // FIXME:
+    }
+    const nuevaPublicacion: Publicacion = {
       titulo: this.nuevaPublicacion.titulo,
       descripcion: this.nuevaPublicacion.descripcion,
       bien: this.embarcacionSeleccionada,
     };
 
     /* Publicar embarcación */
-    try {
-      embarcacionesPublicadas.push(nuevaPublicacion);
+    //embarcacionesPublicadas.push();
+    this.embarcacionService.publicarEmbarcacion(nuevaPublicacion).subscribe(() => {
+      this.embarcacionSeleccionada!.publicada = true;
 
       const index = this.embarcaciones.findIndex(
         (embarcacion) => embarcacion.id === this.embarcacionSeleccionada?.id,
       );
-      this.embarcaciones.splice(index, 1);
+      //this.embarcaciones.splice(index, 1);
 
       this.mensajeFormulario = {
         tipo: 'exito',
@@ -95,13 +98,13 @@ export class EmbarcacionesPageComponent {
 
       this.resetearFormularioDePublicacion();
       this.cerrarFormularioDePublicacion();
-    } catch (error) {
+    }, (error) => {
       console.error('Error al publicar embarcación.', error);
 
       this.mensajeFormulario = {
         tipo: 'error',
-        mensaje: 'Error al publicar embarcación. Inténtelo de nuevo más tarde.',
+        mensaje: 'Error al publicar embarcación Inténtelo de nuevo más tarde. ' + error,
       };
-    }
+    });
   }
 }

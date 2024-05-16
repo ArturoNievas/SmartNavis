@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, throwError} from "rxjs";
 import {ApiService} from "../api/api.service";
 import {Embarcacion} from "../../interfaces/embarcacion";
+import {Publicacion} from "../../interfaces/publicacion";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class EmbarcacionService {
   }
 
   public listarEmbarcaciones(): Observable<Embarcacion[]> {
-    return this.apiService.get<Embarcacion[]>(this.embarcacionUrl + 's');
+    return this.apiService.get<Embarcacion[]>(this.embarcacionUrl + 'es');
   }
 
   public crearEmbarcacion(embarcacion: Embarcacion): Observable<Embarcacion> {
@@ -34,4 +35,7 @@ export class EmbarcacionService {
     return this.apiService.delete(`${this.embarcacionUrl}/${embarcacion.matricula}`);
   }
 
+  public publicarEmbarcacion(publicacion: Publicacion): Observable<Publicacion> {
+    return this.apiService.post<Publicacion>(`${this.embarcacionUrl}/${publicacion.bien.id}/publicar`, publicacion);
+  }
 }

@@ -12,7 +12,7 @@
                 <b>{{ embarcacion.nombre }}</b>
                 ({{ embarcacion.matricula }})
               </span>
-              <button
+              <button *ngIf="!embarcacion.publicada"
                 class="btn btn-primary"
                 (click)="abrirFormularioDePublicacion(embarcacion)"
               >
