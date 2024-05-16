@@ -6,10 +6,14 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './card-de-publicacion.component.html',
-  styleUrl: './card-de-publicacion.component.scss'
+  styleUrl: './card-de-publicacion.component.scss',
 })
 export class CardDePublicacionComponent {
   @Input() id: number = 0;
   @Input() titulo: string = '';
   @Input() descripcion: string = '';
+
+  public solicitarIntercambio(): void {
+    console.log('Solicitando intercambio...');
+  }
 }
