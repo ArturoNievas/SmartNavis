@@ -6,6 +6,7 @@ import java.util.*;
 
 import com.hexacore.smartnavis_api.service.PublicacionService;
 import org.springframework.web.bind.annotation.*;
+import com.hexacore.smartnavis_api.model.*;
 
 import java.util.List;
 
@@ -22,37 +23,50 @@ public class PublicacionController {
     public Iterable<Publicacion> listarPublicaciones() {
         return this.service.findAll();
     }
-
-    @GetMapping("/publicaciones/tipo")
-    public List<Publicacion> getPublicacionesPorTipoDeBien(@RequestParam("tipos") List<String> tipos) {
-        // Inicializar una lista para almacenar todas las publicaciones filtradas
-        List<Publicacion> publicacionesFiltradas = new ArrayList<>();
-
-        // Recorrer cada tipo de bien especificado en los parámetros
-        for (String tipo : tipos) {
-            // Filtrar las publicaciones según el tipo especificado
-            switch (tipo.toLowerCase()) {
-                case "inmueble":
-                    // publicacionesFiltradas.addAll(repository.findByBienInmuebleIsNotNull()); // FIXME: corregir.
-                    break;
-                case "aeronautico":
-                    // publicacionesFiltradas.addAll(repository.findByBienAeronauticoIsNotNull()); // FIXME: corregir.
-                    break;
-                case "embarcacion":
-                    // publicacionesFiltradas.addAll(repository.findByEmbarcacionIsNotNull()); // FIXME: corregir.
-                    break;
-                case "automotor":
-                    // publicacionesFiltradas.addAll(repository.findByBienAutomotorIsNotNull()); // FIXME: corregir.
-                    break;
-                default:
-                    // Enviar una respuesta adecuada si el tipo no es válido
-                    throw new IllegalArgumentException("Tipo de bien no válido: " + tipo);
-            }
-        }
-
-        // Devolver todas las publicaciones filtradas
-        return publicacionesFiltradas;
+    
+    @GetMapping("/publicaciones/embarcaciones")
+    public Iterable<Publicacion> listarEmbarcaciones() {
+        return this.service.buscarPorTipo(Embarcacion.class);
     }
+
+    
+    // Por si queremos filtrar las publicaciones
+    /*
+    private Class<? extends Bien> obtenerClasePorTipo(String tipo) {
+        switch (tipo.toLowerCase()) {
+            case "automotor":
+                return BienAutomotor.class;
+            case "inmueble":
+                return BienInmueble.class;
+            case "aeronautico":
+                return BienAeronautico.class;
+            case "embarcacion":
+            	return Embarcacion.class;
+            // Agrega más casos según sea necesario para otros tipos de bien
+            default:
+                throw new IllegalArgumentException("Tipo de bien no válido: " + tipo);
+        }
+    }
+    
+    @GetMapping("/publicaciones")
+    public Iterable<Publicacion> getPublicacionesPorTipoDeBien(@RequestParam("tipos") List<String> tipos) {
+        if (tipos.isEmpty()) {
+        	return this.service.findAll();
+        } else {
+        	// Inicializar una lista para almacenar todas las publicaciones filtradas
+        	List<Publicacion> publicacionesFiltradas = new ArrayList<>();
+
+            // Recorrer cada tipo de bien especificado en los parámetros
+            for (String tipo : tipos) {
+                // Filtrar las publicaciones según el tipo especificado
+            	publicacionesFiltradas.addAll(service.buscarPorTipo(obtenerClasePorTipo(tipo)));
+            }
+
+            // Devolver todas las publicaciones filtradas
+            return publicacionesFiltradas;
+        }
+    }
+    */
 
     @PostMapping("/publicacion")
     public Publicacion crearPublicacion(@RequestBody Publicacion publicacion) {
@@ -69,7 +83,6 @@ public class PublicacionController {
         return this.service.patch(id, publicacion -> {
             publicacion.setDescripcion(nuevaPublicacion.getDescripcion());
             publicacion.setTitulo(nuevaPublicacion.getTitulo());
-            // FIXME: esto realiza una actualización básica. La HU indica poder modificar el bien asociado. **CONSULTAR**
             return publicacion;
         });
     }
