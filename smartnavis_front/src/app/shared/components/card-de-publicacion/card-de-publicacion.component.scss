@@ -3,18 +3,25 @@ a {
   flex-direction: column;
 
   width: fit-content;
+}
 
-  img {
-    width: 320px;
-    height: 342px;
-    background-color: silver;
-    border-radius: 8px;
-  }
+img {
+  width: 320px;
+  height: 342px;
+  background-color: silver;
+  border-radius: 8px;
+}
 
-  article > div {
-    display: flex;
-    flex-direction: column;
+article > div {
+  display: flex;
+  flex-direction: column;
 
-    gap: 8px;
-  }
+  gap: 8px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
