@@ -33,7 +33,7 @@
     <aside>
       <div
         *ngIf="mensajeFormulario"
-        [class.alert-error]="mensajeFormulario.tipo === 'error'"
+        [class.alert-danger]="mensajeFormulario.tipo === 'error'"
         [class.alert-primary]="mensajeFormulario.tipo === 'exito'"
         class="alert"
       >
