@@ -23,6 +23,11 @@ public class PublicacionController {
     public Iterable<Publicacion> listarPublicaciones() {
         return this.service.findAll();
     }
+    
+    @GetMapping("/publicaciones/embarcaciones")
+    public Iterable<Publicacion> listarEmbarcaciones() {
+        return this.service.buscarPorTipo(Embarcacion.class);
+    }
 
     
     // Por si queremos filtrar las publicaciones
