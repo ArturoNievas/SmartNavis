@@ -30,8 +30,17 @@
       </ng-template>
     </article>
 
-    <aside *ngIf="embarcacionSeleccionada">
-      <div class="card">
+    <aside>
+      <div
+        *ngIf="mensajeFormulario"
+        [class.alert-error]="mensajeFormulario.tipo === 'error'"
+        [class.alert-primary]="mensajeFormulario.tipo === 'exito'"
+        class="alert"
+      >
+        {{ mensajeFormulario.mensaje }}
+      </div>
+
+      <div *ngIf="embarcacionSeleccionada" class="card">
         <form class="card-body">
           <h3 class="mb-4">
             <b>{{ embarcacionSeleccionada.nombre }}</b>
@@ -69,6 +78,7 @@
               type="submit"
               class="btn btn-primary mx-2"
               [disabled]="!nuevaPublicacionEsValida()"
+              (click)="publicarEmbarcacion()"
             >
               Publicar embarcación
             </button>

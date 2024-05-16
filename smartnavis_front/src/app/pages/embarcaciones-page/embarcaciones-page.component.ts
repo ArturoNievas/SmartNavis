@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import { NgIf, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -8,6 +8,9 @@ import { AppPageComponent } from '../../shared/components/app-page/app-page.comp
 import { generateMockups, mockups } from '../../shared/mockups';
 
 import { FormsModule } from '@angular/forms';
+import { Publicacion } from '../../interfaces/publicacion';
+
+const embarcacionesPublicadas: any[] = [];
 
 @Component({
   selector: 'app-embarcaciones-page',
@@ -18,10 +21,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class EmbarcacionesPageComponent {
   public embarcaciones: Embarcacion[] = [];
-  public embarcacionesPublicadas: Embarcacion[] = [];
 
-  public embarcacionSeleccionada?: any;
+  public embarcacionSeleccionada?: Embarcacion;
   public nuevaPublicacion?: any = {};
+
+  public mensajeFormulario?: {
+    tipo: 'error' | 'exito';
+    mensaje: string;
+  };
 
   /* MÉTODOS */
   constructor(private embarcacionService: EmbarcacionService) {}
@@ -31,41 +38,11 @@ export class EmbarcacionesPageComponent {
   }
 
   public listarEmbarcaciones(): void {
-    const embarcaciones = generateMockups(mockups.embarcacion, 10);
-    this.embarcacionesPublicadas = generateMockups(mockups.embarcacion, 5);
-
-    this.embarcaciones = embarcaciones.filter((embarcacion: Embarcacion) =>
-      this.embarcacionesPublicadas.includes(embarcacion),
-    );
+    this.embarcaciones = generateMockups(mockups.embarcacion, 10);
 
     /* this.embarcacionService.listarEmbarcaciones().subscribe((embarcaciones: Embarcacion[]) => {
       this.embarcaciones = embarcaciones;
     }); */
-  }
-
-  public crearEmbarcacion(embarcacion: Embarcacion): void {
-    this.embarcacionService
-      .crearEmbarcacion(embarcacion)
-      .subscribe((embarcacion: Embarcacion) => {
-        const index: number = this.embarcaciones.indexOf(embarcacion);
-        if (index === -1) {
-          this.embarcaciones.push(embarcacion);
-        }
-      });
-  }
-
-  public actualizarEmbarcacion(embarcacion: Embarcacion): void {
-    // TODO: Implementar
-  }
-
-  public eliminarEmbarcacion(embarcacion: Embarcacion): void {
-    this.embarcacionService.eliminarEmbarcacion(embarcacion).subscribe(() => {
-      const index: number = this.embarcaciones.indexOf(embarcacion);
-
-      if (index > -1) {
-        this.embarcaciones.splice(index, 1);
-      }
-    });
   }
 
   public abrirFormularioDePublicacion(embarcacion: Embarcacion): void {
@@ -73,23 +50,58 @@ export class EmbarcacionesPageComponent {
   }
 
   public cerrarFormularioDePublicacion(): void {
-    this.embarcacionSeleccionada = null;
+    this.embarcacionSeleccionada = undefined;
   }
 
-  public publicarEmbarcacion(): void {}
+  public resetearFormularioDePublicacion(): void {
+    this.nuevaPublicacion = {};
+  }
 
   public nuevaPublicacionEsValida(): boolean {
     return (
-      this.validarTituloPublicacion(this.nuevaPublicacion.titulo) &&
-      this.validarDescripcionPublicacion(this.nuevaPublicacion.descripcion)
+      this.validarTituloPublicacion(this.nuevaPublicacion?.titulo) &&
+      this.validarDescripcionPublicacion(this.nuevaPublicacion?.descripcion)
     );
   }
 
-  private validarTituloPublicacion(value: string): boolean {
+  private validarTituloPublicacion(value: any): boolean {
     return Boolean(value);
   }
 
-  private validarDescripcionPublicacion(value: string): boolean {
-    return Boolean(value) && value.length > 10;
+  private validarDescripcionPublicacion(value: any): boolean {
+    return Boolean(value);
+  }
+
+  public publicarEmbarcacion(): void {
+    const nuevaPublicacion = {
+      titulo: this.nuevaPublicacion.titulo,
+      descripcion: this.nuevaPublicacion.descripcion,
+      bien: this.embarcacionSeleccionada,
+    };
+
+    /* Publicar embarcación */
+    try {
+      embarcacionesPublicadas.push(nuevaPublicacion);
+
+      const index = this.embarcaciones.findIndex(
+        (embarcacion) => embarcacion.id === this.embarcacionSeleccionada?.id,
+      );
+      this.embarcaciones.splice(index, 1);
+
+      this.mensajeFormulario = {
+        tipo: 'exito',
+        mensaje: 'Embarcación publicada con éxito.',
+      };
+
+      this.resetearFormularioDePublicacion();
+      this.cerrarFormularioDePublicacion();
+    } catch (error) {
+      console.error('Error al publicar embarcación.', error);
+
+      this.mensajeFormulario = {
+        tipo: 'error',
+        mensaje: 'Error al publicar embarcación. Inténtelo de nuevo más tarde.',
+      };
+    }
   }
 }
