@@ -69,7 +69,6 @@ public class PublicacionController {
         return this.service.patch(id, publicacion -> {
             publicacion.setDescripcion(nuevaPublicacion.getDescripcion());
             publicacion.setTitulo(nuevaPublicacion.getTitulo());
-            // FIXME: esto realiza una actualización básica. La HU indica poder modificar el bien asociado. **CONSULTAR**
             return publicacion;
         });
     }
