@@ -1,19 +1,67 @@
 <app-app-page titulo="Embarcaciones publicadas">
-  <div class="global-container">
-    <ul *ngIf="publicaciones.length; else sinPublicaciones" class="p-0 m-0">
-      <li *ngFor="let publicacion of publicaciones">
-        <app-card-de-publicacion
-          [id]="publicacion.id"
-          [titulo]="publicacion.titulo"
-          [descripcion]="publicacion.descripcion"
-        ></app-card-de-publicacion>
-      </li>
-    </ul>
+  <div class="global-container local-container">
+    <ol *ngIf="publicaciones.length; else sinPublicaciones" class="p-0 m-0">
+      <div>
+        <li *ngFor="let publicacion of publicaciones">
+          <div>
+            <span>
+              <b>{{ publicacion.titulo }}</b>
+            </span>
+            <button class="btn btn-primary">Solicitar intercambio</button>
+            <!-- <button class="btn btn-secondary">Modificar</button> -->
+            <!-- <button class="btn btn-danger">X</button> -->
+          </div>
+        </li>
+      </div>
+    </ol>
 
     <ng-template #sinPublicaciones>
       <div>
         <p class="alert alert-secondary">No hay publicaciones.</p>
       </div>
     </ng-template>
+
+    <aside>
+      <div
+        *ngIf="true"
+        [class.alert-danger]="false"
+        [class.alert-primary]="false"
+        class="alert alert-primary"
+      >
+        Mensaje
+      </div>
+
+      <div *ngIf="true" class="card">
+        <form class="card-body">
+          <h3 class="mb-4">
+            <b>Título</b>
+          </h3>
+
+          <div class="form-group mb-2">
+            <label class="form-label">Título de la publicación</label>
+            <input
+              for="titulo"
+              id="titulo"
+              class="form-control"
+              placeholder="Permuto Algo"
+              name="titulo"
+            />
+            <!-- [(ngModel)]="" -->
+          </div>
+
+          <div class="form-group">
+            <button
+              type="submit"
+              class="btn btn-primary mx-2"
+              [disabled]="true"
+            >
+              Solicitar intercambio
+            </button>
+
+            <button class="btn btn-secondary mx-2">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </aside>
   </div>
 </app-app-page>

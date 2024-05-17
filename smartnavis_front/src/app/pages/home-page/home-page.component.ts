@@ -1,18 +1,15 @@
-import {Component} from '@angular/core';
-import {RouterLink} from "@angular/router";
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [
-    RouterLink,
-    SectionHeaderComponent,
-    AppPageComponent,
-  ],
+  imports: [RouterLink, SectionHeaderComponent, AppPageComponent],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
+  constructor() {}
 }

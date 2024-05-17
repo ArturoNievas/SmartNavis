@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
+
 import { mockups } from '../../shared/mockups';
-import { CardDePublicacionComponent } from '../../shared/components/card-de-publicacion/card-de-publicacion.component';
-import { FormControl, FormsModule, NgModel } from '@angular/forms';
 
 const publicaciones = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
@@ -16,13 +17,7 @@ const publicaciones = Array.from({ length: 10 }, (_, i) => ({
 @Component({
   selector: 'app-embarcaciones-publicadas-page',
   standalone: true,
-  imports: [
-    NgFor,
-    NgIf,
-    AppPageComponent,
-    CardDePublicacionComponent,
-    FormsModule,
-  ],
+  imports: [NgFor, NgIf, AppPageComponent, FormsModule],
   templateUrl: './embarcaciones-publicadas-page.component.html',
   styleUrl: './embarcaciones-publicadas-page.component.scss',
 })
