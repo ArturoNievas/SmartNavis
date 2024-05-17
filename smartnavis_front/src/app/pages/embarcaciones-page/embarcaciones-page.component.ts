@@ -86,12 +86,6 @@ export class EmbarcacionesPageComponent {
 
   /* PUBLICACIÓN */
   public publicarEmbarcacion(): void {
-    /* 
-      - La embarcación debe estar habilitada para ser intercambiada.
-      - El titular de la embarcación debe estar habilitado para intercambiar bienes.
-      - Una embarcación no puede ser publicada más de una vez.
-    */
-
     if (!this.nuevaPublicacion.bien) {
       throw new Error('no existe....'); // FIXME:
     }
@@ -103,7 +97,7 @@ export class EmbarcacionesPageComponent {
 
     this.embarcacionService.publicarEmbarcacion(nuevaPublicacion).subscribe({
       next: () => {
-        this.nuevaPublicacion.bien!.publicada = true;
+        this.nuevaPublicacion.bien!.publicado = true;
 
         this.resetearFormularioDePublicacion();
         this.cerrarFormularioDePublicacion();

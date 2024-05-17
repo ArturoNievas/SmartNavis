@@ -1,4 +1,4 @@
-import {Bien} from "./bien";
+import { Bien } from './bien';
 
 export interface Embarcacion extends Bien {
   matricula: string;
@@ -6,5 +6,4 @@ export interface Embarcacion extends Bien {
   eslora: number;
   calado: number;
   manga: number;
-  publicada?: boolean;
 }

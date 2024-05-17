@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 
+import { PublicacionService } from '../../services/publicacion/publicacion.service';
+import { PublicacionEmbarcacionService } from '../../services/publicacionEmbarcacion/publicacion-embarcacion.service';
+
 const publicaciones: any[] = [];
 
 @Component({
@@ -16,13 +19,21 @@ const publicaciones: any[] = [];
 export class EmbarcacionesPublicadasPageComponent {
   publicaciones: any[] = [];
 
-  constructor() {}
+  constructor(private publicacionService: PublicacionEmbarcacionService) {}
 
   ngOnInit(): void {
-    this.listarEmbarcacionesPublicadas();
+    this.listarPublicaciones();
   }
 
   public listarEmbarcacionesPublicadas(): void {
     this.publicaciones = publicaciones;
+  }
+
+  private listarPublicaciones(): void {
+    this.publicacionService
+      .listarPublicaciones()
+      .subscribe((publicaciones: any[]) => {
+        this.publicaciones = publicaciones;
+      });
   }
 }
