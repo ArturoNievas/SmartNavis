@@ -1,7 +1,4 @@
-<app-app-page
-  titulo="Embarcaciones"
-  subtitulo="Lista de embarcaciones disponibles para publicar"
->
+<app-app-page titulo="Embarcaciones" subtitulo="Lista de embarcaciones">
   <div class="global-container embarcaciones-page-container">
     <article>
       <ol *ngIf="embarcaciones.length; else sinPublicaciones" class="p-0 m-0">
@@ -12,7 +9,8 @@
                 <b>{{ embarcacion.nombre }}</b>
                 ({{ embarcacion.matricula }})
               </span>
-              <button *ngIf="!embarcacion.publicada"
+              <button
+                *ngIf="!embarcacion.publicada"
                 class="btn btn-primary"
                 (click)="abrirFormularioDePublicacion(embarcacion)"
               >
@@ -40,11 +38,11 @@
         {{ mensajeFormulario.mensaje }}
       </div>
 
-      <div *ngIf="embarcacionSeleccionada" class="card">
+      <div *ngIf="nuevaPublicacion.bien" class="card">
         <form class="card-body">
           <h3 class="mb-4">
-            <b>{{ embarcacionSeleccionada.nombre }}</b>
-            ({{ embarcacionSeleccionada.matricula }})
+            <b>{{ nuevaPublicacion.bien.nombre }}</b>
+            ({{ nuevaPublicacion.bien.matricula }})
           </h3>
 
           <div class="form-group mb-2">
@@ -53,7 +51,7 @@
               for="titulo"
               id="titulo"
               class="form-control"
-              placeholder="Permuto {{ embarcacionSeleccionada.nombre }}"
+              placeholder="Permuto {{ nuevaPublicacion.bien.nombre }}"
               [(ngModel)]="nuevaPublicacion.titulo"
               name="titulo"
             />

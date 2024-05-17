@@ -1,16 +1,13 @@
-import {Component, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
-import {NgIf, NgFor} from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {Embarcacion} from '../../interfaces/embarcacion';
-import {EmbarcacionService} from '../../services/embarcacion/embarcacion.service';
-import {AppPageComponent} from '../../shared/components/app-page/app-page.component';
-import {generateMockups, mockups} from '../../shared/mockups';
+import { NgIf, NgFor } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { Embarcacion } from '../../interfaces/embarcacion';
+import { EmbarcacionService } from '../../services/embarcacion/embarcacion.service';
+import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 
-import {FormsModule} from '@angular/forms';
-import {Publicacion} from '../../interfaces/publicacion';
-
-const embarcacionesPublicadas: any[] = [];
+import { FormsModule } from '@angular/forms';
+import { Publicacion } from '../../interfaces/publicacion';
 
 @Component({
   selector: 'app-embarcaciones-page',
@@ -22,8 +19,11 @@ const embarcacionesPublicadas: any[] = [];
 export class EmbarcacionesPageComponent {
   public embarcaciones: Embarcacion[] = [];
 
-  public embarcacionSeleccionada?: Embarcacion;
-  public nuevaPublicacion?: any = {};
+  public nuevaPublicacion: any = {
+    titulo: '',
+    descripcion: '',
+    bien: undefined,
+  };
 
   public mensajeFormulario?: {
     tipo: 'error' | 'exito';
@@ -31,31 +31,44 @@ export class EmbarcacionesPageComponent {
   };
 
   /* MÉTODOS */
-  constructor(private embarcacionService: EmbarcacionService) {
-  }
+  constructor(private embarcacionService: EmbarcacionService) {}
 
   ngOnInit(): void {
     this.listarEmbarcaciones();
   }
 
-  public listarEmbarcaciones(): void {
-    this.embarcacionService.listarEmbarcaciones().subscribe((embarcaciones: Embarcacion[]) => {
-      this.embarcaciones = embarcaciones;
-    });
+  private listarEmbarcaciones(): void {
+    this.embarcacionService
+      .listarEmbarcaciones()
+      .subscribe((embarcaciones: Embarcacion[]) => {
+        this.embarcaciones = embarcaciones;
+      });
   }
 
+  /* MÉTODOS DE PUBLICACIÓN */
   public abrirFormularioDePublicacion(embarcacion: Embarcacion): void {
-    this.embarcacionSeleccionada = embarcacion;
+    this.resetearMensajeFormulario();
+
+    if (this.nuevaPublicacion.bien !== embarcacion) {
+      this.resetearFormularioDePublicacion();
+      this.nuevaPublicacion.bien = embarcacion;
+    }
   }
 
   public cerrarFormularioDePublicacion(): void {
-    this.embarcacionSeleccionada = undefined;
+    this.resetearMensajeFormulario();
+    this.nuevaPublicacion.bien = undefined;
   }
 
   public resetearFormularioDePublicacion(): void {
     this.nuevaPublicacion = {};
   }
 
+  private resetearMensajeFormulario(): void {
+    this.mensajeFormulario = undefined;
+  }
+
+  /* VALIDACIONES */
   public nuevaPublicacionEsValida(): boolean {
     return (
       this.validarTituloPublicacion(this.nuevaPublicacion?.titulo) &&
@@ -71,40 +84,43 @@ export class EmbarcacionesPageComponent {
     return Boolean(value);
   }
 
+  /* PUBLICACIÓN */
   public publicarEmbarcacion(): void {
-    if (!this.embarcacionSeleccionada) {
-      throw new Error("no existe...."); // FIXME:
+    /* 
+      - La embarcación debe estar habilitada para ser intercambiada.
+      - El titular de la embarcación debe estar habilitado para intercambiar bienes.
+      - Una embarcación no puede ser publicada más de una vez.
+    */
+
+    if (!this.nuevaPublicacion.bien) {
+      throw new Error('no existe....'); // FIXME:
     }
+
     const nuevaPublicacion: Publicacion = {
-      titulo: this.nuevaPublicacion.titulo,
-      descripcion: this.nuevaPublicacion.descripcion,
-      bien: this.embarcacionSeleccionada,
+      ...this.nuevaPublicacion,
+      bien: this.nuevaPublicacion.bien,
     };
 
-    /* Publicar embarcación */
-    //embarcacionesPublicadas.push();
-    this.embarcacionService.publicarEmbarcacion(nuevaPublicacion).subscribe(() => {
-      this.embarcacionSeleccionada!.publicada = true;
+    this.embarcacionService.publicarEmbarcacion(nuevaPublicacion).subscribe({
+      next: () => {
+        this.nuevaPublicacion.bien!.publicada = true;
 
-      const index = this.embarcaciones.findIndex(
-        (embarcacion) => embarcacion.id === this.embarcacionSeleccionada?.id,
-      );
-      //this.embarcaciones.splice(index, 1);
+        this.resetearFormularioDePublicacion();
+        this.cerrarFormularioDePublicacion();
 
-      this.mensajeFormulario = {
-        tipo: 'exito',
-        mensaje: 'Embarcación publicada con éxito.',
-      };
+        this.mensajeFormulario = {
+          tipo: 'exito',
+          mensaje: 'Embarcación publicada con éxito.',
+        };
+      },
+      error: (error) => {
+        console.error('Error al publicar embarcación.', error);
 
-      this.resetearFormularioDePublicacion();
-      this.cerrarFormularioDePublicacion();
-    }, (error) => {
-      console.error('Error al publicar embarcación.', error);
-
-      this.mensajeFormulario = {
-        tipo: 'error',
-        mensaje: 'Error al publicar embarcación Inténtelo de nuevo más tarde. ' + error,
-      };
+        this.mensajeFormulario = {
+          tipo: 'error',
+          mensaje: error,
+        };
+      },
     });
   }
 }
