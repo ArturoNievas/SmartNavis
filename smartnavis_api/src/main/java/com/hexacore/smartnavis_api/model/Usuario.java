@@ -14,6 +14,7 @@ public class Usuario extends Persona {
     @Column(unique = true, updatable = false)
     private String username;
 
+    @JsonIgnore
     private String password;
 
     @JsonIgnore
