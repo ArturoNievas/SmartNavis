@@ -6,6 +6,8 @@ import { AppPageComponent } from '../../shared/components/app-page/app-page.comp
 
 import { PublicacionEmbarcacionService } from '../../services/publicacionEmbarcacion/publicacion-embarcacion.service';
 import { PublicacionesPageComponent } from './publicaciones-page.component';
+import { BienService } from '../../services/bien/bien.service';
+import { Embarcacion } from '../../interfaces/embarcacion';
 
 @Component({
   selector: 'app-embarcaciones-publicadas-page',
@@ -15,8 +17,11 @@ import { PublicacionesPageComponent } from './publicaciones-page.component';
   styleUrl: '../publicaciones-page/publicaciones-page.component.scss',
 })
 export class EmbarcacionesPublicadasPageComponent extends PublicacionesPageComponent {
-  constructor(publicacionService: PublicacionEmbarcacionService) {
-    super(publicacionService);
+  constructor(
+    publicacionService: PublicacionEmbarcacionService,
+    bienService: BienService<Embarcacion>
+  ) {
+    super(publicacionService, bienService);
     this.titulo = 'Embarcaciones Publicadas';
   }
 }

@@ -7,12 +7,12 @@
             <span>
               <b>{{ publicacion.titulo }}</b>
             </span>
-            <!-- <button
-              (click)="abrirFormulario('intercambiar', publicacion)"
+            <button
+              (click)="abrirFormulario(estados.Intercambiar, publicacion)"
               class="btn btn-primary"
             >
               Solicitar intercambio
-            </button> -->
+            </button>
             <button
               (click)="abrirFormulario(estados.Modificar, publicacion)"
               class="btn btn-secondary"
@@ -52,7 +52,7 @@
       <div
         *ngIf="
           publicacionSeleccionada && estadoFormulario === estados.Intercambiar;
-          then formularioModificar
+          then formularioIntercambiar
         "
       ></div>
       <div
@@ -167,3 +167,33 @@
 </ng-template>
 
 <!-- FORMULARIO PARA SOLICITAR INTERCAMBIO -->
+<ng-template #formularioIntercambiar>
+  <div class="card mb-4">
+    <form class="card-body">
+      <h3 class="mb-4">
+        <b>Solicitar intercambio</b>
+      </h3>
+
+      <div class="form-group mb-2">
+        <select name="bien" class="form-select">
+          <option
+            [value]="item"
+            *ngFor="let item of bienesDisponiblesParaIntercambiar"
+          >
+            {{ item.__dominio }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary mx-2">
+          Solicitar intercambio
+        </button>
+
+        <button (click)="cerrarFormulario()" class="btn btn-secondary mx-2">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
