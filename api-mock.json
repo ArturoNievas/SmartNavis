@@ -133,20 +133,89 @@
       "responses": [
         {
           "uuid": "750259a6-325a-4e10-a1d0-348e7001209b",
-          "body": "no sta habilasdasdasdasdsad asd asd",
+          "body": "{\n  \n}",
           "latency": 0,
-          "statusCode": 400,
+          "statusCode": 200,
           "label": "",
           "headers": [],
           "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "OR",
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "bien.habilitadoIntercambio",
+              "value": "true",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "bien.titular.habilitadaIntercambio",
+              "value": "true",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "2a0ecbab-46f4-4906-a406-cc7e7253f596",
+          "body": "El bien no está habilitado para intercambiar.",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Error: Bien no habilitado para intercambiar.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "bien.habilitadoIntercambio",
+              "value": "true",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "1833ef26-1bce-4d4b-82b4-06016698c65f",
+          "body": "El titular no está habilitado para intercambiar.",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Error: Titular no habilitado.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "bien.titular.habilitadaIntercambio",
+              "value": "false",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -616,6 +685,249 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "6218f05f-9f55-41c8-926c-921fcce70b81",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "puerto/:id",
+      "responses": [
+        {
+          "uuid": "1ec911aa-8c9b-478d-8954-b2f0bf3c4a9b",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "92097456-388d-4d26-97fc-44b66eb90fde",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "puerto/:id",
+      "responses": [
+        {
+          "uuid": "2e16b1ca-d5bf-401d-96ee-7bc98d92e5a3",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2a0502f8-fcf1-4482-9cb1-e3ccb8cf4c9e",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "bien/:id/publicar",
+      "responses": [
+        {
+          "uuid": "cdf9e7d9-c91d-41de-9663-e87878ce03e6",
+          "body": "{\n  \n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "bien.habilitadoIntercambio",
+              "value": "true",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "bien.titular.habilitadaIntercambio",
+              "value": "true",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "d2f0bd03-1ead-4115-bdf4-9057dc449bef",
+          "body": "El bien no está habilitado para intercambiar.",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Error: Bien no habilitado para intercambiar.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "bien.habilitadoIntercambio",
+              "value": "true",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "e132cb74-4316-4a18-9954-45a3d8fa29c6",
+          "body": "El titular no está habilitado para intercambiar.",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Error: Titular no habilitado.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "bien.titular.habilitadaIntercambio",
+              "value": "false",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "d92ea4ea-fe96-44bd-bac5-e8e5968f8831",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "publicacion/:id",
+      "responses": [
+        {
+          "uuid": "6de508a9-d269-499e-a37c-30aa46ba3986",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f7e7b328-193d-4ec7-9434-870ad0f3e813",
+      "type": "http",
+      "documentation": "Listar Publicaciones",
+      "method": "get",
+      "endpoint": "publicacion/embarcacion",
+      "responses": [
+        {
+          "uuid": "d4b13247-2814-4435-909f-ae7c9cabb78b",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "hagd",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "4fb2db8d-3ca2-4508-b6a3-ef215de14c7b",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "publicacion/:id",
+      "responses": [
+        {
+          "uuid": "547b63ba-185b-4c24-bef6-39271f817fff",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -685,11 +997,23 @@
     },
     {
       "type": "route",
-      "uuid": "60ddd5b7-89d1-4b56-acbd-899743ce5ac9"
+      "uuid": "f7e7b328-193d-4ec7-9434-870ad0f3e813"
     },
     {
       "type": "route",
       "uuid": "b88ea323-5a43-4b14-a4ad-ef5ed1786a09"
+    },
+    {
+      "type": "route",
+      "uuid": "60ddd5b7-89d1-4b56-acbd-899743ce5ac9"
+    },
+    {
+      "type": "route",
+      "uuid": "6218f05f-9f55-41c8-926c-921fcce70b81"
+    },
+    {
+      "type": "route",
+      "uuid": "92097456-388d-4d26-97fc-44b66eb90fde"
     },
     {
       "type": "route",
@@ -698,6 +1022,18 @@
     {
       "type": "route",
       "uuid": "3892746e-f7ba-4100-b0d6-d6f4683abaf1"
+    },
+    {
+      "type": "route",
+      "uuid": "2a0502f8-fcf1-4482-9cb1-e3ccb8cf4c9e"
+    },
+    {
+      "type": "route",
+      "uuid": "d92ea4ea-fe96-44bd-bac5-e8e5968f8831"
+    },
+    {
+      "type": "route",
+      "uuid": "4fb2db8d-3ca2-4508-b6a3-ef215de14c7b"
     },
     {
       "type": "route",
@@ -852,6 +1188,13 @@
       "name": "Publicaciones",
       "documentation": "Publicaciones de SmartNavis",
       "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"titulo\": \"Carabela casi sin uso\",\r\n        \"descripcion\": \"Dos o tres viajes. Unica mano.\",\r\n        \"bien\": {\r\n            \"id\": 2,\r\n            \"titular\": {\r\n                \"id\": 2,\r\n                \"dni\": 22222222,\r\n                \"nombres\": \"Cristobal\",\r\n                \"apellidos\": \"Colon\",\r\n                \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"cristobal\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 54321\",\r\n            \"nombre\": \"Santa Maria\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        }\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"titulo\": \"Cambio barco\",\r\n        \"descripcion\": \"Cambio por cualquier cosa ya!\",\r\n        \"bien\": {\r\n            \"id\": 11,\r\n            \"titular\": {\r\n                \"id\": 11,\r\n                \"dni\": 33777666,\r\n                \"nombres\": \"Vito\",\r\n                \"apellidos\": \"Dumas\",\r\n                \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"vito\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 45556\",\r\n            \"nombre\": \"Lehg II\",\r\n            \"eslora\": 500.0,\r\n            \"calado\": 210.0,\r\n            \"manga\": 180.0\r\n        }\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"titulo\": \"Barco sin uso\",\r\n        \"descripcion\": \"Lo cambio porque ya no lo uso\",\r\n        \"bien\": {\r\n            \"id\": 7,\r\n            \"titular\": {\r\n                \"id\": 7,\r\n                \"dni\": 33444555,\r\n                \"nombres\": \"Odiseo\",\r\n                \"apellidos\": \"Itaca\",\r\n                \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"odiseo\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 11224\",\r\n            \"nombre\": \"Arquero II\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        }\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"titulo\": \"Dpto. f/ al mar\",\r\n        \"descripcion\": \"Hermoso dpto. 3 ambientes.\",\r\n        \"bien\": {\r\n            \"id\": 13,\r\n            \"titular\": {\r\n                \"id\": 2,\r\n                \"dni\": 22222222,\r\n                \"nombres\": \"Cristobal\",\r\n                \"apellidos\": \"Colon\",\r\n                \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"cristobal\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"partida\": \"321-321321-3\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"titulo\": \"Casa quinta\",\r\n        \"descripcion\": \"Casa con pileta.\",\r\n        \"bien\": {\r\n            \"id\": 15,\r\n            \"titular\": {\r\n                \"id\": 7,\r\n                \"dni\": 33444555,\r\n                \"nombres\": \"Odiseo\",\r\n                \"apellidos\": \"Itaca\",\r\n                \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"odiseo\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"partida\": \"111-222222-2\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"titulo\": \"Moto joyita oportuniad!\",\r\n        \"descripcion\": \"Sin papeles.\",\r\n        \"bien\": {\r\n            \"id\": 17,\r\n            \"titular\": {\r\n                \"id\": 9,\r\n                \"dni\": 21543876,\r\n                \"nombres\": \"Jack\",\r\n                \"apellidos\": \"Sparrow\",\r\n                \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"jack\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"patente\": \"ABC-123\"\r\n        }\r\n    }\r\n]"
+    },
+    {
+      "uuid": "2f136908-ec84-4279-b22e-1d4307c383dd",
+      "id": "hagd",
+      "name": "Publicaciones de Embarcaciones",
+      "documentation": "Publicaciones de Embarcaciones de SmartNavis",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"titulo\": \"Carabela casi sin uso\",\r\n        \"descripcion\": \"Dos o tres viajes. Unica mano.\",\r\n        \"bien\": {\r\n            \"id\": 2,\r\n            \"titular\": {\r\n                \"id\": 2,\r\n                \"dni\": 22222222,\r\n                \"nombres\": \"Cristobal\",\r\n                \"apellidos\": \"Colon\",\r\n                \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"cristobal\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 54321\",\r\n            \"nombre\": \"Santa Maria\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        }\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"titulo\": \"Cambio barco\",\r\n        \"descripcion\": \"Cambio por cualquier cosa ya!\",\r\n        \"bien\": {\r\n            \"id\": 11,\r\n            \"titular\": {\r\n                \"id\": 11,\r\n                \"dni\": 33777666,\r\n                \"nombres\": \"Vito\",\r\n                \"apellidos\": \"Dumas\",\r\n                \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"vito\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 45556\",\r\n            \"nombre\": \"Lehg II\",\r\n            \"eslora\": 500.0,\r\n            \"calado\": 210.0,\r\n            \"manga\": 180.0\r\n        }\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"titulo\": \"Barco sin uso\",\r\n        \"descripcion\": \"Lo cambio porque ya no lo uso\",\r\n        \"bien\": {\r\n            \"id\": 7,\r\n            \"titular\": {\r\n                \"id\": 7,\r\n                \"dni\": 33444555,\r\n                \"nombres\": \"Odiseo\",\r\n                \"apellidos\": \"Itaca\",\r\n                \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"odiseo\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 11224\",\r\n            \"nombre\": \"Arquero II\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        }\r\n    }\r\n]"
     },
     {
       "uuid": "48e7abd3-06c5-407b-bac2-36ed4eb26922",
