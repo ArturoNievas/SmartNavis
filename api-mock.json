@@ -1,0 +1,872 @@
+{
+  "uuid": "bde685cc-5f77-4571-b384-8c055b358af8",
+  "lastMigration": 32,
+  "name": "SmartNavis",
+  "endpointPrefix": "api",
+  "latency": 0,
+  "port": 8080,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "5f77b578-de1b-41e8-b2df-da2b1454c804",
+      "type": "http",
+      "documentation": "Listar Bienes de tipo Aeronáutico",
+      "method": "get",
+      "endpoint": "bien/aeronautico",
+      "responses": [
+        {
+          "uuid": "dc481d16-7a52-469f-9dea-552bed86c1b3",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "kjln",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "60ddd5b7-89d1-4b56-acbd-899743ce5ac9",
+      "type": "http",
+      "documentation": "Listar Puertos",
+      "method": "get",
+      "endpoint": "puerto",
+      "responses": [
+        {
+          "uuid": "ad9a040a-0d57-4728-bb41-05c8be736e8b",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "bu0a",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f06d6800-3871-443e-b9a9-67bb08417ae4",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "puerto",
+      "responses": [
+        {
+          "uuid": "38e04254-7510-45bf-885e-054f6f27c14f",
+          "body": "{\r\n    \"id\": 3,\r\n    \"nombre\": \"Ensenada\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "9c308cff-d429-4abe-ab7e-65d41ce0f170",
+      "type": "http",
+      "documentation": "Copia de /bien/embarcacion",
+      "method": "get",
+      "endpoint": "embarcacion",
+      "responses": [
+        {
+          "uuid": "e8c0438e-5ae4-4023-9ddd-5b60f9a4ec53",
+          "body": "[\n    {\n        \"id\": 1,\n        \"titular\": {\n            \"id\": 1,\n            \"dni\": 11111111,\n            \"nombres\": \"Simbad\",\n            \"apellidos\": \"Marino\",\n            \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": false,\n            \"username\": \"simbad\",\n            \"password\": \"simbad\"\n        },\n        \"habilitadoIntercambio\": false,\n        \"matricula\": \"REY 12345\",\n        \"nombre\": \"Dhow\",\n        \"eslora\": 140.0,\n        \"calado\": 120.0,\n        \"manga\": 300.0\n    },\n    {\n        \"id\": 2,\n        \"titular\": {\n            \"id\": 2,\n            \"dni\": 22222222,\n            \"nombres\": \"Cristobal\",\n            \"apellidos\": \"Colon\",\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"cristobal\",\n            \"password\": \"cristobal\"\n        },\n        \"habilitadoIntercambio\": true,\n        \"matricula\": \"REY 54321\",\n        \"nombre\": \"Santa Maria\",\n        \"eslora\": 900.0,\n        \"calado\": 340.0,\n        \"manga\": 250.0\n    },\n    {\n        \"id\": 3,\n        \"titular\": {\n            \"id\": 2,\n            \"dni\": 22222222,\n            \"nombres\": \"Cristobal\",\n            \"apellidos\": \"Colon\",\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"cristobal\",\n            \"password\": \"cristobal\"\n        },\n        \"habilitadoIntercambio\": true,\n        \"matricula\": \"REY 54322\",\n        \"nombre\": \"Pinta\",\n        \"eslora\": 900.0,\n        \"calado\": 340.0,\n        \"manga\": 250.0\n    },\n    {\n        \"id\": 4,\n        \"titular\": {\n            \"id\": 2,\n            \"dni\": 22222222,\n            \"nombres\": \"Cristobal\",\n            \"apellidos\": \"Colon\",\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"cristobal\",\n            \"password\": \"cristobal\"\n        },\n        \"habilitadoIntercambio\": false,\n        \"matricula\": \"REY 54323\",\n        \"nombre\": \"Niña\",\n        \"eslora\": 900.0,\n        \"calado\": 340.0,\n        \"manga\": 250.0\n    },\n    {\n        \"id\": 5,\n        \"titular\": {\n            \"id\": 6,\n            \"dni\": 33222111,\n            \"nombres\": \"Jason\",\n            \"apellidos\": \"Argonauta\",\n            \"fechaNacimiento\": \"1980-02-14T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true\n        },\n        \"habilitadoIntercambio\": false,\n        \"matricula\": \"REY 11222\",\n        \"nombre\": \"Argo\",\n        \"eslora\": 900.0,\n        \"calado\": 340.0,\n        \"manga\": 250.0\n    },\n    {\n        \"id\": 6,\n        \"titular\": {\n            \"id\": 7,\n            \"dni\": 33444555,\n            \"nombres\": \"Odiseo\",\n            \"apellidos\": \"Itaca\",\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"odiseo\",\n            \"password\": \"odiseo\"\n        },\n        \"habilitadoIntercambio\": true,\n        \"matricula\": \"REY 11223\",\n        \"nombre\": \"Arquero\",\n        \"eslora\": 900.0,\n        \"calado\": 340.0,\n        \"manga\": 250.0\n    },\n    {\n        \"id\": 7,\n        \"titular\": {\n            \"id\": 7,\n            \"dni\": 33444555,\n            \"nombres\": \"Odiseo\",\n            \"apellidos\": \"Itaca\",\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"odiseo\",\n            \"password\": \"odiseo\"\n        },\n        \"habilitadoIntercambio\": true,\n        \"matricula\": \"REY 11224\",\n        \"nombre\": \"Arquero II\",\n        \"eslora\": 900.0,\n        \"calado\": 340.0,\n        \"manga\": 250.0\n    },\n    {\n        \"id\": 8,\n        \"titular\": {\n            \"id\": 9,\n            \"dni\": 21543876,\n            \"nombres\": \"Jack\",\n            \"apellidos\": \"Sparrow\",\n            \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"jack\",\n            \"password\": \"jack\"\n        },\n        \"habilitadoIntercambio\": true,\n        \"matricula\": \"REY 22334\",\n        \"nombre\": \"Perla Negra\",\n        \"eslora\": 1100.0,\n        \"calado\": 450.0,\n        \"manga\": 350.0\n    },\n    {\n        \"id\": 9,\n        \"titular\": {\n            \"id\": 9,\n            \"dni\": 21543876,\n            \"nombres\": \"Jack\",\n            \"apellidos\": \"Sparrow\",\n            \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"jack\",\n            \"password\": \"jack\"\n        },\n        \"habilitadoIntercambio\": false,\n        \"matricula\": \"REY 33224\",\n        \"nombre\": \"Holandes Errante\",\n        \"eslora\": 1100.0,\n        \"calado\": 450.0,\n        \"manga\": 350.0\n    },\n    {\n        \"id\": 10,\n        \"titular\": {\n            \"id\": 11,\n            \"dni\": 33777666,\n            \"nombres\": \"Vito\",\n            \"apellidos\": \"Dumas\",\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"vito\",\n            \"password\": \"vito\"\n        },\n        \"habilitadoIntercambio\": true,\n        \"matricula\": \"REY 45555\",\n        \"nombre\": \"Lehg I\",\n        \"eslora\": 500.0,\n        \"calado\": 210.0,\n        \"manga\": 180.0\n    },\n    {\n        \"id\": 11,\n        \"titular\": {\n            \"id\": 11,\n            \"dni\": 33777666,\n            \"nombres\": \"Vito\",\n            \"apellidos\": \"Dumas\",\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\n            \"habilitadaIntercambio\": true,\n            \"username\": \"vito\",\n            \"password\": \"vito\"\n        },\n        \"habilitadoIntercambio\": true,\n        \"matricula\": \"REY 45556\",\n        \"nombre\": \"Lehg II\",\n        \"eslora\": 500.0,\n        \"calado\": 210.0,\n        \"manga\": 180.0\n    }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "802m",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "3892746e-f7ba-4100-b0d6-d6f4683abaf1",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "embarcacion/:id/publicar",
+      "responses": [
+        {
+          "uuid": "750259a6-325a-4e10-a1d0-348e7001209b",
+          "body": "no sta habilasdasdasdasdsad asd asd",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "ce8fb8d0-e658-4274-9fbf-fd3e231a02a3",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "publicacion/:id/permutar",
+      "responses": [
+        {
+          "uuid": "ec3ca1c2-24bc-4c8b-b8af-f1757fd0a929",
+          "body": "{\n  oferta: id...\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "e6eee9a2-c772-459d-a95b-93c6a6e4efb9",
+      "type": "http",
+      "documentation": "Listar Administradores",
+      "method": "get",
+      "endpoint": "administrador",
+      "responses": [
+        {
+          "uuid": "7078e69a-3066-4c9b-b152-69e29e1d7ded",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "5cvz",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "a673ee6c-e601-4cc8-92d6-e66227e95086",
+      "type": "http",
+      "documentation": "Listar Alquileres de tipo Fijo",
+      "method": "get",
+      "endpoint": "alquiler",
+      "responses": [
+        {
+          "uuid": "1f18c63f-57a4-4f9e-92ac-5a2b3eb68c1c",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "hyye",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "5c389d46-7761-47c9-9f8b-b0addf7f7a42",
+      "type": "http",
+      "documentation": "Listar Alquileres de tipo Temporal",
+      "method": "get",
+      "endpoint": "alquiler/temporal",
+      "responses": [
+        {
+          "uuid": "47e84692-3ce4-4074-b09f-4fc87d3622a1",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "an7q",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "49678a6c-0e28-4389-adf7-2b101d5c5ef6",
+      "type": "http",
+      "documentation": "Listar Alquileres de tipo Tercero",
+      "method": "get",
+      "endpoint": "alquiler/tercero",
+      "responses": [
+        {
+          "uuid": "261f6d52-78ef-4f02-aad4-71d35e7c2456",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "jekv",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2ee3b7a9-308e-484d-a9f6-c0d4c1243ca4",
+      "type": "http",
+      "documentation": "Listar todas las Amarras de todos los Puertos",
+      "method": "get",
+      "endpoint": "amarra",
+      "responses": [
+        {
+          "uuid": "184db7ec-efc9-4131-81f7-7db51f820e4f",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "k2ze",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "c2a4ee3c-1e57-4070-9ec7-3cc8c4542ec2",
+      "type": "http",
+      "documentation": "Listar Bienes de tipo Automotor",
+      "method": "get",
+      "endpoint": "bien/automotor",
+      "responses": [
+        {
+          "uuid": "bc996493-aa6d-4614-9400-51cdb80e8d34",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "scjj",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "359cb676-31b4-4019-87f7-cb2f69021cdb",
+      "type": "http",
+      "documentation": "Listar todos los Bienes",
+      "method": "get",
+      "endpoint": "bien",
+      "responses": [
+        {
+          "uuid": "840d4bc9-881d-4493-901c-9f254df104f1",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "cb4a",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "5438b2ca-75f9-4f65-8387-9853a7493048",
+      "type": "http",
+      "documentation": "Listar Bienes de tipo Inmueble",
+      "method": "get",
+      "endpoint": "bien/inmueble",
+      "responses": [
+        {
+          "uuid": "96a937ca-b393-40ff-b01b-979fd6d01926",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "mmfj",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "dff18601-d43d-489a-8c09-6d59487964d5",
+      "type": "http",
+      "documentation": "Listas Disponibilidades de Amarras para Alquiler Temporal",
+      "method": "get",
+      "endpoint": "disponibilidad-amarra",
+      "responses": [
+        {
+          "uuid": "4a63fc49-ed5a-4cb7-a332-584e79346756",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "y754",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "1ec84d42-4880-44d6-ba18-dc0cc7d15fa1",
+      "type": "http",
+      "documentation": "Listar Bienes de tipo Embarcacion",
+      "method": "get",
+      "endpoint": "bien/embarcacion",
+      "responses": [
+        {
+          "uuid": "da48f342-9662-4426-b11a-cda23aab01e4",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "802m",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "ee27a0ad-2997-4dd8-a0c4-123aabf1ce16",
+      "type": "http",
+      "documentation": "Mensajes de todas las Permutas",
+      "method": "get",
+      "endpoint": "mensaje",
+      "responses": [
+        {
+          "uuid": "90a37ee7-c7f2-4bc5-9a2e-a4f8ec62a0c8",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "uyes",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f958709d-b2b1-42df-bc06-c97e631bbcba",
+      "type": "http",
+      "documentation": "Listar Permutas",
+      "method": "get",
+      "endpoint": "permuta",
+      "responses": [
+        {
+          "uuid": "4e0d27dc-25b9-43fc-a082-dbfbde8ad518",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "eu20",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "8785f19f-adec-4ed5-88ba-8559e8929ba4",
+      "type": "http",
+      "documentation": "Listar Personas",
+      "method": "get",
+      "endpoint": "persona",
+      "responses": [
+        {
+          "uuid": "659525e7-3d8a-4f8e-90c4-c50316d19181",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "ug1k",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "ff7e9228-f92a-49d7-a1e2-2d814c80cbd6",
+      "type": "http",
+      "documentation": "Listar Publicaciones",
+      "method": "get",
+      "endpoint": "publicacion",
+      "responses": [
+        {
+          "uuid": "60b90c2e-7d5b-47ae-93bc-758da72f68da",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "dmww",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "b88ea323-5a43-4b14-a4ad-ef5ed1786a09",
+      "type": "http",
+      "documentation": "Listar Usuarios",
+      "method": "get",
+      "endpoint": "usuario",
+      "responses": [
+        {
+          "uuid": "975f8dbc-eb93-4ad9-951d-b92adeb97791",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Éxito",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "8732",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "e6eee9a2-c772-459d-a95b-93c6a6e4efb9"
+    },
+    {
+      "type": "route",
+      "uuid": "a673ee6c-e601-4cc8-92d6-e66227e95086"
+    },
+    {
+      "type": "route",
+      "uuid": "5c389d46-7761-47c9-9f8b-b0addf7f7a42"
+    },
+    {
+      "type": "route",
+      "uuid": "49678a6c-0e28-4389-adf7-2b101d5c5ef6"
+    },
+    {
+      "type": "route",
+      "uuid": "2ee3b7a9-308e-484d-a9f6-c0d4c1243ca4"
+    },
+    {
+      "type": "route",
+      "uuid": "359cb676-31b4-4019-87f7-cb2f69021cdb"
+    },
+    {
+      "type": "route",
+      "uuid": "5f77b578-de1b-41e8-b2df-da2b1454c804"
+    },
+    {
+      "type": "route",
+      "uuid": "c2a4ee3c-1e57-4070-9ec7-3cc8c4542ec2"
+    },
+    {
+      "type": "route",
+      "uuid": "1ec84d42-4880-44d6-ba18-dc0cc7d15fa1"
+    },
+    {
+      "type": "route",
+      "uuid": "5438b2ca-75f9-4f65-8387-9853a7493048"
+    },
+    {
+      "type": "route",
+      "uuid": "dff18601-d43d-489a-8c09-6d59487964d5"
+    },
+    {
+      "type": "route",
+      "uuid": "9c308cff-d429-4abe-ab7e-65d41ce0f170"
+    },
+    {
+      "type": "route",
+      "uuid": "ee27a0ad-2997-4dd8-a0c4-123aabf1ce16"
+    },
+    {
+      "type": "route",
+      "uuid": "f958709d-b2b1-42df-bc06-c97e631bbcba"
+    },
+    {
+      "type": "route",
+      "uuid": "8785f19f-adec-4ed5-88ba-8559e8929ba4"
+    },
+    {
+      "type": "route",
+      "uuid": "ff7e9228-f92a-49d7-a1e2-2d814c80cbd6"
+    },
+    {
+      "type": "route",
+      "uuid": "60ddd5b7-89d1-4b56-acbd-899743ce5ac9"
+    },
+    {
+      "type": "route",
+      "uuid": "b88ea323-5a43-4b14-a4ad-ef5ed1786a09"
+    },
+    {
+      "type": "route",
+      "uuid": "f06d6800-3871-443e-b9a9-67bb08417ae4"
+    },
+    {
+      "type": "route",
+      "uuid": "3892746e-f7ba-4100-b0d6-d6f4683abaf1"
+    },
+    {
+      "type": "route",
+      "uuid": "ce8fb8d0-e658-4274-9fbf-fd3e231a02a3"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "http://localhost:4200"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "15fbbfcf-b2ac-4bf1-a780-35c5fc0b6b34",
+      "id": "5cvz",
+      "name": "Administradores",
+      "documentation": "Administradores (Usuarios/Personas) de SmartNavis",
+      "value": "[\r\n    {\r\n        \"id\": 2,\r\n        \"dni\": 22222222,\r\n        \"nombres\": \"Cristobal\",\r\n        \"apellidos\": \"Colon\",\r\n        \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"cristobal\"\r\n    },\r\n    {\r\n        \"id\": 10,\r\n        \"dni\": 22888999,\r\n        \"nombres\": \"Guillermo\",\r\n        \"apellidos\": \"Brown\",\r\n        \"fechaNacimiento\": \"1977-12-17T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"guillermo\"\r\n    }\r\n]"
+    },
+    {
+      "uuid": "35533e7e-b2a8-424e-a375-c3f16bd3ddea",
+      "id": "kjln",
+      "name": "Aeronáuticos",
+      "documentation": "Bienes de tipo Aeronáutico",
+      "value": "[]"
+    },
+    {
+      "uuid": "3900ba15-1f3e-4a0c-b6c6-0ad08bc0dd61",
+      "id": "hyye",
+      "name": "Alquileres",
+      "documentation": "Alquileres de tipo Fijo",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"amarra\": null,\r\n        \"embarcacion\": {\r\n            \"id\": 1,\r\n            \"titular\": {\r\n                \"id\": 1,\r\n                \"dni\": 11111111,\r\n                \"nombres\": \"Simbad\",\r\n                \"apellidos\": \"Marino\",\r\n                \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": false,\r\n                \"username\": \"simbad\"\r\n            },\r\n            \"habilitadoIntercambio\": false,\r\n            \"matricula\": \"REY 12345\",\r\n            \"nombre\": \"Dhow\",\r\n            \"eslora\": 140.0,\r\n            \"calado\": 120.0,\r\n            \"manga\": 300.0\r\n        },\r\n        \"inicio\": \"2024-05-01T00:00:00.000+00:00\",\r\n        \"fin\": \"2025-04-30T00:00:00.000+00:00\"\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"amarra\": null,\r\n        \"embarcacion\": {\r\n            \"id\": 11,\r\n            \"titular\": {\r\n                \"id\": 11,\r\n                \"dni\": 33777666,\r\n                \"nombres\": \"Vito\",\r\n                \"apellidos\": \"Dumas\",\r\n                \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"vito\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 45556\",\r\n            \"nombre\": \"Lehg II\",\r\n            \"eslora\": 500.0,\r\n            \"calado\": 210.0,\r\n            \"manga\": 180.0\r\n        },\r\n        \"inicio\": \"2023-06-13T00:00:00.000+00:00\",\r\n        \"fin\": \"2024-06-12T00:00:00.000+00:00\"\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"amarra\": {\r\n            \"id\": 32,\r\n            \"nombre\": \"G01\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0,\r\n            \"puerto\": {\r\n                \"id\": 5,\r\n                \"nombre\": \"Puerto Madero\"\r\n            }\r\n        },\r\n        \"embarcacion\": {\r\n            \"id\": 2,\r\n            \"titular\": {\r\n                \"id\": 2,\r\n                \"dni\": 22222222,\r\n                \"nombres\": \"Cristobal\",\r\n                \"apellidos\": \"Colon\",\r\n                \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"cristobal\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 54321\",\r\n            \"nombre\": \"Santa Maria\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        },\r\n        \"inicio\": \"2024-01-01T00:00:00.000+00:00\",\r\n        \"fin\": \"2024-12-31T00:00:00.000+00:00\"\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"amarra\": {\r\n            \"id\": 33,\r\n            \"nombre\": \"G02\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0,\r\n            \"puerto\": {\r\n                \"id\": 5,\r\n                \"nombre\": \"Puerto Madero\"\r\n            }\r\n        },\r\n        \"embarcacion\": {\r\n            \"id\": 6,\r\n            \"titular\": {\r\n                \"id\": 7,\r\n                \"dni\": 33444555,\r\n                \"nombres\": \"Odiseo\",\r\n                \"apellidos\": \"Itaca\",\r\n                \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"odiseo\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 11223\",\r\n            \"nombre\": \"Arquero\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        },\r\n        \"inicio\": \"2024-03-15T00:00:00.000+00:00\",\r\n        \"fin\": \"2025-03-14T00:00:00.000+00:00\"\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"amarra\": {\r\n            \"id\": 34,\r\n            \"nombre\": \"G03\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0,\r\n            \"puerto\": {\r\n                \"id\": 5,\r\n                \"nombre\": \"Puerto Madero\"\r\n            }\r\n        },\r\n        \"embarcacion\": {\r\n            \"id\": 5,\r\n            \"titular\": {\r\n                \"id\": 6,\r\n                \"dni\": 33222111,\r\n                \"nombres\": \"Jason\",\r\n                \"apellidos\": \"Argonauta\",\r\n                \"fechaNacimiento\": \"1980-02-14T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true\r\n            },\r\n            \"habilitadoIntercambio\": false,\r\n            \"matricula\": \"REY 11222\",\r\n            \"nombre\": \"Argo\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        },\r\n        \"inicio\": \"2024-03-15T00:00:00.000+00:00\",\r\n        \"fin\": \"2025-03-14T00:00:00.000+00:00\",\r\n        \"parentezco\": \"Amigo\",\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        }\r\n    }\r\n]"
+    },
+    {
+      "uuid": "2f54f3ac-ae35-4a68-b805-56149fcebe33",
+      "id": "an7q",
+      "name": "Alquileres Temporales",
+      "documentation": "Alquileres de tipo Temporal",
+      "value": "[]"
+    },
+    {
+      "uuid": "901ce4c4-cbf7-42d8-98ee-0b31085be9de",
+      "id": "jekv",
+      "name": "Alquileres Terceros",
+      "documentation": "Alquileres de tipo Tercero",
+      "value": "[\r\n    {\r\n        \"id\": 5,\r\n        \"amarra\": {\r\n            \"id\": 34,\r\n            \"nombre\": \"G03\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0,\r\n            \"puerto\": {\r\n                \"id\": 5,\r\n                \"nombre\": \"Puerto Madero\"\r\n            }\r\n        },\r\n        \"embarcacion\": {\r\n            \"id\": 5,\r\n            \"titular\": {\r\n                \"id\": 6,\r\n                \"dni\": 33222111,\r\n                \"nombres\": \"Jason\",\r\n                \"apellidos\": \"Argonauta\",\r\n                \"fechaNacimiento\": \"1980-02-14T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true\r\n            },\r\n            \"habilitadoIntercambio\": false,\r\n            \"matricula\": \"REY 11222\",\r\n            \"nombre\": \"Argo\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        },\r\n        \"inicio\": \"2024-03-15T00:00:00.000+00:00\",\r\n        \"fin\": \"2025-03-14T00:00:00.000+00:00\",\r\n        \"parentezco\": \"Amigo\",\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        }\r\n    }\r\n]"
+    },
+    {
+      "uuid": "18e72087-f786-41da-a33c-5515486d2a61",
+      "id": "k2ze",
+      "name": "Amarras",
+      "documentation": "Amarras de todos los Puertos",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"nombre\": \"1-A\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 1,\r\n            \"nombre\": \"La Plata\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"nombre\": \"1-B\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 1,\r\n            \"nombre\": \"La Plata\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"nombre\": \"1-C\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 1,\r\n            \"nombre\": \"La Plata\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"nombre\": \"1-D\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 1,\r\n            \"nombre\": \"La Plata\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"nombre\": \"2-A\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0,\r\n        \"puerto\": {\r\n            \"id\": 1,\r\n            \"nombre\": \"La Plata\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"nombre\": \"2-B\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0,\r\n        \"puerto\": {\r\n            \"id\": 1,\r\n            \"nombre\": \"La Plata\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 7,\r\n        \"nombre\": \"1-A\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 2,\r\n            \"nombre\": \"La Plata II\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 8,\r\n        \"nombre\": \"1-B\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 2,\r\n            \"nombre\": \"La Plata II\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 9,\r\n        \"nombre\": \"2-A\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0,\r\n        \"puerto\": {\r\n            \"id\": 2,\r\n            \"nombre\": \"La Plata II\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 10,\r\n        \"nombre\": \"2-B\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0,\r\n        \"puerto\": {\r\n            \"id\": 2,\r\n            \"nombre\": \"La Plata II\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 11,\r\n        \"nombre\": \"Marina Norte - 1\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 3,\r\n            \"nombre\": \"Ensenada\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 12,\r\n        \"nombre\": \"Marina Norte - 2\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 3,\r\n            \"nombre\": \"Ensenada\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 13,\r\n        \"nombre\": \"Marina Norte - 3\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 3,\r\n            \"nombre\": \"Ensenada\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 14,\r\n        \"nombre\": \"Marina Norte - 4\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 3,\r\n            \"nombre\": \"Ensenada\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 15,\r\n        \"nombre\": \"Marina Sur - 1\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0,\r\n        \"puerto\": {\r\n            \"id\": 3,\r\n            \"nombre\": \"Ensenada\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 16,\r\n        \"nombre\": \"Marina Sur - 2\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0,\r\n        \"puerto\": {\r\n            \"id\": 3,\r\n            \"nombre\": \"Ensenada\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 17,\r\n        \"nombre\": \"A\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 4,\r\n            \"nombre\": \"Quilmes\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 18,\r\n        \"nombre\": \"B\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 4,\r\n            \"nombre\": \"Quilmes\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 19,\r\n        \"nombre\": \"C\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 4,\r\n            \"nombre\": \"Quilmes\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 20,\r\n        \"nombre\": \"I\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 4,\r\n            \"nombre\": \"Quilmes\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 21,\r\n        \"nombre\": \"II\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 4,\r\n            \"nombre\": \"Quilmes\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 22,\r\n        \"nombre\": \"III\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 4,\r\n            \"nombre\": \"Quilmes\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 23,\r\n        \"nombre\": \"IV\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 4,\r\n            \"nombre\": \"Quilmes\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 24,\r\n        \"nombre\": \"V\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 4,\r\n            \"nombre\": \"Quilmes\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 25,\r\n        \"nombre\": \"C01\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 26,\r\n        \"nombre\": \"C02\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 27,\r\n        \"nombre\": \"C03\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 28,\r\n        \"nombre\": \"C04\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 29,\r\n        \"nombre\": \"C05\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 30,\r\n        \"nombre\": \"M01\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 31,\r\n        \"nombre\": \"M02\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 32,\r\n        \"nombre\": \"G01\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 33,\r\n        \"nombre\": \"G02\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 34,\r\n        \"nombre\": \"G03\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0,\r\n        \"puerto\": {\r\n            \"id\": 5,\r\n            \"nombre\": \"Puerto Madero\"\r\n        }\r\n    }\r\n]"
+    },
+    {
+      "uuid": "53d9fea7-3029-403d-a1bd-45eda2b87926",
+      "id": "scjj",
+      "name": "Automotores",
+      "documentation": "Bienes de tipo Automotor",
+      "value": "[\r\n    {\r\n        \"id\": 17,\r\n        \"titular\": {\r\n            \"id\": 9,\r\n            \"dni\": 21543876,\r\n            \"nombres\": \"Jack\",\r\n            \"apellidos\": \"Sparrow\",\r\n            \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"jack\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"patente\": \"ABC-123\"\r\n    },\r\n    {\r\n        \"id\": 18,\r\n        \"titular\": {\r\n            \"id\": 11,\r\n            \"dni\": 33777666,\r\n            \"nombres\": \"Vito\",\r\n            \"apellidos\": \"Dumas\",\r\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"vito\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"patente\": \"AAA-111\"\r\n    },\r\n    {\r\n        \"id\": 19,\r\n        \"titular\": {\r\n            \"id\": 11,\r\n            \"dni\": 33777666,\r\n            \"nombres\": \"Vito\",\r\n            \"apellidos\": \"Dumas\",\r\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"vito\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"patente\": \"AAA-222\"\r\n    }\r\n]"
+    },
+    {
+      "uuid": "2fbd58e0-5ed0-48bc-8956-4ab2a4036a75",
+      "id": "cb4a",
+      "name": "Bienes",
+      "documentation": "Todos los Bienes de SmartNavis",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"titular\": {\r\n            \"id\": 1,\r\n            \"dni\": 11111111,\r\n            \"nombres\": \"Simbad\",\r\n            \"apellidos\": \"Marino\",\r\n            \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": false,\r\n            \"username\": \"simbad\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"matricula\": \"REY 12345\",\r\n        \"nombre\": \"Dhow\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"titular\": {\r\n            \"id\": 2,\r\n            \"dni\": 22222222,\r\n            \"nombres\": \"Cristobal\",\r\n            \"apellidos\": \"Colon\",\r\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"cristobal\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 54321\",\r\n        \"nombre\": \"Santa Maria\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"titular\": {\r\n            \"id\": 2,\r\n            \"dni\": 22222222,\r\n            \"nombres\": \"Cristobal\",\r\n            \"apellidos\": \"Colon\",\r\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"cristobal\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 54322\",\r\n        \"nombre\": \"Pinta\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"titular\": {\r\n            \"id\": 2,\r\n            \"dni\": 22222222,\r\n            \"nombres\": \"Cristobal\",\r\n            \"apellidos\": \"Colon\",\r\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"cristobal\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"matricula\": \"REY 54323\",\r\n        \"nombre\": \"Niña\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"titular\": {\r\n            \"id\": 6,\r\n            \"dni\": 33222111,\r\n            \"nombres\": \"Jason\",\r\n            \"apellidos\": \"Argonauta\",\r\n            \"fechaNacimiento\": \"1980-02-14T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"matricula\": \"REY 11222\",\r\n        \"nombre\": \"Argo\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 11223\",\r\n        \"nombre\": \"Arquero\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 7,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 11224\",\r\n        \"nombre\": \"Arquero II\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 8,\r\n        \"titular\": {\r\n            \"id\": 9,\r\n            \"dni\": 21543876,\r\n            \"nombres\": \"Jack\",\r\n            \"apellidos\": \"Sparrow\",\r\n            \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"jack\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 22334\",\r\n        \"nombre\": \"Perla Negra\",\r\n        \"eslora\": 1100.0,\r\n        \"calado\": 450.0,\r\n        \"manga\": 350.0\r\n    },\r\n    {\r\n        \"id\": 9,\r\n        \"titular\": {\r\n            \"id\": 9,\r\n            \"dni\": 21543876,\r\n            \"nombres\": \"Jack\",\r\n            \"apellidos\": \"Sparrow\",\r\n            \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"jack\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"matricula\": \"REY 33224\",\r\n        \"nombre\": \"Holandes Errante\",\r\n        \"eslora\": 1100.0,\r\n        \"calado\": 450.0,\r\n        \"manga\": 350.0\r\n    },\r\n    {\r\n        \"id\": 10,\r\n        \"titular\": {\r\n            \"id\": 11,\r\n            \"dni\": 33777666,\r\n            \"nombres\": \"Vito\",\r\n            \"apellidos\": \"Dumas\",\r\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"vito\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 45555\",\r\n        \"nombre\": \"Lehg I\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0\r\n    },\r\n    {\r\n        \"id\": 11,\r\n        \"titular\": {\r\n            \"id\": 11,\r\n            \"dni\": 33777666,\r\n            \"nombres\": \"Vito\",\r\n            \"apellidos\": \"Dumas\",\r\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"vito\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 45556\",\r\n        \"nombre\": \"Lehg II\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0\r\n    },\r\n    {\r\n        \"id\": 12,\r\n        \"titular\": {\r\n            \"id\": 1,\r\n            \"dni\": 11111111,\r\n            \"nombres\": \"Simbad\",\r\n            \"apellidos\": \"Marino\",\r\n            \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": false,\r\n            \"username\": \"simbad\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"partida\": \"123-123123-1\"\r\n    },\r\n    {\r\n        \"id\": 13,\r\n        \"titular\": {\r\n            \"id\": 2,\r\n            \"dni\": 22222222,\r\n            \"nombres\": \"Cristobal\",\r\n            \"apellidos\": \"Colon\",\r\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"cristobal\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"partida\": \"321-321321-3\"\r\n    },\r\n    {\r\n        \"id\": 14,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"partida\": \"111-222222-1\"\r\n    },\r\n    {\r\n        \"id\": 15,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"partida\": \"111-222222-2\"\r\n    },\r\n    {\r\n        \"id\": 16,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"partida\": \"111-222222-3\"\r\n    },\r\n    {\r\n        \"id\": 17,\r\n        \"titular\": {\r\n            \"id\": 9,\r\n            \"dni\": 21543876,\r\n            \"nombres\": \"Jack\",\r\n            \"apellidos\": \"Sparrow\",\r\n            \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"jack\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"patente\": \"ABC-123\"\r\n    },\r\n    {\r\n        \"id\": 18,\r\n        \"titular\": {\r\n            \"id\": 11,\r\n            \"dni\": 33777666,\r\n            \"nombres\": \"Vito\",\r\n            \"apellidos\": \"Dumas\",\r\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"vito\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"patente\": \"AAA-111\"\r\n    },\r\n    {\r\n        \"id\": 19,\r\n        \"titular\": {\r\n            \"id\": 11,\r\n            \"dni\": 33777666,\r\n            \"nombres\": \"Vito\",\r\n            \"apellidos\": \"Dumas\",\r\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"vito\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"patente\": \"AAA-222\"\r\n    }\r\n]"
+    },
+    {
+      "uuid": "1ff7d60b-8411-41a7-b568-5055b18e8e83",
+      "id": "y754",
+      "name": "Disponibilidad Amarras",
+      "documentation": "Disponibilidades de Amarras para Alquileres Temporales",
+      "value": "[]"
+    },
+    {
+      "uuid": "5004e269-d52c-4509-97bc-db1a5320afa3",
+      "id": "mmfj",
+      "name": "Inmuebles",
+      "documentation": "Bienes de tipo Inmueble",
+      "value": "[\r\n    {\r\n        \"id\": 12,\r\n        \"titular\": {\r\n            \"id\": 1,\r\n            \"dni\": 11111111,\r\n            \"nombres\": \"Simbad\",\r\n            \"apellidos\": \"Marino\",\r\n            \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": false,\r\n            \"username\": \"simbad\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"partida\": \"123-123123-1\"\r\n    },\r\n    {\r\n        \"id\": 13,\r\n        \"titular\": {\r\n            \"id\": 2,\r\n            \"dni\": 22222222,\r\n            \"nombres\": \"Cristobal\",\r\n            \"apellidos\": \"Colon\",\r\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"cristobal\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"partida\": \"321-321321-3\"\r\n    },\r\n    {\r\n        \"id\": 14,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"partida\": \"111-222222-1\"\r\n    },\r\n    {\r\n        \"id\": 15,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"partida\": \"111-222222-2\"\r\n    },\r\n    {\r\n        \"id\": 16,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"partida\": \"111-222222-3\"\r\n    }\r\n]"
+    },
+    {
+      "uuid": "4fb3c628-b030-4e54-a544-5f4dc19e4f6c",
+      "id": "802m",
+      "name": "Embarcaciones",
+      "documentation": "Bienes de tipo Embarcación",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"titular\": {\r\n            \"id\": 1,\r\n            \"dni\": 11111111,\r\n            \"nombres\": \"Simbad\",\r\n            \"apellidos\": \"Marino\",\r\n            \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": false,\r\n            \"username\": \"simbad\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"matricula\": \"REY 12345\",\r\n        \"nombre\": \"Dhow\",\r\n        \"eslora\": 140.0,\r\n        \"calado\": 120.0,\r\n        \"manga\": 300.0\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"titular\": {\r\n            \"id\": 2,\r\n            \"dni\": 22222222,\r\n            \"nombres\": \"Cristobal\",\r\n            \"apellidos\": \"Colon\",\r\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"cristobal\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 54321\",\r\n        \"nombre\": \"Santa Maria\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"titular\": {\r\n            \"id\": 2,\r\n            \"dni\": 22222222,\r\n            \"nombres\": \"Cristobal\",\r\n            \"apellidos\": \"Colon\",\r\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"cristobal\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 54322\",\r\n        \"nombre\": \"Pinta\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"titular\": {\r\n            \"id\": 2,\r\n            \"dni\": 22222222,\r\n            \"nombres\": \"Cristobal\",\r\n            \"apellidos\": \"Colon\",\r\n            \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"cristobal\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"matricula\": \"REY 54323\",\r\n        \"nombre\": \"Niña\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"titular\": {\r\n            \"id\": 6,\r\n            \"dni\": 33222111,\r\n            \"nombres\": \"Jason\",\r\n            \"apellidos\": \"Argonauta\",\r\n            \"fechaNacimiento\": \"1980-02-14T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"matricula\": \"REY 11222\",\r\n        \"nombre\": \"Argo\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 11223\",\r\n        \"nombre\": \"Arquero\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 7,\r\n        \"titular\": {\r\n            \"id\": 7,\r\n            \"dni\": 33444555,\r\n            \"nombres\": \"Odiseo\",\r\n            \"apellidos\": \"Itaca\",\r\n            \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"odiseo\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 11224\",\r\n        \"nombre\": \"Arquero II\",\r\n        \"eslora\": 900.0,\r\n        \"calado\": 340.0,\r\n        \"manga\": 250.0\r\n    },\r\n    {\r\n        \"id\": 8,\r\n        \"titular\": {\r\n            \"id\": 9,\r\n            \"dni\": 21543876,\r\n            \"nombres\": \"Jack\",\r\n            \"apellidos\": \"Sparrow\",\r\n            \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"jack\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 22334\",\r\n        \"nombre\": \"Perla Negra\",\r\n        \"eslora\": 1100.0,\r\n        \"calado\": 450.0,\r\n        \"manga\": 350.0\r\n    },\r\n    {\r\n        \"id\": 9,\r\n        \"titular\": {\r\n            \"id\": 9,\r\n            \"dni\": 21543876,\r\n            \"nombres\": \"Jack\",\r\n            \"apellidos\": \"Sparrow\",\r\n            \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"jack\"\r\n        },\r\n        \"habilitadoIntercambio\": false,\r\n        \"matricula\": \"REY 33224\",\r\n        \"nombre\": \"Holandes Errante\",\r\n        \"eslora\": 1100.0,\r\n        \"calado\": 450.0,\r\n        \"manga\": 350.0\r\n    },\r\n    {\r\n        \"id\": 10,\r\n        \"titular\": {\r\n            \"id\": 11,\r\n            \"dni\": 33777666,\r\n            \"nombres\": \"Vito\",\r\n            \"apellidos\": \"Dumas\",\r\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"vito\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 45555\",\r\n        \"nombre\": \"Lehg I\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0\r\n    },\r\n    {\r\n        \"id\": 11,\r\n        \"titular\": {\r\n            \"id\": 11,\r\n            \"dni\": 33777666,\r\n            \"nombres\": \"Vito\",\r\n            \"apellidos\": \"Dumas\",\r\n            \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n            \"habilitadaIntercambio\": true,\r\n            \"username\": \"vito\"\r\n        },\r\n        \"habilitadoIntercambio\": true,\r\n        \"matricula\": \"REY 45556\",\r\n        \"nombre\": \"Lehg II\",\r\n        \"eslora\": 500.0,\r\n        \"calado\": 210.0,\r\n        \"manga\": 180.0\r\n    }\r\n]"
+    },
+    {
+      "uuid": "3d799b53-9cf2-4dcf-84c7-5aaadb692a43",
+      "id": "uyes",
+      "name": "Mensajes",
+      "documentation": "Mensajes de todas las Permutas",
+      "value": "[]"
+    },
+    {
+      "uuid": "d3794a7f-b6e7-4c0d-ad37-a9e06d681942",
+      "id": "eu20",
+      "name": "Permutas",
+      "documentation": "Permutas de SmartNavis",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"solicitada\": {\r\n            \"id\": 1,\r\n            \"titulo\": \"Carabela casi sin uso\",\r\n            \"descripcion\": \"Dos o tres viajes. Unica mano.\",\r\n            \"bien\": {\r\n                \"id\": 2,\r\n                \"titular\": {\r\n                    \"id\": 2,\r\n                    \"dni\": 22222222,\r\n                    \"nombres\": \"Cristobal\",\r\n                    \"apellidos\": \"Colon\",\r\n                    \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"cristobal\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"matricula\": \"REY 54321\",\r\n                \"nombre\": \"Santa Maria\",\r\n                \"eslora\": 900.0,\r\n                \"calado\": 340.0,\r\n                \"manga\": 250.0\r\n            }\r\n        },\r\n        \"ofertada\": {\r\n            \"id\": 5,\r\n            \"titulo\": \"Casa quinta\",\r\n            \"descripcion\": \"Casa con pileta.\",\r\n            \"bien\": {\r\n                \"id\": 15,\r\n                \"titular\": {\r\n                    \"id\": 7,\r\n                    \"dni\": 33444555,\r\n                    \"nombres\": \"Odiseo\",\r\n                    \"apellidos\": \"Itaca\",\r\n                    \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"odiseo\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"partida\": \"111-222222-2\"\r\n            }\r\n        },\r\n        \"pendiente\": true,\r\n        \"aceptada\": false,\r\n        \"registrada\": false,\r\n        \"finalizada\": false\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"solicitada\": {\r\n            \"id\": 1,\r\n            \"titulo\": \"Carabela casi sin uso\",\r\n            \"descripcion\": \"Dos o tres viajes. Unica mano.\",\r\n            \"bien\": {\r\n                \"id\": 2,\r\n                \"titular\": {\r\n                    \"id\": 2,\r\n                    \"dni\": 22222222,\r\n                    \"nombres\": \"Cristobal\",\r\n                    \"apellidos\": \"Colon\",\r\n                    \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"cristobal\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"matricula\": \"REY 54321\",\r\n                \"nombre\": \"Santa Maria\",\r\n                \"eslora\": 900.0,\r\n                \"calado\": 340.0,\r\n                \"manga\": 250.0\r\n            }\r\n        },\r\n        \"ofertada\": {\r\n            \"id\": 6,\r\n            \"titulo\": \"Moto joyita oportuniad!\",\r\n            \"descripcion\": \"Sin papeles.\",\r\n            \"bien\": {\r\n                \"id\": 17,\r\n                \"titular\": {\r\n                    \"id\": 9,\r\n                    \"dni\": 21543876,\r\n                    \"nombres\": \"Jack\",\r\n                    \"apellidos\": \"Sparrow\",\r\n                    \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"jack\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"patente\": \"ABC-123\"\r\n            }\r\n        },\r\n        \"pendiente\": false,\r\n        \"aceptada\": false,\r\n        \"registrada\": false,\r\n        \"finalizada\": true\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"solicitada\": {\r\n            \"id\": 2,\r\n            \"titulo\": \"Cambio barco\",\r\n            \"descripcion\": \"Cambio por cualquier cosa ya!\",\r\n            \"bien\": {\r\n                \"id\": 11,\r\n                \"titular\": {\r\n                    \"id\": 11,\r\n                    \"dni\": 33777666,\r\n                    \"nombres\": \"Vito\",\r\n                    \"apellidos\": \"Dumas\",\r\n                    \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"vito\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"matricula\": \"REY 45556\",\r\n                \"nombre\": \"Lehg II\",\r\n                \"eslora\": 500.0,\r\n                \"calado\": 210.0,\r\n                \"manga\": 180.0\r\n            }\r\n        },\r\n        \"ofertada\": {\r\n            \"id\": 6,\r\n            \"titulo\": \"Moto joyita oportuniad!\",\r\n            \"descripcion\": \"Sin papeles.\",\r\n            \"bien\": {\r\n                \"id\": 17,\r\n                \"titular\": {\r\n                    \"id\": 9,\r\n                    \"dni\": 21543876,\r\n                    \"nombres\": \"Jack\",\r\n                    \"apellidos\": \"Sparrow\",\r\n                    \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"jack\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"patente\": \"ABC-123\"\r\n            }\r\n        },\r\n        \"pendiente\": false,\r\n        \"aceptada\": true,\r\n        \"registrada\": false,\r\n        \"finalizada\": false\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"solicitada\": {\r\n            \"id\": 4,\r\n            \"titulo\": \"Dpto. f/ al mar\",\r\n            \"descripcion\": \"Hermoso dpto. 3 ambientes.\",\r\n            \"bien\": {\r\n                \"id\": 13,\r\n                \"titular\": {\r\n                    \"id\": 2,\r\n                    \"dni\": 22222222,\r\n                    \"nombres\": \"Cristobal\",\r\n                    \"apellidos\": \"Colon\",\r\n                    \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"cristobal\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"partida\": \"321-321321-3\"\r\n            }\r\n        },\r\n        \"ofertada\": {\r\n            \"id\": 1,\r\n            \"titulo\": \"Carabela casi sin uso\",\r\n            \"descripcion\": \"Dos o tres viajes. Unica mano.\",\r\n            \"bien\": {\r\n                \"id\": 2,\r\n                \"titular\": {\r\n                    \"id\": 2,\r\n                    \"dni\": 22222222,\r\n                    \"nombres\": \"Cristobal\",\r\n                    \"apellidos\": \"Colon\",\r\n                    \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"cristobal\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"matricula\": \"REY 54321\",\r\n                \"nombre\": \"Santa Maria\",\r\n                \"eslora\": 900.0,\r\n                \"calado\": 340.0,\r\n                \"manga\": 250.0\r\n            }\r\n        },\r\n        \"pendiente\": true,\r\n        \"aceptada\": false,\r\n        \"registrada\": false,\r\n        \"finalizada\": false\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"solicitada\": {\r\n            \"id\": 2,\r\n            \"titulo\": \"Cambio barco\",\r\n            \"descripcion\": \"Cambio por cualquier cosa ya!\",\r\n            \"bien\": {\r\n                \"id\": 11,\r\n                \"titular\": {\r\n                    \"id\": 11,\r\n                    \"dni\": 33777666,\r\n                    \"nombres\": \"Vito\",\r\n                    \"apellidos\": \"Dumas\",\r\n                    \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"vito\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"matricula\": \"REY 45556\",\r\n                \"nombre\": \"Lehg II\",\r\n                \"eslora\": 500.0,\r\n                \"calado\": 210.0,\r\n                \"manga\": 180.0\r\n            }\r\n        },\r\n        \"ofertada\": {\r\n            \"id\": 1,\r\n            \"titulo\": \"Carabela casi sin uso\",\r\n            \"descripcion\": \"Dos o tres viajes. Unica mano.\",\r\n            \"bien\": {\r\n                \"id\": 2,\r\n                \"titular\": {\r\n                    \"id\": 2,\r\n                    \"dni\": 22222222,\r\n                    \"nombres\": \"Cristobal\",\r\n                    \"apellidos\": \"Colon\",\r\n                    \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"cristobal\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"matricula\": \"REY 54321\",\r\n                \"nombre\": \"Santa Maria\",\r\n                \"eslora\": 900.0,\r\n                \"calado\": 340.0,\r\n                \"manga\": 250.0\r\n            }\r\n        },\r\n        \"pendiente\": false,\r\n        \"aceptada\": false,\r\n        \"registrada\": false,\r\n        \"finalizada\": true\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"solicitada\": {\r\n            \"id\": 3,\r\n            \"titulo\": \"Barco sin uso\",\r\n            \"descripcion\": \"Lo cambio porque ya no lo uso\",\r\n            \"bien\": {\r\n                \"id\": 7,\r\n                \"titular\": {\r\n                    \"id\": 7,\r\n                    \"dni\": 33444555,\r\n                    \"nombres\": \"Odiseo\",\r\n                    \"apellidos\": \"Itaca\",\r\n                    \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"odiseo\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"matricula\": \"REY 11224\",\r\n                \"nombre\": \"Arquero II\",\r\n                \"eslora\": 900.0,\r\n                \"calado\": 340.0,\r\n                \"manga\": 250.0\r\n            }\r\n        },\r\n        \"ofertada\": {\r\n            \"id\": 1,\r\n            \"titulo\": \"Carabela casi sin uso\",\r\n            \"descripcion\": \"Dos o tres viajes. Unica mano.\",\r\n            \"bien\": {\r\n                \"id\": 2,\r\n                \"titular\": {\r\n                    \"id\": 2,\r\n                    \"dni\": 22222222,\r\n                    \"nombres\": \"Cristobal\",\r\n                    \"apellidos\": \"Colon\",\r\n                    \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                    \"habilitadaIntercambio\": true,\r\n                    \"username\": \"cristobal\"\r\n                },\r\n                \"habilitadoIntercambio\": true,\r\n                \"matricula\": \"REY 54321\",\r\n                \"nombre\": \"Santa Maria\",\r\n                \"eslora\": 900.0,\r\n                \"calado\": 340.0,\r\n                \"manga\": 250.0\r\n            }\r\n        },\r\n        \"pendiente\": true,\r\n        \"aceptada\": false,\r\n        \"registrada\": false,\r\n        \"finalizada\": false\r\n    }\r\n]"
+    },
+    {
+      "uuid": "9f3dc2d5-2589-46cc-8df8-157b7c15d6a2",
+      "id": "ug1k",
+      "name": "Personas",
+      "documentation": "Personas de SmartNavis",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"dni\": 11111111,\r\n        \"nombres\": \"Simbad\",\r\n        \"apellidos\": \"Marino\",\r\n        \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": false,\r\n        \"username\": \"simbad\"\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"dni\": 22222222,\r\n        \"nombres\": \"Cristobal\",\r\n        \"apellidos\": \"Colon\",\r\n        \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"cristobal\"\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"dni\": 33333333,\r\n        \"nombres\": \"Fernando\",\r\n        \"apellidos\": \"Magallanes\",\r\n        \"fechaNacimiento\": \"1955-06-20T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"dni\": 11222333,\r\n        \"nombres\": \"James\",\r\n        \"apellidos\": \"Cook\",\r\n        \"fechaNacimiento\": \"1969-10-11T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"dni\": 22333444,\r\n        \"nombres\": \"Robinson\",\r\n        \"apellidos\": \"Crusoe\",\r\n        \"fechaNacimiento\": \"1975-12-20T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"dni\": 33222111,\r\n        \"nombres\": \"Jason\",\r\n        \"apellidos\": \"Argonauta\",\r\n        \"fechaNacimiento\": \"1980-02-14T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true\r\n    },\r\n    {\r\n        \"id\": 7,\r\n        \"dni\": 33444555,\r\n        \"nombres\": \"Odiseo\",\r\n        \"apellidos\": \"Itaca\",\r\n        \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"odiseo\"\r\n    },\r\n    {\r\n        \"id\": 8,\r\n        \"dni\": 12345678,\r\n        \"nombres\": \"Cap\",\r\n        \"apellidos\": \"Nemo\",\r\n        \"fechaNacimiento\": \"1976-04-30T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": false\r\n    },\r\n    {\r\n        \"id\": 9,\r\n        \"dni\": 21543876,\r\n        \"nombres\": \"Jack\",\r\n        \"apellidos\": \"Sparrow\",\r\n        \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"jack\"\r\n    },\r\n    {\r\n        \"id\": 10,\r\n        \"dni\": 22888999,\r\n        \"nombres\": \"Guillermo\",\r\n        \"apellidos\": \"Brown\",\r\n        \"fechaNacimiento\": \"1977-12-17T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"guillermo\"\r\n    },\r\n    {\r\n        \"id\": 11,\r\n        \"dni\": 33777666,\r\n        \"nombres\": \"Vito\",\r\n        \"apellidos\": \"Dumas\",\r\n        \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"vito\"\r\n    }\r\n]"
+    },
+    {
+      "uuid": "6bd7ed3e-4b30-44bb-8b70-9c59f6449108",
+      "id": "dmww",
+      "name": "Publicaciones",
+      "documentation": "Publicaciones de SmartNavis",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"titulo\": \"Carabela casi sin uso\",\r\n        \"descripcion\": \"Dos o tres viajes. Unica mano.\",\r\n        \"bien\": {\r\n            \"id\": 2,\r\n            \"titular\": {\r\n                \"id\": 2,\r\n                \"dni\": 22222222,\r\n                \"nombres\": \"Cristobal\",\r\n                \"apellidos\": \"Colon\",\r\n                \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"cristobal\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 54321\",\r\n            \"nombre\": \"Santa Maria\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        }\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"titulo\": \"Cambio barco\",\r\n        \"descripcion\": \"Cambio por cualquier cosa ya!\",\r\n        \"bien\": {\r\n            \"id\": 11,\r\n            \"titular\": {\r\n                \"id\": 11,\r\n                \"dni\": 33777666,\r\n                \"nombres\": \"Vito\",\r\n                \"apellidos\": \"Dumas\",\r\n                \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"vito\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 45556\",\r\n            \"nombre\": \"Lehg II\",\r\n            \"eslora\": 500.0,\r\n            \"calado\": 210.0,\r\n            \"manga\": 180.0\r\n        }\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"titulo\": \"Barco sin uso\",\r\n        \"descripcion\": \"Lo cambio porque ya no lo uso\",\r\n        \"bien\": {\r\n            \"id\": 7,\r\n            \"titular\": {\r\n                \"id\": 7,\r\n                \"dni\": 33444555,\r\n                \"nombres\": \"Odiseo\",\r\n                \"apellidos\": \"Itaca\",\r\n                \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"odiseo\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"matricula\": \"REY 11224\",\r\n            \"nombre\": \"Arquero II\",\r\n            \"eslora\": 900.0,\r\n            \"calado\": 340.0,\r\n            \"manga\": 250.0\r\n        }\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"titulo\": \"Dpto. f/ al mar\",\r\n        \"descripcion\": \"Hermoso dpto. 3 ambientes.\",\r\n        \"bien\": {\r\n            \"id\": 13,\r\n            \"titular\": {\r\n                \"id\": 2,\r\n                \"dni\": 22222222,\r\n                \"nombres\": \"Cristobal\",\r\n                \"apellidos\": \"Colon\",\r\n                \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"cristobal\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"partida\": \"321-321321-3\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"titulo\": \"Casa quinta\",\r\n        \"descripcion\": \"Casa con pileta.\",\r\n        \"bien\": {\r\n            \"id\": 15,\r\n            \"titular\": {\r\n                \"id\": 7,\r\n                \"dni\": 33444555,\r\n                \"nombres\": \"Odiseo\",\r\n                \"apellidos\": \"Itaca\",\r\n                \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"odiseo\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"partida\": \"111-222222-2\"\r\n        }\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"titulo\": \"Moto joyita oportuniad!\",\r\n        \"descripcion\": \"Sin papeles.\",\r\n        \"bien\": {\r\n            \"id\": 17,\r\n            \"titular\": {\r\n                \"id\": 9,\r\n                \"dni\": 21543876,\r\n                \"nombres\": \"Jack\",\r\n                \"apellidos\": \"Sparrow\",\r\n                \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n                \"habilitadaIntercambio\": true,\r\n                \"username\": \"jack\"\r\n            },\r\n            \"habilitadoIntercambio\": true,\r\n            \"patente\": \"ABC-123\"\r\n        }\r\n    }\r\n]"
+    },
+    {
+      "uuid": "48e7abd3-06c5-407b-bac2-36ed4eb26922",
+      "id": "bu0a",
+      "name": "Puertos",
+      "documentation": "Puertos de SmartNavis",
+      "value": "[\r\n    {\r\n        \"id\": 3,\r\n        \"nombre\": \"Ensenada\"\r\n    },\r\n    {\r\n        \"id\": 1,\r\n        \"nombre\": \"La Plata\"\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"nombre\": \"La Plata II\"\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"nombre\": \"Puerto Madero\"\r\n    },\r\n    {\r\n        \"id\": 4,\r\n        \"nombre\": \"Quilmes\"\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"nombre\": \"San Fernando\"\r\n    },\r\n    {\r\n        \"id\": 7,\r\n        \"nombre\": \"San Isidro\"\r\n    }\r\n]"
+    },
+    {
+      "uuid": "bfbf238a-ca95-43f6-9511-d53ed9952e21",
+      "id": "8732",
+      "name": "Usuarios",
+      "documentation": "Usuarios (Personas) de SmartNavis",
+      "value": "[\r\n    {\r\n        \"id\": 1,\r\n        \"dni\": 11111111,\r\n        \"nombres\": \"Simbad\",\r\n        \"apellidos\": \"Marino\",\r\n        \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": false,\r\n        \"username\": \"simbad\"\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"dni\": 22222222,\r\n        \"nombres\": \"Cristobal\",\r\n        \"apellidos\": \"Colon\",\r\n        \"fechaNacimiento\": \"1940-05-17T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"cristobal\"\r\n    },\r\n    {\r\n        \"id\": 7,\r\n        \"dni\": 33444555,\r\n        \"nombres\": \"Odiseo\",\r\n        \"apellidos\": \"Itaca\",\r\n        \"fechaNacimiento\": \"1986-12-27T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"odiseo\"\r\n    },\r\n    {\r\n        \"id\": 9,\r\n        \"dni\": 21543876,\r\n        \"nombres\": \"Jack\",\r\n        \"apellidos\": \"Sparrow\",\r\n        \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"jack\"\r\n    },\r\n    {\r\n        \"id\": 10,\r\n        \"dni\": 22888999,\r\n        \"nombres\": \"Guillermo\",\r\n        \"apellidos\": \"Brown\",\r\n        \"fechaNacimiento\": \"1977-12-17T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"guillermo\"\r\n    },\r\n    {\r\n        \"id\": 11,\r\n        \"dni\": 33777666,\r\n        \"nombres\": \"Vito\",\r\n        \"apellidos\": \"Dumas\",\r\n        \"fechaNacimiento\": \"1965-03-28T00:00:00.000+00:00\",\r\n        \"habilitadaIntercambio\": true,\r\n        \"username\": \"vito\"\r\n    }\r\n]"
+    }
+  ],
+  "callbacks": []
+}
