@@ -135,14 +135,14 @@
       <div class="form-group mx-2 mb-2">
         <p class="mt-2">
           <ng-container
-            *ngIf="publicacionSeleccionada?.permutasSolicitadas?.length"
+            *ngIf="publicacionSeleccionada?.__permutasSolicitadas?.length"
           >
             Al hacer click en "Sí, eliminar publicación." se eliminará toda la
             actividad relacionada con esta publicación, incluyendo las
             solicitudes de intercambio, mensajes, etc.
           </ng-container>
           <ng-container
-            *ngIf="!publicacionSeleccionada?.permutasSolicitadas?.length"
+            *ngIf="!publicacionSeleccionada?.__permutasSolicitadas?.length"
           >
             La publicación que borrará no tiene solicitudes de intercambio
             asociadas.

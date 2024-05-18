@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, retry, throwError } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {environment} from '../../../environments/environment';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {catchError, Observable, retry, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl: string = environment.apiUrl;
+  private readonly baseUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   private handleError(
     error: HttpErrorResponse,
@@ -26,7 +27,7 @@ export class ApiService {
     } else {
       console.error(`Backend error ${error.status}; body:`, error.error);
     }
-    if (error.status === 400 || error.status === 404 || error.status === 500) {
+    if ((error.status === 400) || (error.status === 404) || (error.status === 500)) {
       return throwError(() => new Error(error.error));
     }
 

@@ -1,16 +1,16 @@
 <app-app-page titulo="Embarcaciones" subtitulo="Lista de embarcaciones">
   <div class="global-container local-container">
     <article>
-      <ol *ngIf="bienes.length; else sinPublicaciones" class="p-0 m-0">
+      <ol *ngIf="embarcaciones.length; else sinPublicaciones" class="p-0 m-0">
         <div>
-          <li *ngFor="let bien of bienes">
+          <li *ngFor="let bien of embarcaciones">
             <div>
               <span>
                 <b>{{ bien.nombre }}</b>
                 ({{ bien.matricula }})
               </span>
               <button
-                *ngIf="!bien.publicado"
+                *ngIf="!bien.__isBienPublicado"
                 class="btn btn-primary"
                 (click)="abrirFormularioDePublicacion(bien)"
               >
@@ -22,7 +22,7 @@
       </ol>
 
       <ng-template #sinPublicaciones>
-        <div *ngIf="!bienes.length">
+        <div *ngIf="!embarcaciones.length">
           <p class="alert alert-secondary">No hay embarcaciones disponibles.</p>
         </div>
       </ng-template>
@@ -38,11 +38,11 @@
         {{ mensajeFormulario.mensaje }}
       </div>
 
-      <div *ngIf="bienSeleccionado" class="card">
+      <div *ngIf="nuevaPublicacion?.bien" class="card">
         <form class="card-body">
           <h3 class="mb-4">
-            <b>{{ bienSeleccionado.nombre }}</b>
-            ({{ bienSeleccionado.matricula }})
+            <b>{{ nuevaPublicacion.bien.nombre }}</b>
+            ({{ nuevaPublicacion.bien.matricula }})
           </h3>
 
           <div class="form-group mb-2">
@@ -51,7 +51,7 @@
               for="titulo"
               id="titulo"
               class="form-control"
-              placeholder="Permuto {{ bienSeleccionado.nombre }}"
+              placeholder="Permuto {{ nuevaPublicacion.bien.nombre }}"
               [(ngModel)]="nuevaPublicacion.titulo"
               name="titulo"
             />
@@ -76,7 +76,7 @@
               type="submit"
               class="btn btn-primary mx-2"
               [disabled]="!nuevaPublicacionEsValida()"
-              (click)="publicarBien()"
+              (click)="publicarEmbarcacion()"
             >
               Publicar embarcación
             </button>

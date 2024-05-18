@@ -33,7 +33,6 @@ public class Permuta {
     @OneToMany(mappedBy = "permuta", fetch = FetchType.LAZY)
     private List<Mensaje> mensajes;
 
-
     public Permuta() {
         this.setMensajes(new ArrayList<>());
     }

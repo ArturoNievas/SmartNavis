@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { Bien } from '../../interfaces/bien';
-import { BienService } from '../../services/bien/bien.service';
-import { Publicacion } from '../../interfaces/publicacion';
-import { RouterLink } from '@angular/router';
-import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
-import { NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {Component} from '@angular/core';
+import {Bien} from '../../interfaces/bien';
+import {BienService} from '../../services/bien/bien.service';
+import {Publicacion} from '../../interfaces/publicacion';
+import {RouterLink} from '@angular/router';
+import {AppPageComponent} from '../../shared/components/app-page/app-page.component';
+import {NgFor, NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-bienes-page',
@@ -28,14 +28,15 @@ export class BienesPageComponent<T extends Bien> {
     mensaje: string;
   };
 
-  constructor(protected bienService: BienService<T>) {}
+  constructor(protected bienService: BienService<T>) {
+  }
 
   ngOnInit(): void {
     this.listarBienes();
   }
 
   protected bienAdapter = (bien: T) => {
-    const dominio = bien?.patente || bien?.partida || bien?.matricula;
+    const dominio = bien?.__patente || bien?.__partida || bien?.__matricula;
 
     return {
       ...bien,
@@ -93,7 +94,7 @@ export class BienesPageComponent<T extends Bien> {
       throw new Error('no existe....');
     }
 
-    const { dominio, ...bien } = this.bienSeleccionado;
+    const {__dominio, ...bien} = this.bienSeleccionado;
     const nuevaPublicacion: Publicacion = {
       ...this.nuevaPublicacion,
       bien,
@@ -101,7 +102,7 @@ export class BienesPageComponent<T extends Bien> {
 
     this.bienService.publicarBien(nuevaPublicacion).subscribe({
       next: () => {
-        this.bienSeleccionado!.publicado = true;
+        this.bienSeleccionado!.__isBienPublicado = true;
 
         this.resetearFormularioDePublicacion();
         this.cerrarFormularioDePublicacion();

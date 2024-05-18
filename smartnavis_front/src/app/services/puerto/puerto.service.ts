@@ -7,13 +7,13 @@ import {ApiService} from "../api/api.service";
   providedIn: 'root'
 })
 export class PuertoService {
-  private puertoUrl: string = '/puerto';
+  private readonly puertoUrl: string = '/puerto';
 
   constructor(private apiService: ApiService) {
   }
 
   public listarPuertos(): Observable<Puerto[]> {
-    return this.apiService.get<Puerto[]>(this.puertoUrl + 's');
+    return this.apiService.get<Puerto[]>(this.puertoUrl);
   }
 
   public crearPuerto(puerto: Puerto): Observable<Puerto> {
