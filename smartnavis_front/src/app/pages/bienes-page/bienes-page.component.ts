@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
-import {Bien} from '../../interfaces/bien';
-import {BienService} from '../../services/bien/bien.service';
-import {Publicacion} from '../../interfaces/publicacion';
-import {RouterLink} from '@angular/router';
-import {AppPageComponent} from '../../shared/components/app-page/app-page.component';
-import {NgFor, NgIf} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { Component } from '@angular/core';
+import { Bien } from '../../interfaces/bien';
+import { BienService } from '../../services/bien/bien.service';
+import { Publicacion } from '../../interfaces/publicacion';
+import { RouterLink } from '@angular/router';
+import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
+import { NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-bienes-page',
@@ -15,6 +15,9 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './bienes-page.component.scss',
 })
 export class BienesPageComponent<T extends Bien> {
+  protected titulo?: string;
+  protected subtitulo?: string;
+
   public bienes: T[] = [];
   public bienSeleccionado?: T;
 
@@ -29,25 +32,28 @@ export class BienesPageComponent<T extends Bien> {
   };
 
   constructor(protected bienService: BienService<T>) {
+    this.titulo = 'Bienes';
+    this.subtitulo = 'Lista de bienes';
   }
 
   ngOnInit(): void {
     this.listarBienes();
   }
 
-  protected bienAdapter = (bien: T) => {
-    const dominio = bien?.__patente || bien?.__partida || bien?.__matricula;
+  protected bienAdapter = (bien: T | any) => {
+    const __dominio = bien?.patente || bien?.partida || bien?.matricula;
 
     return {
       ...bien,
-      dominio,
+      __dominio,
     };
   };
 
   protected listarBienes(): void {
     this.bienService.listarBienes().subscribe((bienes: T[]) => {
+      console.log(bienes);
       this.bienes = bienes.map((bien) => this.bienAdapter(bien));
-      console.log(this.bienes);
+      console.log('after: ', this.bienes);
     });
   }
 
@@ -94,7 +100,7 @@ export class BienesPageComponent<T extends Bien> {
       throw new Error('no existe....');
     }
 
-    const {__dominio, ...bien} = this.bienSeleccionado;
+    const { __dominio, ...bien } = this.bienSeleccionado;
     const nuevaPublicacion: Publicacion = {
       ...this.nuevaPublicacion,
       bien,

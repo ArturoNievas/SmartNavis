@@ -1,17 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Publicacion} from '../../interfaces/publicacion';
-import {Observable, throwError} from 'rxjs';
-import {Bien} from '../../interfaces/bien';
-import {ApiService} from '../api/api.service';
+import { Injectable } from '@angular/core';
+import { Publicacion } from '../../interfaces/publicacion';
+import { Observable, throwError } from 'rxjs';
+import { Bien } from '../../interfaces/bien';
+import { ApiService } from '../api/api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BienService<T extends Bien> {
-  public readonly bienUrl: string = '/bien';
+  public bienUrl: string = '/bien';
 
-  constructor(public apiService: ApiService) {
-  }
+  constructor(public apiService: ApiService) {}
 
   public listarBienes(): Observable<T[]> {
     return this.apiService.get<T[]>(this.bienUrl);
@@ -24,7 +23,7 @@ export class BienService<T extends Bien> {
   public actualizarBien(bien: T): Observable<T> {
     if (!bien.id) {
       return throwError(
-        () => new Error('No es posible actualizar el bien (no id).'),
+        () => new Error('No es posible actualizar el bien (no id).')
       );
     }
     return this.apiService.put<T>(`${this.bienUrl}/${bien.id}`, bien);
@@ -33,7 +32,7 @@ export class BienService<T extends Bien> {
   public eliminarBien(bien: T): Observable<unknown> {
     if (!bien.id) {
       return throwError(
-        () => new Error('No es posible eliminar el bien (no id).'),
+        () => new Error('No es posible eliminar el bien (no id).')
       );
     }
     return this.apiService.delete(`${this.bienUrl}/${bien.id}`);
@@ -42,7 +41,7 @@ export class BienService<T extends Bien> {
   public publicarBien(publicacion: Publicacion): Observable<Publicacion> {
     return this.apiService.post<Publicacion>(
       `${this.bienUrl}/${publicacion.bien.id}/publicar`,
-      publicacion,
+      publicacion
     );
   }
 }
