@@ -1,23 +1,19 @@
-import { Injectable } from '@angular/core';
-import { ApiService } from '../api/api.service';
-import { Publicacion } from '../../interfaces/publicacion';
-import { Observable, throwError } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {ApiService} from '../api/api.service';
+import {Publicacion} from '../../interfaces/publicacion';
+import {Observable, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PublicacionService {
-  protected publicacionUrl: string;
-  protected publicacionesUrl: string;
+  protected publicacionUrl: string = '/publicacion';
 
   constructor(private apiService: ApiService) {
-    this.apiService = apiService;
-    this.publicacionUrl = '/publicacion';
-    this.publicacionesUrl = '/publicaciones';
   }
 
   public listarPublicaciones(): Observable<Publicacion[]> {
-    return this.apiService.get<Publicacion[]>(this.publicacionesUrl);
+    return this.apiService.get<Publicacion[]>(this.publicacionUrl);
   }
 
   public crearPublicacion(publicacion: Publicacion): Observable<Publicacion> {

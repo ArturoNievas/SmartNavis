@@ -1,24 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Publicacion } from '../../interfaces/publicacion';
-import { Observable, throwError } from 'rxjs';
-import { Bien } from '../../interfaces/bien';
-import { ApiService } from '../api/api.service';
+import {Injectable} from '@angular/core';
+import {Publicacion} from '../../interfaces/publicacion';
+import {Observable, throwError} from 'rxjs';
+import {Bien} from '../../interfaces/bien';
+import {ApiService} from '../api/api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BienService<T extends Bien> {
-  public bienUrl: string;
-  public bienesUrl: string;
+  public readonly bienUrl: string = '/bien';
 
   constructor(public apiService: ApiService) {
-    this.apiService = apiService;
-    this.bienUrl = '/bien';
-    this.bienesUrl = '/bienes';
   }
 
   public listarBienes(): Observable<T[]> {
-    return this.apiService.get<T[]>(this.bienesUrl);
+    return this.apiService.get<T[]>(this.bienUrl);
   }
 
   public crearBien(bien: T): Observable<T> {
