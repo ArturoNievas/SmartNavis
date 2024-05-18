@@ -6,7 +6,7 @@ import { EmbarcacionesPageComponent } from '../pages/embarcaciones-page/embarcac
 import { BienesPageComponent } from '../pages/bienes-page/bienes-page.component';
 
 import { PublicacionesPageComponent } from '../pages/publicaciones-page/publicaciones-page.component';
-import { EmbarcacionesPublicadasPageComponent } from '../pages/embarcaciones-publicadas-page/embarcaciones-publicadas-page.component';
+import { EmbarcacionesPublicadasPageComponent } from '../pages/publicaciones-page/embarcaciones-publicadas-page.component';
 
 export const routes: Routes = [
   { path: 'home', title: 'YateMate', component: HomePageComponent },

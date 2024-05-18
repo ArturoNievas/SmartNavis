@@ -61,6 +61,7 @@ export class BienesPageComponent<T extends Bien> {
 
   public cerrarFormularioDePublicacion(): void {
     this.resetearMensajeFormulario();
+
     this.bienSeleccionado = undefined;
   }
 
