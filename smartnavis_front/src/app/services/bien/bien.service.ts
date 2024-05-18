@@ -7,30 +7,34 @@ import { ApiService } from '../api/api.service';
 @Injectable({
   providedIn: 'root',
 })
-export class BienService {
-  private bienUrl: string = '/bien';
-  private bienesUrl: string = '/bienes';
+export class BienService<T extends Bien> {
+  public bienUrl: string;
+  public bienesUrl: string;
 
-  constructor(private apiService: ApiService) {}
-
-  public listarBienes(): Observable<Bien[]> {
-    return this.apiService.get<Bien[]>(this.bienesUrl);
+  constructor(public apiService: ApiService) {
+    this.apiService = apiService;
+    this.bienUrl = '/bien';
+    this.bienesUrl = '/bienes';
   }
 
-  public crearBien(bien: Bien): Observable<Bien> {
-    return this.apiService.post<Bien>(this.bienUrl, bien);
+  public listarBienes(): Observable<T[]> {
+    return this.apiService.get<T[]>(this.bienesUrl);
   }
 
-  public actualizarBien(bien: Bien): Observable<Bien> {
+  public crearBien(bien: T): Observable<T> {
+    return this.apiService.post<T>(this.bienUrl, bien);
+  }
+
+  public actualizarBien(bien: T): Observable<T> {
     if (!bien.id) {
       return throwError(
         () => new Error('No es posible actualizar el bien (no id).'),
       );
     }
-    return this.apiService.put<Bien>(`${this.bienUrl}/${bien.id}`, bien);
+    return this.apiService.put<T>(`${this.bienUrl}/${bien.id}`, bien);
   }
 
-  public eliminarBien(bien: Bien): Observable<unknown> {
+  public eliminarBien(bien: T): Observable<unknown> {
     if (!bien.id) {
       return throwError(
         () => new Error('No es posible eliminar el bien (no id).'),

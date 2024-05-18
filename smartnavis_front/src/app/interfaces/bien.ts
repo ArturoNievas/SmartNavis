@@ -3,4 +3,9 @@ export interface Bien {
   titular: any;
   habilitadoIntercambio: boolean;
   publicado?: boolean;
+
+  dominio?: string;
+  patente?: string;
+  partida?: string;
+  matricula?: string;
 }

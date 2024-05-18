@@ -1,1 +1,94 @@
-<p>bienes-page works!</p>
+<app-app-page titulo="Bienes" subtitulo="Lista de bienes">
+  <div class="global-container local-container">
+    <article>
+      <ol *ngIf="bienes.length; else sinPublicaciones" class="p-0 m-0">
+        <div>
+          <li *ngFor="let bien of bienes">
+            <div>
+              <span>
+                <b>Bien {{ bien.dominio }}</b>
+              </span>
+
+              <button
+                *ngIf="!bien.publicado"
+                class="btn btn-primary"
+                (click)="abrirFormularioDePublicacion(bien)"
+              >
+                Publicar
+              </button>
+            </div>
+          </li>
+        </div>
+      </ol>
+
+      <ng-template #sinPublicaciones>
+        <div *ngIf="!bienes.length">
+          <p class="alert alert-secondary">No hay bienes disponibles.</p>
+        </div>
+      </ng-template>
+    </article>
+
+    <aside>
+      <div
+        *ngIf="mensajeFormulario"
+        [class.alert-danger]="mensajeFormulario.tipo === 'error'"
+        [class.alert-primary]="mensajeFormulario.tipo === 'exito'"
+        class="alert"
+      >
+        {{ mensajeFormulario.mensaje }}
+      </div>
+
+      <div *ngIf="bienSeleccionado" class="card">
+        <form class="card-body">
+          <h3 class="mb-4">
+            <b>{{ bienSeleccionado.dominio }}</b>
+          </h3>
+
+          <div class="form-group mb-2">
+            <label class="form-label">Título de la publicación</label>
+            <input
+              for="titulo"
+              id="titulo"
+              class="form-control"
+              placeholder="Permuto {{ bienSeleccionado.dominio }}"
+              [(ngModel)]="nuevaPublicacion.titulo"
+              name="titulo"
+            />
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="descripcion" class="form-label">
+              Descripción de la publicación
+            </label>
+
+            <textarea
+              id="descripcion"
+              class="form-control"
+              placeholder="Descripción de la publicación"
+              [(ngModel)]="nuevaPublicacion.descripcion"
+              name="descripcion"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <button
+              type="submit"
+              class="btn btn-primary mx-2"
+              [disabled]="!nuevaPublicacionEsValida()"
+              (click)="publicarBien()"
+            >
+              Publicar embarcación
+            </button>
+
+            <button
+              class="btn btn-secondary mx-2"
+              (click)="cerrarFormularioDePublicacion()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </aside>
+  </div>
+</app-app-page>
