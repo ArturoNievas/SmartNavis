@@ -2,34 +2,26 @@ package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.model.Publicacion;
 
-import java.util.*;
-
 import com.hexacore.smartnavis_api.service.PublicacionService;
 import org.springframework.web.bind.annotation.*;
 import com.hexacore.smartnavis_api.model.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api")
-public class PublicacionController {
+@RequestMapping("api/publicacion")
+public class PublicacionController extends SmartNavisController<Publicacion, Long> {
     private final PublicacionService service;
 
     public PublicacionController(PublicacionService service) {
+        super(service);
         this.service = service;
     }
 
-    @GetMapping("/publicaciones")
-    public Iterable<Publicacion> listarPublicaciones() {
-        return this.service.findAll();
-    }
-    
-    @GetMapping("/publicaciones/embarcaciones")
+    @GetMapping("embarcacion")
     public Iterable<Publicacion> listarEmbarcaciones() {
         return this.service.buscarPorTipo(Embarcacion.class);
     }
 
-    
+
     // Por si queremos filtrar las publicaciones
     /*
     private Class<? extends Bien> obtenerClasePorTipo(String tipo) {
@@ -68,27 +60,10 @@ public class PublicacionController {
     }
     */
 
-    @PostMapping("/publicacion")
-    public Publicacion crearPublicacion(@RequestBody Publicacion publicacion) {
-        return this.service.persist(publicacion);
-    }
-
-    @GetMapping("/publicacion/{id}")
-    public Publicacion detallePublicacion(@PathVariable("id") Long id) {
-        return this.service.getMustExist(id);
-    }
-
-    @PutMapping("/publicacion/{id}")
-    public Publicacion actualizarPublicacion(@PathVariable("id") Long id, @RequestBody Publicacion nuevaPublicacion) {
-        return this.service.patch(id, publicacion -> {
-            publicacion.setDescripcion(nuevaPublicacion.getDescripcion());
-            publicacion.setTitulo(nuevaPublicacion.getTitulo());
-            return publicacion;
-        });
-    }
-
-    @DeleteMapping("/publicacion/{id}")
-    public void eliminarPublicacion(@PathVariable("id") Long id) {
-        this.service.delete(id);
+    @Override
+    protected Publicacion updateMapper(Publicacion publicacion, Publicacion nuevaPublicacion) {
+        publicacion.setDescripcion(nuevaPublicacion.getDescripcion());
+        publicacion.setTitulo(nuevaPublicacion.getTitulo());
+        return publicacion;
     }
 }

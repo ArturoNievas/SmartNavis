@@ -17,7 +17,7 @@ public class UsuarioServiceImpl extends SmartNavisServiceImpl<Usuario, Long> imp
     }
 
     @Override
-    public Optional<Usuario> findByPersona(Persona persona) {
+    public Optional<Usuario> buscarPorPersona(Persona persona) {
         return this.findById(persona.getId());
     }
 }

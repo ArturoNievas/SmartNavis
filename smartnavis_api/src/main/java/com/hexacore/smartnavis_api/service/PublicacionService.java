@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PublicacionService extends SmartNavisService<Publicacion, Long> {
-    Optional<Publicacion> findByBien(Bien bien);
+    Optional<Publicacion> buscarPorBien(Bien bien);
 
-    Optional<Publicacion> findByEmbarcacion(Embarcacion embarcacion);
+    Optional<Publicacion> buscarPorEmbarcacion(Embarcacion embarcacion);
 
-    Publicacion crearPublicacion(String titulo, String descripcion, Bien bien);
+    Publicacion crear(String titulo, String descripcion, Bien bien);
     
     List<Publicacion> buscarPorTipo(Class<? extends Bien> tipo);
 }

@@ -22,17 +22,17 @@ public class PublicacionServiceImpl extends SmartNavisServiceImpl<Publicacion, L
     }
 
     @Override
-    public Optional<Publicacion> findByBien(Bien bien) {
+    public Optional<Publicacion> buscarPorBien(Bien bien) {
         return this.repository.findByBien(bien);
     }
 
     @Override
-    public Optional<Publicacion> findByEmbarcacion(Embarcacion embarcacion) {
-        return this.findByBien(embarcacion);
+    public Optional<Publicacion> buscarPorEmbarcacion(Embarcacion embarcacion) {
+        return this.buscarPorBien(embarcacion);
     }
 
     @Override
-    public Publicacion crearPublicacion(String titulo, String descripcion, Bien bien) {
+    public Publicacion crear(String titulo, String descripcion, Bien bien) {
         return this.repository.save(new Publicacion(titulo, descripcion, bien));
     }
 

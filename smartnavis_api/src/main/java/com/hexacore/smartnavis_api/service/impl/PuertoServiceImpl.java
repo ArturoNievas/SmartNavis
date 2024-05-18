@@ -17,7 +17,7 @@ public class PuertoServiceImpl extends SmartNavisServiceImpl<Puerto, Long> imple
     }
 
     @Override
-    public Iterable<Puerto> buscarPuertosPorNombre(String nombre) {
+    public Iterable<Puerto> buscarPorNombre(String nombre) {
         return this.repository.findByNombre(nombre);
     }
 }

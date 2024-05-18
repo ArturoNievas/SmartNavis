@@ -26,7 +26,7 @@ public class BienAutomotorServiceImpl extends SmartNavisServiceImpl<BienAutomoto
 
 
     @Override
-    public Publicacion publicarAutomotor(BienAutomotor automotor, String titulo, String descripcion) {
-        return this.bienService.publicarBien(automotor, titulo, descripcion);
+    public Publicacion publicar(BienAutomotor automotor, String titulo, String descripcion) {
+        return this.bienService.publicar(automotor, titulo, descripcion);
     }
 }

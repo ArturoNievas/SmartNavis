@@ -4,5 +4,5 @@ import com.hexacore.smartnavis_api.model.BienInmueble;
 import com.hexacore.smartnavis_api.model.Publicacion;
 
 public interface BienInmuebleService extends SmartNavisService<BienInmueble, Long> {
-    Publicacion publicarInmueble(BienInmueble inmueble, String titulo, String descripcion);
+    Publicacion publicar(BienInmueble inmueble, String titulo, String descripcion);
 }

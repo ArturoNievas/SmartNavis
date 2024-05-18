@@ -5,21 +5,17 @@ import com.hexacore.smartnavis_api.service.PermutaService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
-public class PermutaController {
+@RequestMapping("api/permuta")
+public class PermutaController extends SmartNavisController<Permuta, Long> {
     private final PermutaService service;
 
     public PermutaController(PermutaService service) {
+        super(service);
         this.service = service;
     }
 
-    @GetMapping("/permutas")
-    public Iterable<Permuta> listarPermutas() {
-        return this.service.findAll();
-    }
-
-    @PostMapping("/permuta/{id}/aceptar")
-    public Permuta aceptarPermuta(@PathVariable("id") Long id) {
-        return this.service.aceptarPermuta(this.service.getMustExist(id));
+    @PostMapping("{id}/aceptar")
+    public Permuta aceptar(@PathVariable("id") Long id) {
+        return this.service.aceptar(this.service.getMustExist(id));
     }
 }

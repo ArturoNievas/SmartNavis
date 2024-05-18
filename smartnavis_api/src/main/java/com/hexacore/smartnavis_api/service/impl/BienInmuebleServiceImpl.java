@@ -26,7 +26,7 @@ public class BienInmuebleServiceImpl extends SmartNavisServiceImpl<BienInmueble,
 
 
     @Override
-    public Publicacion publicarInmueble(BienInmueble inmueble, String titulo, String descripcion) {
-        return this.bienService.publicarBien(inmueble, titulo, descripcion);
+    public Publicacion publicar(BienInmueble inmueble, String titulo, String descripcion) {
+        return this.bienService.publicar(inmueble, titulo, descripcion);
     }
 }

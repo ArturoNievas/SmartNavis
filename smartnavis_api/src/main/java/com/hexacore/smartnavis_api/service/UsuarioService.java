@@ -6,5 +6,5 @@ import com.hexacore.smartnavis_api.model.Usuario;
 import java.util.Optional;
 
 public interface UsuarioService extends SmartNavisService<Usuario, Long> {
-    Optional<Usuario> findByPersona(Persona persona);
+    Optional<Usuario> buscarPorPersona(Persona persona);
 }

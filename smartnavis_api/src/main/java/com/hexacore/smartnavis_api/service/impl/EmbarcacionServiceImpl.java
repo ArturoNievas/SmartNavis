@@ -26,7 +26,7 @@ public class EmbarcacionServiceImpl extends SmartNavisServiceImpl<Embarcacion, L
 
 
     @Override
-    public Publicacion publicarEmbarcacion(Embarcacion embarcacion, String titulo, String descripcion) {
-        return this.bienService.publicarBien(embarcacion, titulo, descripcion);
+    public Publicacion publicar(Embarcacion embarcacion, String titulo, String descripcion) {
+        return this.bienService.publicar(embarcacion, titulo, descripcion);
     }
 }

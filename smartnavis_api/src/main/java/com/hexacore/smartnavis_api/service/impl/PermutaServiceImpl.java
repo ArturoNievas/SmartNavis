@@ -21,7 +21,7 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
     }
 
     @Override
-    public Permuta aceptarPermuta(Permuta permuta) {
+    public Permuta aceptar(Permuta permuta) {
         if (permuta.isAceptada()) {
             throw new BadRequestException("El intercambio ya ha sido aceptado.");
         }

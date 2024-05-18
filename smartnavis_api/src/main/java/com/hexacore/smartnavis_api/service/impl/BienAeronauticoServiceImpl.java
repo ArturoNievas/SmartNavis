@@ -26,7 +26,7 @@ public class BienAeronauticoServiceImpl extends SmartNavisServiceImpl<BienAerona
 
 
     @Override
-    public Publicacion publicarAeronautico(BienAeronautico aeronautico, String titulo, String descripcion) {
-        return this.bienService.publicarBien(aeronautico, titulo, descripcion);
+    public Publicacion publicar(BienAeronautico aeronautico, String titulo, String descripcion) {
+        return this.bienService.publicar(aeronautico, titulo, descripcion);
     }
 }
