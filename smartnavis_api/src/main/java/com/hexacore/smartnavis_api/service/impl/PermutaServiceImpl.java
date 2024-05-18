@@ -3,6 +3,7 @@ package com.hexacore.smartnavis_api.service.impl;
 import com.hexacore.smartnavis_api.exception.BadRequestException;
 import com.hexacore.smartnavis_api.exception.NotFoundException;
 import com.hexacore.smartnavis_api.model.Permuta;
+import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.repository.PermutaRepository;
 import com.hexacore.smartnavis_api.service.PermutaService;
 import org.springframework.stereotype.Service;
@@ -43,4 +44,13 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
 
         return this.persist(permuta);
     }
+
+	@Override
+	public Permuta crear(Publicacion solicitada, Publicacion ofertada) {
+		Permuta p = new Permuta(solicitada, ofertada);
+		if (p.getSolicitada().getPermutasSolicitadas().contains(p)) {
+			throw new BadRequestException("El bien seleccionado ya fue ofertado para esta publicación.");
+		}
+		return this.repository.save(p);
+	}
 }

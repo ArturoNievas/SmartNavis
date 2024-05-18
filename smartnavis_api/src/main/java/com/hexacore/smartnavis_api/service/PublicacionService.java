@@ -2,6 +2,7 @@ package com.hexacore.smartnavis_api.service;
 
 import com.hexacore.smartnavis_api.model.Bien;
 import com.hexacore.smartnavis_api.model.Embarcacion;
+import com.hexacore.smartnavis_api.model.Permuta;
 import com.hexacore.smartnavis_api.model.Publicacion;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface PublicacionService extends SmartNavisService<Publicacion, Long>
     Publicacion crear(String titulo, String descripcion, Bien bien);
     
     List<Publicacion> buscarPorTipo(Class<? extends Bien> tipo);
+    
+    Permuta solicitar(Publicacion solicitada, Publicacion ofertada);
 }

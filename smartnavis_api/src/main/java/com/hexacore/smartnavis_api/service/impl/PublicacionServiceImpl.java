@@ -2,8 +2,10 @@ package com.hexacore.smartnavis_api.service.impl;
 
 import com.hexacore.smartnavis_api.model.Bien;
 import com.hexacore.smartnavis_api.model.Embarcacion;
+import com.hexacore.smartnavis_api.model.Permuta;
 import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.repository.PublicacionRepository;
+import com.hexacore.smartnavis_api.service.PermutaService;
 import com.hexacore.smartnavis_api.service.PublicacionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +17,12 @@ import java.util.Optional;
 @Transactional
 public class PublicacionServiceImpl extends SmartNavisServiceImpl<Publicacion, Long> implements PublicacionService {
     private final PublicacionRepository repository;
+    private final PermutaService permutaService;
 
-    public PublicacionServiceImpl(PublicacionRepository repository) {
+    public PublicacionServiceImpl(PublicacionRepository repository, PermutaService permutaService) {
         super(repository);
         this.repository = repository;
+		this.permutaService = permutaService;
     }
 
     @Override
@@ -39,5 +43,10 @@ public class PublicacionServiceImpl extends SmartNavisServiceImpl<Publicacion, L
 	@Override
 	public List<Publicacion> buscarPorTipo(Class<? extends Bien> tipo) {
 		return this.repository.buscarPorTipo(tipo);
+	}
+
+	@Override
+	public Permuta solicitar(Publicacion solicitada, Publicacion ofertada) {
+		return this.permutaService.crear(solicitada, ofertada);
 	}
 }

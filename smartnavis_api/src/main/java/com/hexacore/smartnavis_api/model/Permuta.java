@@ -38,7 +38,17 @@ public class Permuta {
         this.setMensajes(new ArrayList<>());
     }
 
-    public Long getId() {
+    public Permuta(Publicacion solicitada, Publicacion ofertada) {
+		this.solicitada = solicitada;
+		this.ofertada = ofertada;
+		this.pendiente = true;
+		this.aceptada = false;
+		this.registrada = false;
+		this.finalizada = false;
+		this.setMensajes(new ArrayList<>());
+	}
+
+	public Long getId() {
         return id;
     }
 
