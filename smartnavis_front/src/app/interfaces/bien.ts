@@ -1,8 +1,11 @@
-import { Publicacion } from "./publicacion";
-
 export interface Bien {
-    id: number;
-    titular: any;
-    publicacion?: Publicacion;
-    habilitadoIntercambio: boolean;
+  id: number;
+  titular: any;
+  habilitadoIntercambio: boolean;
+  publicado?: boolean;
+
+  dominio?: string;
+  patente?: string;
+  partida?: string;
+  matricula?: string;
 }

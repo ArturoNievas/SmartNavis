@@ -1,4 +1,4 @@
-<app-app-page titulo="Embarcaciones" subtitulo="Lista de embarcaciones">
+<app-app-page titulo="Bienes" subtitulo="Lista de bienes">
   <div class="global-container local-container">
     <article>
       <ol *ngIf="bienes.length; else sinPublicaciones" class="p-0 m-0">
@@ -6,9 +6,9 @@
           <li *ngFor="let bien of bienes">
             <div>
               <span>
-                <b>{{ bien.nombre }}</b>
-                ({{ bien.matricula }})
+                <b>Bien {{ bien.dominio }}</b>
               </span>
+
               <button
                 *ngIf="!bien.publicado"
                 class="btn btn-primary"
@@ -23,7 +23,7 @@
 
       <ng-template #sinPublicaciones>
         <div *ngIf="!bienes.length">
-          <p class="alert alert-secondary">No hay embarcaciones disponibles.</p>
+          <p class="alert alert-secondary">No hay bienes disponibles.</p>
         </div>
       </ng-template>
     </article>
@@ -41,8 +41,7 @@
       <div *ngIf="bienSeleccionado" class="card">
         <form class="card-body">
           <h3 class="mb-4">
-            <b>{{ bienSeleccionado.nombre }}</b>
-            ({{ bienSeleccionado.matricula }})
+            <b>{{ bienSeleccionado.dominio }}</b>
           </h3>
 
           <div class="form-group mb-2">
@@ -51,7 +50,7 @@
               for="titulo"
               id="titulo"
               class="form-control"
-              placeholder="Permuto {{ bienSeleccionado.nombre }}"
+              placeholder="Permuto {{ bienSeleccionado.dominio }}"
               [(ngModel)]="nuevaPublicacion.titulo"
               name="titulo"
             />
