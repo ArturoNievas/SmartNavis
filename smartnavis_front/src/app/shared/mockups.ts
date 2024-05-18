@@ -1,4 +1,4 @@
-/*  
+/*
 
 export interface Bien {
     id: number;
@@ -20,7 +20,7 @@ export interface Publicacion {
   titulo: string;
   descripcion: string;
   bien: any;
-  permutasSolicitadas: any[];
+  __permutasSolicitadas: any[];
 }
 */
 

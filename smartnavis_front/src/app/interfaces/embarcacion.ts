@@ -6,5 +6,4 @@ export interface Embarcacion extends Bien {
   eslora: number;
   calado: number;
   manga: number;
-  publicada?: boolean;
 }

@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { ApiService } from '../api/api.service';
-import { Embarcacion } from '../../interfaces/embarcacion';
-import { Publicacion } from '../../interfaces/publicacion';
+import {Injectable} from '@angular/core';
+import {Observable, throwError} from 'rxjs';
+import {ApiService} from '../api/api.service';
+import {Embarcacion} from '../../interfaces/embarcacion';
+import {Publicacion} from '../../interfaces/publicacion';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmbarcacionService {
-  private embarcacionUrl: string = '/embarcacion';
+  private readonly embarcacionUrl: string = '/bien/embarcacion';
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) {
+  }
 
   public listarEmbarcaciones(): Observable<Embarcacion[]> {
-    return this.apiService.get<Embarcacion[]>(this.embarcacionUrl + 'es');
+    return this.apiService.get<Embarcacion[]>(this.embarcacionUrl);
   }
 
   public crearEmbarcacion(embarcacion: Embarcacion): Observable<Embarcacion> {

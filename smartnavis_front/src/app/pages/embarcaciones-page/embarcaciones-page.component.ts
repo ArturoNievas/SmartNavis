@@ -1,13 +1,13 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 
-import { NgIf, NgFor } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { Embarcacion } from '../../interfaces/embarcacion';
-import { EmbarcacionService } from '../../services/embarcacion/embarcacion.service';
-import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
+import {NgIf, NgFor} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {Embarcacion} from '../../interfaces/embarcacion';
+import {EmbarcacionService} from '../../services/embarcacion/embarcacion.service';
+import {AppPageComponent} from '../../shared/components/app-page/app-page.component';
 
-import { FormsModule } from '@angular/forms';
-import { Publicacion } from '../../interfaces/publicacion';
+import {FormsModule} from '@angular/forms';
+import {Publicacion} from '../../interfaces/publicacion';
 
 @Component({
   selector: 'app-embarcaciones-page',
@@ -31,7 +31,8 @@ export class EmbarcacionesPageComponent {
   };
 
   /* MÉTODOS */
-  constructor(private embarcacionService: EmbarcacionService) {}
+  constructor(private embarcacionService: EmbarcacionService) {
+  }
 
   ngOnInit(): void {
     this.listarEmbarcaciones();
@@ -86,7 +87,7 @@ export class EmbarcacionesPageComponent {
 
   /* PUBLICACIÓN */
   public publicarEmbarcacion(): void {
-    /* 
+    /*
       - La embarcación debe estar habilitada para ser intercambiada.
       - El titular de la embarcación debe estar habilitado para intercambiar bienes.
       - Una embarcación no puede ser publicada más de una vez.
@@ -103,7 +104,7 @@ export class EmbarcacionesPageComponent {
 
     this.embarcacionService.publicarEmbarcacion(nuevaPublicacion).subscribe({
       next: () => {
-        this.nuevaPublicacion.bien!.publicada = true;
+        this.nuevaPublicacion.bien!.__isBienPublicado = true;
 
         this.resetearFormularioDePublicacion();
         this.cerrarFormularioDePublicacion();

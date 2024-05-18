@@ -10,7 +10,7 @@
                 ({{ embarcacion.matricula }})
               </span>
               <button
-                *ngIf="!embarcacion.publicada"
+                *ngIf="!embarcacion.__isBienPublicado"
                 class="btn btn-primary"
                 (click)="abrirFormularioDePublicacion(embarcacion)"
               >
