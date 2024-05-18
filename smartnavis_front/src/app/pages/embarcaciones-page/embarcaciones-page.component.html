@@ -1,9 +1,9 @@
-<app-app-page titulo="Embarcaciones" subtitulo="Lista de embarcaciones">
+<app-app-page [titulo]="titulo" [subtitulo]="subtitulo">
   <div class="global-container local-container">
     <article>
-      <ol *ngIf="embarcaciones.length; else sinPublicaciones" class="p-0 m-0">
+      <ol *ngIf="bienes.length; else sinPublicaciones" class="p-0 m-0">
         <div>
-          <li *ngFor="let bien of embarcaciones">
+          <li *ngFor="let bien of bienes">
             <div>
               <span>
                 <b>{{ bien.nombre }}</b>
@@ -22,7 +22,7 @@
       </ol>
 
       <ng-template #sinPublicaciones>
-        <div *ngIf="!embarcaciones.length">
+        <div *ngIf="!bienes.length">
           <p class="alert alert-secondary">No hay embarcaciones disponibles.</p>
         </div>
       </ng-template>
@@ -38,11 +38,11 @@
         {{ mensajeFormulario.mensaje }}
       </div>
 
-      <div *ngIf="nuevaPublicacion?.bien" class="card">
+      <div *ngIf="bienSeleccionado" class="card">
         <form class="card-body">
           <h3 class="mb-4">
-            <b>{{ nuevaPublicacion.bien.nombre }}</b>
-            ({{ nuevaPublicacion.bien.matricula }})
+            <b>{{ bienSeleccionado.nombre }}</b>
+            ({{ bienSeleccionado.matricula }})
           </h3>
 
           <div class="form-group mb-2">
@@ -51,7 +51,7 @@
               for="titulo"
               id="titulo"
               class="form-control"
-              placeholder="Permuto {{ nuevaPublicacion.bien.nombre }}"
+              placeholder="Permuto {{ bienSeleccionado.nombre }}"
               [(ngModel)]="nuevaPublicacion.titulo"
               name="titulo"
             />
@@ -76,7 +76,7 @@
               type="submit"
               class="btn btn-primary mx-2"
               [disabled]="!nuevaPublicacionEsValida()"
-              (click)="publicarEmbarcacion()"
+              (click)="publicarBien()"
             >
               Publicar embarcación
             </button>
