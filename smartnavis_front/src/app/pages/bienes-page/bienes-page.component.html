@@ -6,11 +6,11 @@
           <li *ngFor="let bien of bienes">
             <div>
               <span>
-                <b>Bien {{ bien.dominio }}</b>
+                <b>Bien {{ bien.__dominio }}</b>
               </span>
 
               <button
-                *ngIf="!bien.publicado"
+                *ngIf="!bien.__isBienPublicado"
                 class="btn btn-primary"
                 (click)="abrirFormularioDePublicacion(bien)"
               >
@@ -41,7 +41,7 @@
       <div *ngIf="bienSeleccionado" class="card">
         <form class="card-body">
           <h3 class="mb-4">
-            <b>{{ bienSeleccionado.dominio }}</b>
+            <b>{{ bienSeleccionado.__dominio }}</b>
           </h3>
 
           <div class="form-group mb-2">
@@ -50,7 +50,7 @@
               for="titulo"
               id="titulo"
               class="form-control"
-              placeholder="Permuto {{ bienSeleccionado.dominio }}"
+              placeholder="Permuto {{ bienSeleccionado.__dominio }}"
               [(ngModel)]="nuevaPublicacion.titulo"
               name="titulo"
             />
