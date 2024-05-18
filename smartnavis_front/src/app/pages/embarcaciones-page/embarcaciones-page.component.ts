@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {NgIf, NgFor} from '@angular/common';
 import {RouterLink} from '@angular/router';

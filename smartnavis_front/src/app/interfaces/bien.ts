@@ -10,4 +10,8 @@ export interface Bien {
 
   __publicacion?: Publicacion;
   __isBienPublicado?: boolean;
+  __dominio?: string;
+  __patente?: string;
+  __partida?: string;
+  __matricula?: string;
 }
