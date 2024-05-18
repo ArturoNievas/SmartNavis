@@ -26,9 +26,9 @@ public class PublicacionController extends SmartNavisController<Publicacion, Lon
 
     @PostMapping("{id}/solicitar")
     public Permuta solicitar(@PathVariable("id") Long id, @RequestBody CrearPermutaInput input) {
-        return this.service.solicitar(this.service.getMustExist(id), input.getOfertada());
+        return this.service.solicitar(this.service.getMustExist(id), this.service.getMustExist(input.getOfertadaId()));
     }
-    
+
     // Por si queremos filtrar las publicaciones
     /*
     private Class<? extends Bien> obtenerClasePorTipo(String tipo) {
@@ -66,8 +66,7 @@ public class PublicacionController extends SmartNavisController<Publicacion, Lon
         }
     }
     */
-    
-    
+
 
     @Override
     protected Publicacion updateMapper(Publicacion publicacion, Publicacion nuevaPublicacion) {

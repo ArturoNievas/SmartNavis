@@ -9,11 +9,16 @@ import com.hexacore.smartnavis_api.service.PermutaService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> implements PermutaService {
+    private final PermutaRepository repository;
+
     public PermutaServiceImpl(PermutaRepository repository) {
         super(repository);
+        this.repository = repository;
     }
 
     @Override
@@ -45,12 +50,18 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
         return this.persist(permuta);
     }
 
-	@Override
-	public Permuta crear(Publicacion solicitada, Publicacion ofertada) {
-		Permuta p = new Permuta(solicitada, ofertada);
-		if (p.getSolicitada().getPermutasSolicitadas().contains(p)) {
-			throw new BadRequestException("El bien seleccionado ya fue ofertado para esta publicación.");
-		}
-		return this.repository.save(p);
-	}
+    @Override
+    public Permuta crear(Publicacion solicitada, Publicacion ofertada) {
+        if (solicitada.equals(ofertada)) {
+            throw new BadRequestException("El bien solicitado no puede ser igual al ofertado.");
+        }
+        if (solicitada.getBien().getTitular().equals(ofertada.getBien().getTitular())) {
+            throw new BadRequestException("El bien solicitado no puede ser del mismo titular.");
+        }
+        Optional<Permuta> permutaOptional = this.repository.findBySolicitadaAndOfertada(solicitada, ofertada);
+        if (permutaOptional.isPresent()) {
+            throw new BadRequestException("El bien seleccionado ya fue ofertado para esta publicación.");
+        }
+        return this.repository.save(new Permuta(solicitada, ofertada));
+    }
 }

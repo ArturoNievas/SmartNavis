@@ -34,20 +34,24 @@ public class Permuta {
     private List<Mensaje> mensajes;
 
     public Permuta() {
+        this.pendiente = true;
+        this.aceptada = false;
+        this.registrada = false;
+        this.finalizada = false;
         this.setMensajes(new ArrayList<>());
     }
 
     public Permuta(Publicacion solicitada, Publicacion ofertada) {
-		this.solicitada = solicitada;
-		this.ofertada = ofertada;
-		this.pendiente = true;
-		this.aceptada = false;
-		this.registrada = false;
-		this.finalizada = false;
-		this.setMensajes(new ArrayList<>());
-	}
+        this.solicitada = solicitada;
+        this.ofertada = ofertada;
+        this.pendiente = true;
+        this.aceptada = false;
+        this.registrada = false;
+        this.finalizada = false;
+        this.setMensajes(new ArrayList<>());
+    }
 
-	public Long getId() {
+    public Long getId() {
         return id;
     }
 
