@@ -957,6 +957,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "4b54a533-f287-4afd-b724-995bea83f0ed",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "permuta/:id/aceptar",
+      "responses": [
+        {
+          "uuid": "b08bdcfe-81dc-4c3a-8b51-2386cc309c6f",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1071,6 +1100,10 @@
     {
       "type": "route",
       "uuid": "051757c1-50e8-475e-b026-8c76924a8c0b"
+    },
+    {
+      "type": "route",
+      "uuid": "4b54a533-f287-4afd-b724-995bea83f0ed"
     }
   ],
   "proxyMode": false,

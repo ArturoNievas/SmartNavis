@@ -6,7 +6,7 @@
     >
       <div>
         <li *ngFor="let publicacion of publicacionesSolicitables">
-          <div>
+          <div class="publicacionSolicitable">
             <span>
               <b>{{ publicacion.titulo }}</b>
             </span>
@@ -29,6 +29,22 @@
               X
             </button>
           </div>
+          <ul *ngIf="publicacion.__permutasSolicitadas?.length">
+            <li *ngFor="let permuta of publicacion.__permutasSolicitadas">
+              <div class="permutasSolicitadas">
+                <span>
+                  <b>{{ permuta.ofertada.titulo }}</b> -
+                  {{ permuta.ofertada.bien.__dominio }}
+                </span>
+                <button
+                  (click)="aceptarPermuta(permuta)"
+                  class="btn btn-primary"
+                >
+                  Aceptar
+                </button>
+              </div>
+            </li>
+          </ul>
         </li>
       </div>
     </ol>
