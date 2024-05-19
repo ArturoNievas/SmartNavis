@@ -37,7 +37,7 @@ export class PublicacionService {
       `${this.publicacionUrl}/${publicacion.id}`,
       {
         descripcion: publicacion.descripcion,
-        titulo: publicacion.titulo
+        titulo: publicacion.titulo,
       }
     );
   }
@@ -56,8 +56,6 @@ export class PublicacionService {
   ): Observable<Publicacion> {
     const { __permutasSolicitadas, ..._publicacion } = publicacion;
 
-    console.log(_publicacion);
-
     return this.apiService.post<Publicacion>(
       `${this.publicacionUrl}/${publicacion.bien.id}/publicar`,
       _publicacion
@@ -70,7 +68,7 @@ export class PublicacionService {
   ): any {
     return this.apiService.post(
       `${this.publicacionUrl}/${publicacionSolicitada.bien.id}/solicitar`,
-      publicacionOfertada.id
+      { ofertadoId: publicacionOfertada.id }
     );
   }
 }
