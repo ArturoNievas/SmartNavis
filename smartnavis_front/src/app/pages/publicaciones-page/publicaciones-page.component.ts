@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PublicacionService } from '../../services/publicacion/publicacion.service';
 import { NgFor, NgIf } from '@angular/common';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { FormsModule } from '@angular/forms';
 import { Bien } from '../../interfaces/bien';
 import { Publicacion } from '../../interfaces/publicacion';
+import { PublicacionEmbarcacionService } from '../../services/publicacionEmbarcacion/publicacion-embarcacion.service';
 
 export enum EstadoFormulario {
   Modificar = 'modificar',
@@ -17,6 +18,21 @@ const bienAdapter = (bien: Bien | any): Bien => {
   return { ...bien, __dominio };
 };
 
+/* PÁGINA DE PUBLICACIONES
+ * Lista los bienes publicados por los usuarios.
+ * Las publicaciones pueden ser de bienes o de embarcaciones con amarra.
+ * Las publicaciones de bienes pueden ser solicitadas para intercambiar por publicaciones de embarcaciones con amarra.
+ * Las publicaciones de embarcaciones con amarra pueden ser solicitadas para intercambiar por cualquier publicación.
+ * Las publicaciones de embarcaciones con amarra pueden ser ofertadas para intercambiar por cualquier publicación.
+ *
+ * Una publicación A puede ser ofertada para intercambiar por la publicación solicitada B si:
+ * - A es una publicación de embarcación con amarra y B es una publicación de bien.
+ * - A es una publicación de bien y B es una publicación de embarcación con amarra.
+ * - A es una publicación de embarcación con amarra y B es una publicación de embarcación con amarra.
+ * - Titular del bien de la publicación A es distinto al titular del bien de la publicación B.
+ * - La publicación A no ha sido solicitada previamente para intercambiar por la publicación B.
+ */
+
 @Component({
   selector: 'app-publicaciones-page',
   standalone: true,
@@ -25,39 +41,66 @@ const bienAdapter = (bien: Bien | any): Bien => {
   styleUrls: ['./publicaciones-page.component.scss'],
 })
 export class PublicacionesPageComponent implements OnInit {
+  titulo: string = 'Publicaciones';
+  subtitulo?: string;
+
   readonly estados = EstadoFormulario;
 
+  todasLasPublicaciones: Publicacion[] = [];
+  publicacionesEmbarcaciones: Publicacion[] = [];
+
+  publicacionesSolicitables: Publicacion[] = [];
+  publicacionesOfertables: Publicacion[] = [];
+
   publicaciones: Publicacion[] = [];
-  titulo: string = 'Publicaciones';
 
   publicacionSeleccionada?: Publicacion;
+
   publicacionModificada?: Publicacion;
 
-  publicacionOfertadaId?: string;
-
-  publicacionesDisponiblesParaIntercambiar?: Publicacion[];
+  idPublicacionOfertada?: string;
+  publicacionOfertada?: Publicacion;
 
   estadoFormulario?: EstadoFormulario;
   mensajeFormulario?: { tipo: 'error' | 'exito'; mensaje: string };
-
-  // Añade el atributo para almacenar el ID del timeout
   private timeoutId?: number;
 
-  constructor(private publicacionService: PublicacionService) {}
+  constructor(
+    private publicacionService: PublicacionService,
+    private publicacionEmbarcacionService: PublicacionEmbarcacionService
+  ) {}
 
   ngOnInit(): void {
-    this.listarPublicaciones();
+    this.listarTodasLasPublicaciones();
+    this.listarPublicacionesEmbarcaciones();
   }
 
-  listarPublicaciones(): void {
+  listarTodasLasPublicaciones(): void {
     this.publicacionService
       .listarPublicaciones()
       .subscribe((publicaciones: Publicacion[]) => {
-        this.publicaciones = publicaciones.map((publicacion) => ({
+        this.todasLasPublicaciones = publicaciones.map((publicacion) => ({
           ...publicacion,
           bien: bienAdapter(publicacion.bien),
         }));
+        this.listarPublicacionesSolicitables();
       });
+  }
+
+  listarPublicacionesEmbarcaciones(): void {
+    this.publicacionEmbarcacionService
+      .listarPublicaciones()
+      .subscribe((publicaciones: Publicacion[]) => {
+        this.publicacionesEmbarcaciones = publicaciones.map((publicacion) => ({
+          ...publicacion,
+          bien: bienAdapter(publicacion.bien),
+        }));
+        this.listarPublicacionesSolicitables();
+      });
+  }
+
+  protected listarPublicacionesSolicitables(): void {
+    this.publicacionesSolicitables = this.todasLasPublicaciones;
   }
 
   seleccionarPublicacion(publicacion: Publicacion): void {
@@ -65,9 +108,48 @@ export class PublicacionesPageComponent implements OnInit {
     this.publicacionModificada = { ...publicacion };
 
     if (this.estadoFormulario === EstadoFormulario.Intercambiar) {
-      this.publicacionesDisponiblesParaIntercambiar =
-        this.obtenerPublicacionesDisponiblesParaIntercambiar();
+      this.publicacionesOfertables = this.obtenerPublicacionesOfertables();
     }
+  }
+
+  protected obtenerPublicacionesOfertables(): Publicacion[] {
+    if (!this.publicacionSeleccionada) {
+      return [];
+    }
+
+    const publicacionSeleccionadaEsEmbarcacionConAmarra =
+      this.publicacionesEmbarcaciones.some(
+        (publicacion) => publicacion.id === this.publicacionSeleccionada?.id
+      );
+
+    const ofertables = publicacionSeleccionadaEsEmbarcacionConAmarra
+      ? this.todasLasPublicaciones
+      : this.publicacionesEmbarcaciones;
+
+    const titularDiferente = (ofertada: Publicacion, solicitada: Publicacion) =>
+      solicitada.bien.titular !== ofertada.bien.titular;
+
+    const publicacionDiferente = (
+      ofertada: Publicacion,
+      solicitada: Publicacion
+    ) => solicitada.id !== ofertada.id;
+
+    const ofertadaPreviamente = (
+      ofertada: Publicacion,
+      solicitada: Publicacion
+    ) =>
+      solicitada.__permutasSolicitadas?.some(
+        (permuta) => permuta.ofertada.id === ofertada.id
+      );
+
+    const publicacionesOfertables = ofertables.filter(
+      (publicacion) =>
+        titularDiferente(publicacion, this.publicacionSeleccionada!) &&
+        publicacionDiferente(publicacion, this.publicacionSeleccionada!) &&
+        !ofertadaPreviamente(publicacion, this.publicacionSeleccionada!)
+    );
+
+    return publicacionesOfertables;
   }
 
   abrirFormulario(estado: EstadoFormulario, publicacion: Publicacion): void {
@@ -78,43 +160,6 @@ export class PublicacionesPageComponent implements OnInit {
       this.resetearFormulario();
       this.seleccionarPublicacion(publicacion);
     }
-
-    if (estado === EstadoFormulario.Intercambiar) {
-      this.publicacionesDisponiblesParaIntercambiar =
-        this.obtenerPublicacionesDisponiblesParaIntercambiar();
-    }
-  }
-
-  private obtenerPublicacionesDisponiblesParaIntercambiar(): Publicacion[] {
-    return this.publicaciones.filter((publicacion) =>
-      this.esPublicacionDisponibleParaIntercambiar(publicacion)
-    );
-  }
-
-  private esPublicacionDisponibleParaIntercambiar(
-    publicacion: Publicacion
-  ): boolean {
-    return (
-      publicacion.id !== this.publicacionSeleccionada?.id &&
-      !this.permutaEsRepetida(publicacion) &&
-      !this.permutaEsDelMismoTitular(publicacion)
-    );
-  }
-
-  private permutaEsRepetida(publicacion: Publicacion): boolean {
-    if (!this.publicacionSeleccionada?.__permutasSolicitadas) {
-      return false;
-    }
-    return this.publicacionSeleccionada.__permutasSolicitadas.some(
-      (permuta) => permuta.ofertada.id === publicacion.id
-    );
-  }
-
-  private permutaEsDelMismoTitular(publicacion: Publicacion): boolean {
-    return (
-      this.publicacionSeleccionada?.bien.titular.id ===
-      publicacion.bien.titular.id
-    );
   }
 
   cerrarFormulario(): void {
@@ -126,7 +171,9 @@ export class PublicacionesPageComponent implements OnInit {
 
   resetearFormulario(): void {
     this.publicacionModificada = undefined;
-    this.publicacionesDisponiblesParaIntercambiar = undefined;
+    this.idPublicacionOfertada = undefined;
+    this.publicacionOfertada = undefined;
+    this.publicacionesOfertables = [];
   }
 
   resetearMensajeFormulario(): void {
@@ -168,11 +215,13 @@ export class PublicacionesPageComponent implements OnInit {
       .actualizarPublicacion(this.publicacionModificada!)
       .subscribe({
         next: () => {
-          const index = this.publicaciones.findIndex(
+          const index = this.todasLasPublicaciones.findIndex(
             (publicacion) => publicacion.id === this.publicacionModificada?.id
           );
           if (index !== -1) {
-            this.publicaciones[index] = { ...this.publicacionModificada! };
+            this.todasLasPublicaciones[index] = {
+              ...this.publicacionModificada!,
+            };
           }
           this.resetearFormulario();
           this.cerrarFormulario();
@@ -190,37 +239,40 @@ export class PublicacionesPageComponent implements OnInit {
       throw new Error('No existe publicación seleccionada');
     }
 
-    if (!this.publicacionOfertadaId) {
-      console.log(this.publicacionOfertadaId);
-      throw new Error('No existe publicación ofertada id');
+    if (this.idPublicacionOfertada) {
+      this.publicacionOfertada = this.todasLasPublicaciones.find(
+        (publicacion) => {
+          return (
+            publicacion.id?.toString() ===
+            this.idPublicacionOfertada?.toString()
+          );
+        }
+      );
     }
 
-    const publicacionOfertada = this.publicaciones.find((publicacion) => {
-      console.log(publicacion.id, this.publicacionOfertadaId);
-      return +publicacion.id! === +this.publicacionOfertadaId!;
-    });
-
-    if (!publicacionOfertada) {
+    if (!this.publicacionOfertada) {
       throw new Error('No existe publicación ofertada');
     }
 
     this.publicacionService
-      .solicitarIntercambio(this.publicacionSeleccionada, publicacionOfertada)
+      .solicitarIntercambio(
+        this.publicacionSeleccionada,
+        this.publicacionOfertada
+      )
       .subscribe({
         next: () => {
           if (!this.publicacionSeleccionada!.__permutasSolicitadas) {
             this.publicacionSeleccionada!.__permutasSolicitadas = [];
           }
+
           this.publicacionSeleccionada!.__permutasSolicitadas.push({
             solicitada: this.publicacionSeleccionada!,
-            ofertada: publicacionOfertada!,
+            ofertada: this.publicacionOfertada!,
             pendiente: true,
             aceptada: false,
             registrada: false,
             finalizada: false,
           });
-
-          console.log(this.publicaciones);
 
           this.resetearFormulario();
           this.cerrarFormulario();
@@ -238,16 +290,23 @@ export class PublicacionesPageComponent implements OnInit {
 
   eliminarPublicacion(): void {
     if (!this.publicacionSeleccionada) {
-      throw new Error('No existe publicación seleccionada');
+      throw new Error('No existe publicación seleccionada o datos inválidos');
     }
 
     this.publicacionService
       .eliminarPublicacion(this.publicacionSeleccionada)
       .subscribe({
         next: () => {
-          this.publicaciones = this.publicaciones.filter(
-            (publicacion) => publicacion.id !== this.publicacionSeleccionada?.id
+          this.todasLasPublicaciones = this.eliminarPublicacionDeLista(
+            this.todasLasPublicaciones
           );
+          this.publicacionesEmbarcaciones = this.eliminarPublicacionDeLista(
+            this.publicacionesEmbarcaciones
+          );
+          this.publicacionesSolicitables = this.eliminarPublicacionDeLista(
+            this.publicacionesSolicitables
+          );
+
           this.resetearFormulario();
           this.cerrarFormulario();
           this.mostrarMensaje('exito', 'Publicación eliminada correctamente');
@@ -259,10 +318,19 @@ export class PublicacionesPageComponent implements OnInit {
       });
   }
 
+  private eliminarPublicacionDeLista(lista: Publicacion[]): Publicacion[] {
+    if (!this.publicacionSeleccionada) {
+      return lista;
+    }
+
+    return lista.filter(
+      (publicacion) => publicacion.id !== this.publicacionSeleccionada!.id
+    );
+  }
+
   private mostrarMensaje(tipo: 'exito' | 'error', mensaje: string): void {
     this.mensajeFormulario = { tipo, mensaje };
 
-    // Limpia cualquier timeout existente antes de establecer uno nuevo
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }

@@ -1,8 +1,11 @@
 <app-app-page [titulo]="titulo">
   <div class="global-container local-container">
-    <ol *ngIf="publicaciones.length; else sinPublicaciones" class="p-0 m-0">
+    <ol
+      *ngIf="publicacionesSolicitables.length; else sinPublicaciones"
+      class="p-0 m-0"
+    >
       <div>
-        <li *ngFor="let publicacion of publicaciones">
+        <li *ngFor="let publicacion of publicacionesSolicitables">
           <div>
             <span>
               <b>{{ publicacion.titulo }}</b>
@@ -181,11 +184,11 @@
         <select
           name="elegirPublicacionParaOfertar"
           class="form-select"
-          [(ngModel)]="publicacionOfertadaId"
+          [(ngModel)]="idPublicacionOfertada"
         >
           <option
             [value]="publicacion.id"
-            *ngFor="let publicacion of publicacionesDisponiblesParaIntercambiar"
+            *ngFor="let publicacion of publicacionesOfertables"
           >
             {{ publicacion.titulo }} - {{ publicacion.bien.__dominio }} de
             {{ publicacion.bien.titular.nombres }}
@@ -199,7 +202,7 @@
           (click)="intercambiarPublicacion()"
           type="submit"
           class="btn btn-primary mx-2"
-          [disabled]="!publicacionOfertadaId"
+          [disabled]="!idPublicacionOfertada"
         >
           Solicitar intercambio
         </button>
