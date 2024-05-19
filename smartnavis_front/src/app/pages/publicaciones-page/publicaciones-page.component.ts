@@ -147,7 +147,6 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
       );
 
     const publicacionConPermutaAceptada = (publicacion: Publicacion) => {
-      console.log(this.publicacionesConPermutaAceptada, publicacion);
       return this.publicacionesConPermutaAceptada.some(
         (publicacionAceptada) => publicacionAceptada.id === publicacion.id
       );

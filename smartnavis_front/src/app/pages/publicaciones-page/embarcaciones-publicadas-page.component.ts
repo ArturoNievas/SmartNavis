@@ -8,6 +8,7 @@ import { PublicacionEmbarcacionService } from '../../services/publicacionEmbarca
 import { PublicacionesPageComponent } from './publicaciones-page.component';
 import { PublicacionService } from '../../services/publicacion/publicacion.service';
 import { PermutaService } from '../../services/permuta/permuta.service';
+import { Permuta } from '../../interfaces/permuta';
 
 @Component({
   selector: 'app-embarcaciones-publicadas-page',
@@ -28,5 +29,13 @@ export class EmbarcacionesPublicadasPageComponent extends PublicacionesPageCompo
 
   protected override listarPublicacionesSolicitables(): void {
     this.publicacionesSolicitables = this.publicacionesEmbarcaciones;
+    this.filtrarPublicacionesSolicitablesConPermutasAceptadas();
+  }
+
+  public override aceptarPermuta(permuta: Permuta): void {
+    super.aceptarPermuta(permuta);
+    this.publicacionesSolicitables = this.publicacionesSolicitables.filter(
+      (publicacion) => publicacion.id !== permuta.ofertada.id
+    );
   }
 }
