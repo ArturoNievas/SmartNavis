@@ -35,7 +35,10 @@ export class PublicacionService {
 
     return this.apiService.put<Publicacion>(
       `${this.publicacionUrl}/${publicacion.id}`,
-      publicacion
+      {
+        descripcion: publicacion.descripcion,
+        titulo: publicacion.titulo
+      }
     );
   }
 
