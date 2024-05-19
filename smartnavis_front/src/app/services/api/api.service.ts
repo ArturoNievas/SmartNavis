@@ -47,14 +47,14 @@ export class ApiService {
     );
   }
 
-  public post<T>(endpoint: string, payload: T): Observable<T> {
+  public post<T>(endpoint: string, payload: any): Observable<T> {
     return this.http.post<T>(this.baseUrl + endpoint, payload, {}).pipe(
       retry(environment.apiRetryAttempts),
       catchError((error) => this.handleError(error, 'POST', endpoint, payload)),
     );
   }
 
-  public put<T>(endpoint: string, payload: T): Observable<T> {
+  public put<T>(endpoint: string, payload: any): Observable<T> {
     return this.http
       .put<T>(this.baseUrl + endpoint, payload, {})
       .pipe(
