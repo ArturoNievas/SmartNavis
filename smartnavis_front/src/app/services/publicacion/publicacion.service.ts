@@ -32,6 +32,7 @@ export class PublicacionService {
         () => new Error('No es posible actualizar la publicacion (no id).')
       );
     }
+
     return this.apiService.put<Publicacion>(
       `${this.publicacionUrl}/${publicacion.id}`,
       publicacion
@@ -51,6 +52,8 @@ export class PublicacionService {
     publicacion: Publicacion
   ): Observable<Publicacion> {
     const { __permutasSolicitadas, ..._publicacion } = publicacion;
+
+    console.log(_publicacion);
 
     return this.apiService.post<Publicacion>(
       `${this.publicacionUrl}/${publicacion.bien.id}/publicar`,

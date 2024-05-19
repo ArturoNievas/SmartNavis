@@ -52,8 +52,6 @@ export class PublicacionesPageComponent implements OnInit {
   publicacionesSolicitables: Publicacion[] = [];
   publicacionesOfertables: Publicacion[] = [];
 
-  publicaciones: Publicacion[] = [];
-
   publicacionSeleccionada?: Publicacion;
 
   publicacionModificada?: Publicacion;
@@ -211,27 +209,28 @@ export class PublicacionesPageComponent implements OnInit {
       throw new Error('No hay cambios en la publicación');
     }
 
-    this.publicacionService
-      .actualizarPublicacion(this.publicacionModificada!)
-      .subscribe({
-        next: () => {
-          const index = this.todasLasPublicaciones.findIndex(
-            (publicacion) => publicacion.id === this.publicacionModificada?.id
-          );
-          if (index !== -1) {
-            this.todasLasPublicaciones[index] = {
-              ...this.publicacionModificada!,
-            };
-          }
-          this.resetearFormulario();
-          this.cerrarFormulario();
-          this.mostrarMensaje('exito', 'Publicación modificada correctamente');
-        },
-        error: (error) => {
-          console.error('Error al modificar publicación.', error);
-          this.mostrarMensaje('error', error.message || error);
-        },
-      });
+    const { __permutasSolicitadas, ...publicacion } =
+      this.publicacionModificada;
+
+    this.publicacionService.actualizarPublicacion(publicacion).subscribe({
+      next: () => {
+        const index = this.todasLasPublicaciones.findIndex(
+          (publicacion) => publicacion.id === this.publicacionModificada?.id
+        );
+        if (index !== -1) {
+          this.todasLasPublicaciones[index] = {
+            ...this.publicacionModificada!,
+          };
+        }
+        this.resetearFormulario();
+        this.cerrarFormulario();
+        this.mostrarMensaje('exito', 'Publicación modificada correctamente');
+      },
+      error: (error) => {
+        console.error('Error al modificar publicación.', error);
+        this.mostrarMensaje('error', error.message || error);
+      },
+    });
   }
 
   intercambiarPublicacion(): void {
