@@ -17,11 +17,8 @@ import { Embarcacion } from '../../interfaces/embarcacion';
   styleUrl: '../publicaciones-page/publicaciones-page.component.scss',
 })
 export class EmbarcacionesPublicadasPageComponent extends PublicacionesPageComponent {
-  constructor(
-    publicacionService: PublicacionEmbarcacionService,
-    bienService: BienService<Embarcacion>
-  ) {
-    super(publicacionService, bienService);
+  constructor(publicacionService: PublicacionEmbarcacionService) {
+    super(publicacionService);
     this.titulo = 'Embarcaciones Publicadas';
   }
 }

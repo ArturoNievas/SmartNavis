@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Publicacion } from '../../interfaces/publicacion';
 import { Observable, throwError } from 'rxjs';
+import { Permuta } from '../../interfaces/permuta';
 
 @Injectable({
   providedIn: 'root',
@@ -49,9 +50,21 @@ export class PublicacionService {
   public publicarPublicacion(
     publicacion: Publicacion
   ): Observable<Publicacion> {
+    const { __permutasSolicitadas, ..._publicacion } = publicacion;
+
     return this.apiService.post<Publicacion>(
       `${this.publicacionUrl}/${publicacion.bien.id}/publicar`,
-      publicacion
+      _publicacion
+    );
+  }
+
+  public solicitarIntercambio(
+    publicacionSolicitada: Publicacion,
+    publicacionOfertada: Publicacion
+  ): any {
+    return this.apiService.post(
+      `${this.publicacionUrl}/${publicacionSolicitada.bien.id}/solicitar`,
+      publicacionOfertada.id
     );
   }
 }

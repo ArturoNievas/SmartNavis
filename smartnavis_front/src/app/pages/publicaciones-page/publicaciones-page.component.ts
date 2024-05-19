@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PublicacionService } from '../../services/publicacion/publicacion.service';
 import { NgFor, NgIf } from '@angular/common';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { FormsModule } from '@angular/forms';
 import { Bien } from '../../interfaces/bien';
 import { Publicacion } from '../../interfaces/publicacion';
-import { BienService } from '../../services/bien/bien.service';
-import { ApiService } from '../../services/api/api.service';
 
 export enum EstadoFormulario {
   Modificar = 'modificar',
@@ -14,76 +12,61 @@ export enum EstadoFormulario {
   Eliminar = 'eliminar',
 }
 
+const bienAdapter = (bien: Bien | any): Bien => {
+  const __dominio = bien?.patente || bien?.partida || bien?.matricula;
+  return { ...bien, __dominio };
+};
+
 @Component({
   selector: 'app-publicaciones-page',
   standalone: true,
   imports: [NgFor, NgIf, AppPageComponent, FormsModule],
   templateUrl: './publicaciones-page.component.html',
-  styleUrl: './publicaciones-page.component.scss',
+  styleUrls: ['./publicaciones-page.component.scss'],
 })
-export class PublicacionesPageComponent {
-  readonly estados: typeof EstadoFormulario = EstadoFormulario;
+export class PublicacionesPageComponent implements OnInit {
+  readonly estados = EstadoFormulario;
 
-  publicaciones: any[] = [];
-  titulo?: string;
+  publicaciones: Publicacion[] = [];
+  titulo: string = 'Publicaciones';
 
-  /*  */
-  public publicacionSeleccionada?: undefined | Publicacion;
-  public publicacionModificada?: undefined | Publicacion;
+  publicacionSeleccionada?: Publicacion;
+  publicacionModificada?: Publicacion;
 
-  public bienes: any[] = [];
-  public bienesDisponiblesParaIntercambiar?: Bien[];
+  publicacionOfertadaId?: string;
 
-  estadoFormulario: undefined | EstadoFormulario;
-  mensajeFormulario?: {
-    tipo: 'error' | 'exito';
-    mensaje: string;
-  };
+  publicacionesDisponiblesParaIntercambiar?: Publicacion[];
 
-  /* MÉTODOS */
-  constructor(
-    private publicacionService: PublicacionService,
-    private bienService: BienService<Bien>
-  ) {
-    this.titulo = 'Publicaciones';
-  }
+  estadoFormulario?: EstadoFormulario;
+  mensajeFormulario?: { tipo: 'error' | 'exito'; mensaje: string };
+
+  // Añade el atributo para almacenar el ID del timeout
+  private timeoutId?: number;
+
+  constructor(private publicacionService: PublicacionService) {}
 
   ngOnInit(): void {
     this.listarPublicaciones();
-    this.listarBienes();
   }
 
   listarPublicaciones(): void {
     this.publicacionService
       .listarPublicaciones()
-      .subscribe((publicaciones: any[]) => {
-        this.publicaciones = publicaciones;
-        console.log(this.publicaciones);
+      .subscribe((publicaciones: Publicacion[]) => {
+        this.publicaciones = publicaciones.map((publicacion) => ({
+          ...publicacion,
+          bien: bienAdapter(publicacion.bien),
+        }));
       });
-  }
-
-  protected bienAdapter = (bien: Bien | any) => {
-    const __dominio = bien?.patente || bien?.partida || bien?.matricula;
-
-    return {
-      ...bien,
-      __dominio,
-    };
-  };
-
-  protected listarBienes(): void {
-    this.bienService.listarBienes().subscribe((bienes: Bien[]) => {
-      this.bienes = bienes.map((bien) => this.bienAdapter(bien));
-    });
   }
 
   seleccionarPublicacion(publicacion: Publicacion): void {
     this.publicacionSeleccionada = publicacion;
     this.publicacionModificada = { ...publicacion };
 
-    if (this.estadoFormulario === this.estados.Intercambiar) {
-      this.bienesDisponiblesParaIntercambiar =
-        this.obtenerBienesDisponiblesParaIntercambiar();
+    if (this.estadoFormulario === EstadoFormulario.Intercambiar) {
+      this.publicacionesDisponiblesParaIntercambiar =
+        this.obtenerPublicacionesDisponiblesParaIntercambiar();
     }
   }
 
@@ -95,70 +78,77 @@ export class PublicacionesPageComponent {
       this.resetearFormulario();
       this.seleccionarPublicacion(publicacion);
     }
+
+    if (estado === EstadoFormulario.Intercambiar) {
+      this.publicacionesDisponiblesParaIntercambiar =
+        this.obtenerPublicacionesDisponiblesParaIntercambiar();
+    }
   }
 
-  private obtenerBienesDisponiblesParaIntercambiar(): Bien[] {
-    return this.bienes.filter((bien) =>
-      this.esBienDisponibleParaIntercambiar(bien)
+  private obtenerPublicacionesDisponiblesParaIntercambiar(): Publicacion[] {
+    return this.publicaciones.filter((publicacion) =>
+      this.esPublicacionDisponibleParaIntercambiar(publicacion)
     );
   }
 
-  private esBienDisponibleParaIntercambiar(bien: Bien): boolean {
+  private esPublicacionDisponibleParaIntercambiar(
+    publicacion: Publicacion
+  ): boolean {
     return (
-      bien.id !== this.publicacionSeleccionada?.bien.id &&
-      this.permutaNoEsRepetida(bien) &&
-      this.permutaNoEsMismoTitular(bien)
+      publicacion.id !== this.publicacionSeleccionada?.id &&
+      !this.permutaEsRepetida(publicacion) &&
+      !this.permutaEsDelMismoTitular(publicacion)
     );
   }
 
-  private permutaNoEsRepetida(bien: Bien): boolean {
+  private permutaEsRepetida(publicacion: Publicacion): boolean {
     if (!this.publicacionSeleccionada?.__permutasSolicitadas) {
-      return true;
+      return false;
     }
-
-    return !this.publicacionSeleccionada.__permutasSolicitadas.some(
-      (permuta) => permuta.solicitada.bien.id === bien.id
+    return this.publicacionSeleccionada.__permutasSolicitadas.some(
+      (permuta) => permuta.ofertada.id === publicacion.id
     );
   }
 
-  private permutaNoEsMismoTitular(bien: Bien): boolean {
-    if (!this.publicacionSeleccionada) {
-      return true;
-    }
-
-    return this.publicacionSeleccionada.bien.titular.id !== bien.titular.id;
+  private permutaEsDelMismoTitular(publicacion: Publicacion): boolean {
+    return (
+      this.publicacionSeleccionada?.bien.titular.id ===
+      publicacion.bien.titular.id
+    );
   }
 
   cerrarFormulario(): void {
+    this.resetearFormulario();
     this.resetearMensajeFormulario();
-
     this.publicacionSeleccionada = undefined;
-    this.publicacionModificada = undefined;
     this.estadoFormulario = undefined;
   }
 
   resetearFormulario(): void {
     this.publicacionModificada = undefined;
-    this.bienesDisponiblesParaIntercambiar = undefined;
+    this.publicacionesDisponiblesParaIntercambiar = undefined;
   }
 
   resetearMensajeFormulario(): void {
     this.mensajeFormulario = undefined;
   }
 
-  /* MODIFICAR PUBLICACION */
-  private validarModificacion(value: any): boolean {
-    return Boolean(value);
-  }
   publicacionModificadaEsValida(): boolean {
     return (
-      this.validarModificacion(this.publicacionModificada?.titulo) &&
-      this.validarModificacion(this.publicacionModificada?.descripcion) &&
+      this.validarCampo(this.publicacionModificada?.titulo) &&
+      this.validarCampo(this.publicacionModificada?.descripcion) &&
       this.hayCambios(this.publicacionSeleccionada, this.publicacionModificada)
     );
   }
 
-  private hayCambios(anterior: any, actual: any): boolean {
+  private validarCampo(value?: string): boolean {
+    return Boolean(value && value.trim());
+  }
+
+  private hayCambios(anterior?: Publicacion, actual?: Publicacion): boolean {
+    if (!anterior || !actual) {
+      return false;
+    }
     return (
       anterior.titulo.trim() !== actual.titulo.trim() ||
       anterior.descripcion.trim() !== actual.descripcion.trim()
@@ -167,96 +157,118 @@ export class PublicacionesPageComponent {
 
   modificarPublicacion(): void {
     if (!this.publicacionSeleccionada) {
-      throw new Error('No existe publicación seleccionada'); // TODO: Fix this
+      throw new Error('No existe publicación seleccionada o datos inválidos');
     }
 
-    const manejadorTimeout = crearManejadorTimeout();
+    if (!this.publicacionModificada) {
+      throw new Error('No hay cambios en la publicación');
+    }
 
     this.publicacionService
       .actualizarPublicacion(this.publicacionModificada!)
       .subscribe({
         next: () => {
-          const modificada = this.publicaciones.findIndex(
+          const index = this.publicaciones.findIndex(
             (publicacion) => publicacion.id === this.publicacionModificada?.id
           );
-          this.publicaciones[modificada] = { ...this.publicacionModificada };
-
+          if (index !== -1) {
+            this.publicaciones[index] = { ...this.publicacionModificada! };
+          }
           this.resetearFormulario();
           this.cerrarFormulario();
-
-          this.mensajeFormulario = {
-            tipo: 'exito',
-            mensaje: 'Publicación modificada correctamente',
-          };
-          manejadorTimeout.limpiarTimeout();
-          manejadorTimeout.establecerTimeout(() => {
-            this.mensajeFormulario = undefined;
-          }, 10000);
+          this.mostrarMensaje('exito', 'Publicación modificada correctamente');
         },
         error: (error) => {
-          console.error('Error al publicar bien.', error);
-          this.mensajeFormulario = {
-            tipo: 'error',
-            mensaje: error,
-          };
+          console.error('Error al modificar publicación.', error);
+          this.mostrarMensaje('error', error.message || error);
         },
       });
   }
 
-  /* INTERCAMBIAR PUBLICACION */
-  intercambiarPublicacion() {}
+  intercambiarPublicacion(): void {
+    if (!this.publicacionSeleccionada) {
+      throw new Error('No existe publicación seleccionada');
+    }
 
-  /* ELIMINAR PUBLICACION */
+    if (!this.publicacionOfertadaId) {
+      console.log(this.publicacionOfertadaId);
+      throw new Error('No existe publicación ofertada id');
+    }
+
+    const publicacionOfertada = this.publicaciones.find((publicacion) => {
+      console.log(publicacion.id, this.publicacionOfertadaId);
+      return +publicacion.id! === +this.publicacionOfertadaId!;
+    });
+
+    if (!publicacionOfertada) {
+      throw new Error('No existe publicación ofertada');
+    }
+
+    this.publicacionService
+      .solicitarIntercambio(this.publicacionSeleccionada, publicacionOfertada)
+      .subscribe({
+        next: () => {
+          if (!this.publicacionSeleccionada!.__permutasSolicitadas) {
+            this.publicacionSeleccionada!.__permutasSolicitadas = [];
+          }
+          this.publicacionSeleccionada!.__permutasSolicitadas.push({
+            solicitada: this.publicacionSeleccionada!,
+            ofertada: publicacionOfertada!,
+            pendiente: true,
+            aceptada: false,
+            registrada: false,
+            finalizada: false,
+          });
+
+          console.log(this.publicaciones);
+
+          this.resetearFormulario();
+          this.cerrarFormulario();
+          this.mostrarMensaje(
+            'exito',
+            'Publicación intercambiada correctamente'
+          );
+        },
+        error: (error: any) => {
+          console.error('Error al intercambiar publicación.', error);
+          this.mostrarMensaje('error', error.message || error);
+        },
+      });
+  }
+
   eliminarPublicacion(): void {
     if (!this.publicacionSeleccionada) {
       throw new Error('No existe publicación seleccionada');
     }
 
-    const manejadorTimeout = crearManejadorTimeout();
-
     this.publicacionService
       .eliminarPublicacion(this.publicacionSeleccionada)
       .subscribe({
         next: () => {
-          const eliminada = this.publicaciones.findIndex(
-            (publicacion) => publicacion.id === this.publicacionSeleccionada?.id
+          this.publicaciones = this.publicaciones.filter(
+            (publicacion) => publicacion.id !== this.publicacionSeleccionada?.id
           );
-          this.publicaciones.splice(eliminada, 1);
-
           this.resetearFormulario();
           this.cerrarFormulario();
-
-          this.mensajeFormulario = {
-            tipo: 'exito',
-            mensaje: 'Publicación eliminada correctamente',
-          };
-          manejadorTimeout.limpiarTimeout();
-          manejadorTimeout.establecerTimeout(() => {
-            this.mensajeFormulario = undefined;
-          }, 10000);
+          this.mostrarMensaje('exito', 'Publicación eliminada correctamente');
         },
         error: (error) => {
           console.error('Error al eliminar publicación.', error);
-          this.mensajeFormulario = {
-            tipo: 'error',
-            mensaje: error,
-          };
+          this.mostrarMensaje('error', error.message || error);
         },
       });
   }
+
+  private mostrarMensaje(tipo: 'exito' | 'error', mensaje: string): void {
+    this.mensajeFormulario = { tipo, mensaje };
+
+    // Limpia cualquier timeout existente antes de establecer uno nuevo
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+
+    this.timeoutId = window.setTimeout(() => {
+      this.mensajeFormulario = undefined;
+    }, 10000);
+  }
 }
-
-const crearManejadorTimeout = () => {
-  let timeoutId: any;
-
-  return {
-    establecerTimeout: (callback: () => void, delay: number) => {
-      timeoutId = setTimeout(callback, delay);
-    },
-    limpiarTimeout: () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    },
-  };
-};

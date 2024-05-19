@@ -175,18 +175,32 @@
       </h3>
 
       <div class="form-group mb-2">
-        <select name="bien" class="form-select">
+        <label for="elegirPublicacionParaOfertar" class="form-label">
+          Elegir publicación para ofertar
+        </label>
+        <select
+          name="elegirPublicacionParaOfertar"
+          class="form-select"
+          [(ngModel)]="publicacionOfertadaId"
+        >
           <option
-            [value]="item"
-            *ngFor="let item of bienesDisponiblesParaIntercambiar"
+            [value]="publicacion.id"
+            *ngFor="let publicacion of publicacionesDisponiblesParaIntercambiar"
           >
-            {{ item.__dominio }}
+            {{ publicacion.titulo }} - {{ publicacion.bien.__dominio }} de
+            {{ publicacion.bien.titular.nombres }}
+            {{ publicacion.bien.titular.apellidos }}
           </option>
         </select>
       </div>
 
       <div class="form-group">
-        <button type="submit" class="btn btn-primary mx-2">
+        <button
+          (click)="intercambiarPublicacion()"
+          type="submit"
+          class="btn btn-primary mx-2"
+          [disabled]="!publicacionOfertadaId"
+        >
           Solicitar intercambio
         </button>
 

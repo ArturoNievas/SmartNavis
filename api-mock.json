@@ -928,6 +928,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "051757c1-50e8-475e-b026-8c76924a8c0b",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "publicacion/:id/solicitar",
+      "responses": [
+        {
+          "uuid": "2fa958c9-35bd-4ae4-b223-8661f7591f3a",
+          "body": "{\n  \n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1038,6 +1067,10 @@
     {
       "type": "route",
       "uuid": "ce8fb8d0-e658-4274-9fbf-fd3e231a02a3"
+    },
+    {
+      "type": "route",
+      "uuid": "051757c1-50e8-475e-b026-8c76924a8c0b"
     }
   ],
   "proxyMode": false,
