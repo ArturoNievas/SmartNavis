@@ -1,9 +1,6 @@
 package com.hexacore.smartnavis_api.service.impl;
 
-import com.hexacore.smartnavis_api.model.Bien;
-import com.hexacore.smartnavis_api.model.Embarcacion;
-import com.hexacore.smartnavis_api.model.Permuta;
-import com.hexacore.smartnavis_api.model.Publicacion;
+import com.hexacore.smartnavis_api.model.*;
 import com.hexacore.smartnavis_api.repository.PublicacionRepository;
 import com.hexacore.smartnavis_api.service.PermutaService;
 import com.hexacore.smartnavis_api.service.PublicacionService;
@@ -22,7 +19,7 @@ public class PublicacionServiceImpl extends SmartNavisServiceImpl<Publicacion, L
     public PublicacionServiceImpl(PublicacionRepository repository, PermutaService permutaService) {
         super(repository);
         this.repository = repository;
-		this.permutaService = permutaService;
+        this.permutaService = permutaService;
     }
 
     @Override
@@ -40,13 +37,18 @@ public class PublicacionServiceImpl extends SmartNavisServiceImpl<Publicacion, L
         return this.repository.save(new Publicacion(titulo, descripcion, bien));
     }
 
-	@Override
-	public List<Publicacion> buscarPorTipo(Class<? extends Bien> tipo) {
-		return this.repository.buscarPorTipo(tipo);
-	}
+    @Override
+    public List<Publicacion> buscarPorTipo(Class<? extends Bien> tipo) {
+        return this.repository.buscarPorTipo(tipo);
+    }
 
-	@Override
-	public Permuta solicitar(Publicacion solicitada, Publicacion ofertada) {
-		return this.permutaService.crear(solicitada, ofertada);
-	}
+    @Override
+    public Permuta solicitar(Publicacion solicitada, Publicacion ofertada) {
+        return this.permutaService.crear(solicitada, ofertada);
+    }
+
+    @Override
+    public Iterable<Publicacion> buscarPorUsuario(Usuario usuario) {
+        return this.repository.findByTitularBien(usuario);
+    }
 }

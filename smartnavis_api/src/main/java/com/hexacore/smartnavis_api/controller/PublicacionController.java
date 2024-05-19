@@ -6,7 +6,6 @@ import com.hexacore.smartnavis_api.service.PublicacionService;
 import org.springframework.web.bind.annotation.*;
 
 import com.hexacore.smartnavis_api.controller.input.CrearPermutaInput;
-import com.hexacore.smartnavis_api.controller.input.CrearPublicacionInput;
 import com.hexacore.smartnavis_api.model.*;
 
 @RestController
