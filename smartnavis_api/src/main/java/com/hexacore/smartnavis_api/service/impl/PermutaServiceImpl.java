@@ -2,30 +2,31 @@ package com.hexacore.smartnavis_api.service.impl;
 
 import com.hexacore.smartnavis_api.exception.BadRequestException;
 import com.hexacore.smartnavis_api.exception.NotFoundException;
-import com.hexacore.smartnavis_api.model.Alquiler;
-import com.hexacore.smartnavis_api.model.AlquilerTemporal;
-import com.hexacore.smartnavis_api.model.Bien;
 import com.hexacore.smartnavis_api.model.Embarcacion;
 import com.hexacore.smartnavis_api.model.Permuta;
 import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.repository.AlquilerRepository;
+import com.hexacore.smartnavis_api.repository.EmbarcacionRepository;
 import com.hexacore.smartnavis_api.repository.PermutaRepository;
 import com.hexacore.smartnavis_api.service.PermutaService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
 public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> implements PermutaService {
     private final PermutaRepository repository;
     private final AlquilerRepository alquilerRepository;
+    private final EmbarcacionRepository embarcacionRepository;
 
-    public PermutaServiceImpl(PermutaRepository repository, AlquilerRepository alquilerRepository) {
+    public PermutaServiceImpl(PermutaRepository repository, AlquilerRepository alquilerRepository, EmbarcacionRepository embarcacionRepository) {
         super(repository);
         this.repository = repository;
-		this.alquilerRepository = alquilerRepository;
+        this.alquilerRepository = alquilerRepository;
+        this.embarcacionRepository = embarcacionRepository;
     }
 
     @Override
@@ -69,16 +70,10 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
         if (permutaOptional.isPresent()) {
             throw new BadRequestException("El bien seleccionado ya fue ofertado para esta publicación.");
         }
-        Optional<Alquiler> as = Optional.ofNullable(null);
-        Optional<Alquiler> ao = Optional.ofNullable(null);
-        if (solicitada.getBien() instanceof Embarcacion) {
-        	as = this.alquilerRepository.findByEmbarcacion((Embarcacion) solicitada.getBien());
-        }
-        if (ofertada.getBien() instanceof Embarcacion) {
-        	ao = this.alquilerRepository.findByEmbarcacion((Embarcacion) ofertada.getBien());
-        }
-        if (!((as.isPresent() && !(as.get() instanceof AlquilerTemporal)) || (ao.isPresent() && !(ao.get() instanceof AlquilerTemporal)))) {
-        	throw new BadRequestException("Al menos uno de los bienes a permutar debe ser una embarcación registrada en alguno de los puertos.");
+        if (this.alquilerRepository.findAllById(this.embarcacionRepository.findAllById(Stream.of(solicitada, ofertada)
+                        .mapToLong(publicacion -> publicacion.getBien().getId()).boxed().toList()).stream()
+                .mapToLong(Embarcacion::getId).boxed().toList()).isEmpty()) {
+            throw new BadRequestException("Al menos uno de los bienes a permutar debe ser una embarcación amarrada en puerto.");
         }
         return this.repository.save(new Permuta(solicitada, ofertada));
     }
