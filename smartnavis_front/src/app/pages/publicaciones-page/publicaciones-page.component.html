@@ -28,6 +28,9 @@
             >
               X
             </button>
+            <button class="btn btn-primary"
+                    (click)="listarSolicitudes(publicacion)">Listar Solicitudes
+            </button>
           </div>
           <ul *ngIf="publicacion.__permutasSolicitadas?.length">
             <li *ngFor="let permuta of publicacion.__permutasSolicitadas">

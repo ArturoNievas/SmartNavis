@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PublicacionService } from '../../services/publicacion/publicacion.service';
-import { NgFor, NgIf } from '@angular/common';
-import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
-import { FormsModule } from '@angular/forms';
-import { Bien } from '../../interfaces/bien';
-import { Publicacion } from '../../interfaces/publicacion';
-import { PublicacionEmbarcacionService } from '../../services/publicacionEmbarcacion/publicacion-embarcacion.service';
-import { Permuta } from '../../interfaces/permuta';
-import { PermutaService } from '../../services/permuta/permuta.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {PublicacionService} from '../../services/publicacion/publicacion.service';
+import {NgFor, NgIf} from '@angular/common';
+import {AppPageComponent} from '../../shared/components/app-page/app-page.component';
+import {FormsModule} from '@angular/forms';
+import {Bien} from '../../interfaces/bien';
+import {Publicacion} from '../../interfaces/publicacion';
+import {PublicacionEmbarcacionService} from '../../services/publicacionEmbarcacion/publicacion-embarcacion.service';
+import {Permuta} from '../../interfaces/permuta';
+import {PermutaService} from '../../services/permuta/permuta.service';
 
 export enum EstadoFormulario {
   Modificar = 'modificar',
@@ -17,7 +17,7 @@ export enum EstadoFormulario {
 
 const bienAdapter = (bien: Bien | any): Bien => {
   const __dominio = bien?.patente || bien?.partida || bien?.matricula;
-  return { ...bien, __dominio };
+  return {...bien, __dominio};
 };
 
 @Component({
@@ -55,7 +55,8 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
     private publicacionService: PublicacionService,
     private publicacionEmbarcacionService: PublicacionEmbarcacionService,
     private permutaService: PermutaService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.listarTodasLasPublicaciones();
@@ -109,7 +110,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
 
   seleccionarPublicacion(publicacion: Publicacion): void {
     this.publicacionSeleccionada = publicacion;
-    this.publicacionModificada = { ...publicacion };
+    this.publicacionModificada = {...publicacion};
 
     if (this.estadoFormulario === EstadoFormulario.Intercambiar) {
       this.publicacionesOfertables = this.obtenerPublicacionesOfertables();
@@ -223,7 +224,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
       throw new Error('No hay cambios en la publicación');
     }
 
-    const { __permutasSolicitadas, ...publicacion } =
+    const {__permutasSolicitadas, ...publicacion} =
       this.publicacionModificada;
 
     this.publicacionService.actualizarPublicacion(publicacion).subscribe({
@@ -342,7 +343,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
   }
 
   private mostrarMensaje(tipo: 'exito' | 'error', mensaje: string): void {
-    this.mensajeFormulario = { tipo, mensaje };
+    this.mensajeFormulario = {tipo, mensaje};
 
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
@@ -378,5 +379,15 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }
+  }
+
+  public listarSolicitudes(publicacion: Publicacion): void {
+    this.publicacionService.listarSolicitudes(publicacion)
+      .subscribe((solicitudes: Permuta[]) => {
+        publicacion.__permutasSolicitadas = solicitudes;
+        if (solicitudes.length === 0) {
+          alert('La publicación no cuenta con permutas solicitadas.');
+        }
+      });
   }
 }

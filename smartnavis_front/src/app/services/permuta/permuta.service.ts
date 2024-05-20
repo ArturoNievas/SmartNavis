@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { ApiService } from '../api/api.service';
-import { Permuta } from '../../interfaces/permuta';
-import { Observable } from 'rxjs';
-import { Bien } from '../../interfaces/bien';
-import { Publicacion } from '../../interfaces/publicacion';
+import {Injectable} from '@angular/core';
+import {ApiService} from '../api/api.service';
+import {Permuta} from '../../interfaces/permuta';
+import {Observable} from 'rxjs';
+import {Bien} from '../../interfaces/bien';
+import {Publicacion} from '../../interfaces/publicacion';
 
 /* public listarPublicaciones(): Observable<Publicacion[]> {
     return this.apiService.get<Publicacion[]>(this.publicacionesUrl);
@@ -66,10 +66,9 @@ import { Publicacion } from '../../interfaces/publicacion';
   providedIn: 'root',
 })
 export class PermutaService {
-  protected permutaUrl: string;
+  protected readonly permutaUrl: string = '/permuta';
 
   constructor(private apiService: ApiService) {
-    this.permutaUrl = '/permuta';
   }
 
   public aceptarPermuta(permuta: Permuta): Observable<any> {

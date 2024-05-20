@@ -71,4 +71,8 @@ export class PublicacionService {
       { ofertadaId: publicacionOfertada.id }
     );
   }
+
+  public listarSolicitudes(publicacion: Publicacion): Observable<Permuta[]> {
+    return this.apiService.get<Permuta[]>(`${this.publicacionUrl}/${publicacion.id}/solicitudes`)
+  }
 }

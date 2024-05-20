@@ -82,4 +82,9 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
         }
         return this.repository.save(new Permuta(solicitada, ofertada));
     }
+
+    @Override
+    public Iterable<Permuta> listarSolicitudes(Publicacion publicacion) {
+        return this.repository.findBySolicitada(publicacion);
+    }
 }
