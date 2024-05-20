@@ -1,0 +1,51 @@
+<app-app-page [titulo]="titulo">
+  <div class="global-container local-container">
+    <ol class="p-0 m-0" *ngIf="usuarios.length; else sinUsuarios">
+      <div>
+        <li *ngFor="let usuario of usuarios">
+          <div>
+            <span>
+              <b>{{ usuario.nombres }}</b>
+            </span>
+            <button class="btn btn-primary"
+                    (click)="listarEmbarcaciones(usuario)">Listar Embarcaciones
+            </button>
+            <button class="btn btn-primary"
+                    (click)="listarPublicaciones(usuario)">Listar Publicaciones
+            </button>
+          </div>
+
+          <!-- Embarcaciones del usuario-->
+          <div class="d-block" *ngIf="usuario.__embarcaciones?.length">
+            <p class="mt-1 mb-0">Embarcaciones:</p>
+            <ul>
+              <li *ngFor="let embarcacion of usuario.__embarcaciones">
+                <div>
+                  <span><b>{{ embarcacion.nombre }}</b> - {{ embarcacion.matricula }}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Publicaciones del usuario-->
+          <div class="d-block" *ngIf="usuario.__publicaciones?.length">
+            <p class="mt-1 mb-0">Publicaciones:</p>
+            <ul>
+              <li *ngFor="let publicacion of usuario.__publicaciones">
+                <div>
+                  <span><b>{{ publicacion.titulo }}</b> - {{ publicacion.descripcion }}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </div>
+    </ol>
+
+    <ng-template #sinUsuarios>
+      <div>
+        <p class="alert alert-secondary">No hay usuarios.</p>
+      </div>
+    </ng-template>
+  </div>
+</app-app-page>

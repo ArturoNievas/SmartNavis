@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PublicacionService } from '../../services/publicacion/publicacion.service';
 import { NgFor, NgIf } from '@angular/common';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
