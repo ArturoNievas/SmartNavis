@@ -52,6 +52,7 @@ INSERT INTO smartnavis.amarras (calado,eslora,manga,nombre,puerto_id) VALUES
 
 INSERT INTO smartnavis.personas (apellidos,dni,fecha_nacimiento,nombres, habilitada_intercambio) VALUES
 	 ('Marino',11111111,'1950-03-13 00:00:00','Simbad',0),
+     ('Beto',25487754,'1950-03-13 00:00:00','Capitan Beto',0),
 	 ('Colon',22222222,'1940-05-17 00:00:00','Cristobal',1),
 	 ('Magallanes',33333333,'1955-06-20 00:00:00','Fernando',1),
 	 ('Cook',11222333,'1969-10-11 00:00:00','James',1),
@@ -64,6 +65,7 @@ INSERT INTO smartnavis.personas (apellidos,dni,fecha_nacimiento,nombres, habilit
 	 ('Dumas',33777666,'1965-03-28 00:00:00','Vito',1);
 	 
 SET @simbad = (SELECT id FROM smartnavis.personas WHERE nombres = 'Simbad');
+SET @beto = (SELECT id FROM smartnavis.personas WHERE nombres = 'Capitan Beto');
 SET @cristobal = (SELECT id FROM smartnavis.personas WHERE nombres = 'Cristobal');
 SET @jason = (SELECT id FROM smartnavis.personas WHERE nombres = 'Jason');
 SET @odiseo = (SELECT id FROM smartnavis.personas WHERE nombres = 'Odiseo');
@@ -72,6 +74,7 @@ SET @guillermo = (SELECT id FROM smartnavis.personas WHERE nombres = 'Guillermo'
 SET @vito = (SELECT id FROM smartnavis.personas WHERE nombres = 'Vito');
 INSERT INTO smartnavis.usuarios (password,username,persona_id) VALUES
 	 ('simbad','simbad',@simbad),
+     ('beto','beto',@beto),
 	 ('cristobal','cristobal',@cristobal),
 	 ('odiseo','odiseo',@odiseo),
 	 ('jack','jack',@jack),
@@ -102,7 +105,10 @@ INSERT INTO smartnavis.bienes (tipo,patente,partida,matricula,calado,eslora,mang
 	 ('A','ABC-123',NULL,NULL,NULL,NULL,NULL,NULL,@jack,1),
 	 ('A','AAA-111',NULL,NULL,NULL,NULL,NULL,NULL,@vito,1),
 	 ('A','AAA-222',NULL,NULL,NULL,NULL,NULL,NULL,@vito,0);
-	 
+
+INSERT INTO smartnavis.bienes (tipo,patente,partida,matricula,calado,eslora,manga,nombre,persona_id,habilitado_intercambio) VALUES
+	('E',NULL,NULL,'REY 98765',500.0,300.0,500,'Spinetta',@beto,1);
+
 SET @dhow = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Dhow');
 SET @lehg_2 = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Lehg II');
 SET @santa_maria = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Santa Maria');

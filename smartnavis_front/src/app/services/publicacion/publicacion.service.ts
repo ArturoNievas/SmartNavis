@@ -68,7 +68,7 @@ export class PublicacionService {
   ): any {
     return this.apiService.post(
       `${this.publicacionUrl}/${publicacionSolicitada.bien.id}/solicitar`,
-      { ofertadoId: publicacionOfertada.id }
+      { ofertadaId: publicacionOfertada.id }
     );
   }
 }

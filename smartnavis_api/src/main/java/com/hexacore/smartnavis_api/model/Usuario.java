@@ -62,4 +62,5 @@ public class Usuario extends Persona {
     public void removeMensaje(Mensaje mensaje) {
         this.getMensajes().remove(mensaje);
     }
+
 }
