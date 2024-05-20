@@ -62,7 +62,7 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
         if (solicitada.equals(ofertada)) {
             throw new BadRequestException("El bien solicitado no puede ser igual al ofertado.");
         }
-        if (solicitada.getBien().getTitular().getDni() == ofertada.getBien().getTitular().getDni()) {
+        if (solicitada.getBien().getTitular().equals(ofertada.getBien().getTitular())) {
             throw new BadRequestException("El bien solicitado no puede ser del mismo titular.");
         }
         Optional<Permuta> permutaOptional = this.repository.findBySolicitadaAndOfertada(solicitada, ofertada);
