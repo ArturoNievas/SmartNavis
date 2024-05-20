@@ -23,11 +23,16 @@ public class Publicacion {
     private Bien bien;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "solicitada", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "solicitada", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Permuta> permutasSolicitadas;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "ofertada", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Permuta> permutasOfertadas;
 
     public Publicacion() {
         this.setPermutasSolicitadas(new ArrayList<>());
+        this.setPermutasOfertadas(new ArrayList<>());
     }
 
     public Publicacion(String titulo, String descripcion, Bien bien) {
@@ -36,10 +41,11 @@ public class Publicacion {
         this.setBien(bien);
         bien.setPublicacion(this);
         this.setPermutasSolicitadas(new ArrayList<>());
+        this.setPermutasOfertadas(new ArrayList<>());
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -47,7 +53,7 @@ public class Publicacion {
     }
 
     public String getTitulo() {
-        return titulo;
+        return this.titulo;
     }
 
     public void setTitulo(String titulo) {
@@ -55,7 +61,7 @@ public class Publicacion {
     }
 
     public String getDescripcion() {
-        return descripcion;
+        return this.descripcion;
     }
 
     public void setDescripcion(String descripcion) {
@@ -63,7 +69,7 @@ public class Publicacion {
     }
 
     public Bien getBien() {
-        return bien;
+        return this.bien;
     }
 
     public void setBien(Bien bien) {
@@ -71,11 +77,19 @@ public class Publicacion {
     }
 
     public List<Permuta> getPermutasSolicitadas() {
-        return permutasSolicitadas;
+        return this.permutasSolicitadas;
     }
 
     public void setPermutasSolicitadas(List<Permuta> permutasSolicitadas) {
         this.permutasSolicitadas = permutasSolicitadas;
+    }
+
+    public List<Permuta> getPermutasOfertadas() {
+        return this.permutasOfertadas;
+    }
+
+    public void setPermutasOfertadas(List<Permuta> permutasOfertadas) {
+        this.permutasOfertadas = permutasOfertadas;
     }
 
     public void addPermutaSolicitada(Permuta permuta) {
@@ -90,5 +104,19 @@ public class Publicacion {
 
     public void removePermutaSolicitada(Permuta permuta) {
         this.getPermutasSolicitadas().remove(permuta);
+    }
+
+    public void addPermutaOfertada(Permuta permuta) {
+        if (permuta != null) {
+            List<Permuta> permutas = this.getPermutasOfertadas();
+            if (!permutas.contains(permuta)) {
+                permutas.add(permuta);
+                permuta.setOfertada(this);
+            }
+        }
+    }
+
+    public void removePermutaOfertada(Permuta permuta) {
+        this.getPermutasOfertadas().remove(permuta);
     }
 }

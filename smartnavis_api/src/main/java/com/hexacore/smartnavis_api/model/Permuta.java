@@ -30,7 +30,7 @@ public class Permuta {
     private boolean finalizada;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "permuta", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "permuta", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Mensaje> mensajes;
 
     public Permuta() {
