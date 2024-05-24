@@ -8,6 +8,7 @@ import {
   EmbarcacionesPublicadasPageComponent
 } from '../pages/publicaciones-page/embarcaciones-publicadas-page.component';
 import {UsuariosPageComponent} from "../pages/usuarios-page/usuarios-page.component";
+import {AmarrasPageComponent} from '../pages/amarras-page/amarras-page.component';
 
 export const routes: Routes = [
   {path: 'home', title: 'YateMate', component: HomePageComponent},
@@ -36,6 +37,11 @@ export const routes: Routes = [
     path: 'usuarios',
     title: 'Usuarios | YateMate',
     component: UsuariosPageComponent,
+  },
+  {
+    path: 'amarras',
+    title: 'Amarras | YateMate',
+    component: AmarrasPageComponent,
   },
   {path: '**', redirectTo: '/home', pathMatch: 'full'},
 ];
