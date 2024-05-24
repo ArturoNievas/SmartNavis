@@ -1,0 +1,24 @@
+<app-app-page titulo="Amarras" subtitulo="Lista de amarras por puerto">
+  <div class="global-container local-container">
+    <article>
+      <ol *ngIf="amarras.length; else sinAmarras">
+        <li *ngFor="let amarra of amarras">
+          <div>
+            <span>
+              <b>{{amarra.nombre}} ({{amarra.puerto.nombre}})</b>
+              | Manga: {{amarra.manga}}
+              | Eslora: {{amarra.eslora}}
+              | Calado: {{amarra.calado}}
+            </span>
+          </div>
+        </li>
+      </ol>
+
+      <ng-template #sinAmarras>
+        <div *ngIf="!amarras.length">
+          <p class="alert alert-secondary">No hay amarras.</p>
+        </div>
+      </ng-template>
+    </article>
+  </div>
+</app-app-page>
