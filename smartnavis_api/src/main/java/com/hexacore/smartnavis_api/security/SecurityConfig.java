@@ -3,6 +3,7 @@ package com.hexacore.smartnavis_api.security;
 import com.hexacore.smartnavis_api.service.AuthDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -47,6 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/api/auth/login",
                                 "/api/auth/signup").permitAll()
+                        .requestMatchers(HttpMethod.DELETE).hasAnyAuthority("ADMINISTRADOR")
                         .requestMatchers("api/usuario/{id}/promover",
                                 "api/administrador/{id}/degradar").hasAnyAuthority("ADMINISTRADOR")
                         .anyRequest().authenticated()
@@ -57,6 +59,7 @@ public class SecurityConfig {
                 .logout((logout) -> logout
                         .logoutUrl("/api/auth/logout")
                         .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                        .permitAll()
                 )
                 .authenticationProvider(this.authenticationProvider())
                 .addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

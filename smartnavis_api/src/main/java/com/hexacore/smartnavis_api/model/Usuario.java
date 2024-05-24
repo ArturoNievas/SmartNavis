@@ -25,7 +25,7 @@ public class Usuario extends Persona implements UserDetails {
     private String jwtToken;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "autor")
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.REMOVE)
     private List<Mensaje> mensajes;
 
     @JsonIgnore

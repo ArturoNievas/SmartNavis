@@ -1,6 +1,7 @@
 package com.hexacore.smartnavis_api.service.impl;
 
 import com.hexacore.smartnavis_api.exception.BadRequestException;
+import com.hexacore.smartnavis_api.exception.NotFoundException;
 import com.hexacore.smartnavis_api.model.Administrador;
 import com.hexacore.smartnavis_api.model.Persona;
 import com.hexacore.smartnavis_api.model.Usuario;
@@ -47,5 +48,17 @@ public class UsuarioServiceImpl extends SmartNavisServiceImpl<Usuario, Long> imp
         usuario.setRole(Role.ADMINISTRADOR);
         this.usuarioRepository.save(usuario);
         return new Administrador(this.usuarioRepository.save(usuario));
+    }
+
+    @Override
+    public void delete(Long id) throws NotFoundException {
+        Optional<Administrador> administradorOptional = this.administradorRepository.findById(id);
+        if (administradorOptional.isPresent()) {
+            throw new BadRequestException("No se puede eliminar un usuario administrador.");
+        }
+        Usuario usuario = this.getMustExist(id);
+        this.entityManager.createNativeQuery("DELETE FROM usuarios WHERE persona_id = :persona_id")
+                .setParameter("persona_id", usuario.getId())
+                .executeUpdate();
     }
 }
