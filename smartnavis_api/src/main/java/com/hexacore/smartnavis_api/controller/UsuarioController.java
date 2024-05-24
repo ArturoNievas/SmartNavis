@@ -1,15 +1,13 @@
 package com.hexacore.smartnavis_api.controller;
 
+import com.hexacore.smartnavis_api.model.Administrador;
 import com.hexacore.smartnavis_api.model.Embarcacion;
 import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.model.Usuario;
 import com.hexacore.smartnavis_api.service.EmbarcacionService;
 import com.hexacore.smartnavis_api.service.PublicacionService;
 import com.hexacore.smartnavis_api.service.UsuarioService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/usuario")
@@ -34,5 +32,10 @@ public class UsuarioController extends SmartNavisController<Usuario, Long> {
     @GetMapping("{id}/embarcacion")
     public Iterable<Embarcacion> listarEmbarcaciones(@PathVariable Long id) {
         return this.embarcacionService.buscarPorUsuario(this.service.getMustExist(id));
+    }
+
+    @PostMapping("{id}/promover")
+    public Administrador promoverAdministrador(@PathVariable Long id) {
+        return this.service.promoverAdministrador(this.service.getMustExist(id));
     }
 }

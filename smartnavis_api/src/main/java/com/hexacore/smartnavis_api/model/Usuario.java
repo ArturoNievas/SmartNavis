@@ -3,7 +3,6 @@ package com.hexacore.smartnavis_api.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hexacore.smartnavis_api.security.Role;
 import jakarta.persistence.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +20,7 @@ public class Usuario extends Persona implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @JsonIgnore
     @Transient
     private String jwtToken;
 
@@ -28,11 +28,13 @@ public class Usuario extends Persona implements UserDetails {
     @OneToMany(mappedBy = "autor")
     private List<Mensaje> mensajes;
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public Usuario() {
         super();
+        this.setRole(Role.USUARIO);
         this.setMensajes(new ArrayList<>());
     }
 
@@ -41,33 +43,35 @@ public class Usuario extends Persona implements UserDetails {
         super(dni, nombres, apellidos, fechaNacimiento);
         this.setUsername(username);
         this.setPassword(password);
-        this.role = role;
+        this.setRole(role);
         this.setMensajes(new ArrayList<>());
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == null) {
-            return Collections.emptyList();
-        }
-        return List.of(new SimpleGrantedAuthority(this.role.name()));
+        return List.of(new SimpleGrantedAuthority(this.getRole().name()));
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
@@ -118,5 +122,13 @@ public class Usuario extends Persona implements UserDetails {
 
     public void removeMensaje(Mensaje mensaje) {
         this.getMensajes().remove(mensaje);
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

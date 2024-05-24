@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/api/auth/login",
                                 "/api/auth/signup").permitAll()
+                        .requestMatchers("api/usuario/{id}/promover").hasAnyAuthority("ADMINISTRADOR")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((sessionManagementCustomizer) -> sessionManagementCustomizer
