@@ -1,0 +1,166 @@
+<app-app-page titulo="Crear Cuenta">
+  <div class="global-container local-container">
+    <form [formGroup]="registrarseForm" (submit)="registrarse()">
+      <div class="form-group">
+        <label for="nombre">
+          <span>Nombre</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nombre"
+            placeholder="Nombre"
+            [class.is-invalid]="nombre?.invalid && nombre?.touched"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="nombre?.valid || nombre?.pristine"
+          >
+            {{ nombre?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+        </label>
+
+        <label for="apellido">
+          <span>Apellido</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="apellido"
+            placeholder="Apellido"
+            [class.mb-3]="apellido?.valid || apellido?.pristine"
+            [class.is-invalid]="apellido?.invalid && apellido?.touched"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="apellido?.valid || apellido?.pristine"
+          >
+            {{ apellido?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+        </label>
+      </div>
+
+      <div class="form-group"></div>
+
+      <div class="form-group">
+        <label for="email">
+          <span>Correo Electrónico</span>
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Correo Electrónico"
+            [class.mb-3]="email?.valid || email?.pristine"
+            [class.is-invalid]="email?.invalid && email?.touched"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="email?.valid || email?.pristine"
+          >
+            {{ email?.errors?.["required"] ? "Campo obligatorio" : "" }}
+            {{ email?.errors?.["email"] ? "Correo inválido" : "" }}
+          </div>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="tipoDocumento">
+          <span>Tipo</span>
+          <select
+            class="form-select"
+            formControlName="tipoDocumento"
+            [class.mb-3]="tipoDocumento?.valid || tipoDocumento?.pristine"
+            [class.is-invalid]="
+              tipoDocumento?.invalid && tipoDocumento?.touched
+            "
+          >
+            <option value="dni">DNI</option>
+            <option value="pasaporte">Pasaporte</option>
+          </select>
+          <div
+            class="invalid-feedback"
+            [hidden]="tipoDocumento?.valid || tipoDocumento?.pristine"
+          >
+            {{ tipoDocumento?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+        </label>
+
+        <label for="numeroDocumento">
+          <span>Número de Documento</span>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="numeroDocumento"
+            placeholder="Número de Documento"
+            [class.mb-3]="numeroDocumento?.valid || numeroDocumento?.pristine"
+            [class.is-invalid]="
+              numeroDocumento?.invalid && numeroDocumento?.touched
+            "
+          />
+          <p
+            class="invalid-feedback"
+            [hidden]="numeroDocumento?.valid || numeroDocumento?.pristine"
+          >
+            {{ numeroDocumento?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </p>
+        </label>
+
+        <label for="fechaNacimiento">
+          <span>Fecha de Nacimiento</span>
+
+          <input
+            type="date"
+            class="form-control date-field"
+            formControlName="fechaDeNacimiento"
+            placeholder="Fecha de Nacimiento"
+            [class.mb-3]="
+              fechaDeNacimiento?.valid || fechaDeNacimiento?.pristine
+            "
+            [class.is-invalid]="
+              fechaDeNacimiento?.invalid && fechaDeNacimiento?.touched
+            "
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="fechaDeNacimiento?.valid || fechaDeNacimiento?.pristine"
+          >
+            {{ fechaDeNacimiento?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+          <div
+            class="invalid-feedback"
+            [hidden]="fechaDeNacimiento?.valid || fechaDeNacimiento?.pristine"
+          >
+            {{ fechaDeNacimiento?.errors?.["menorDeEdad"] ? "Debe ser mayor de 18 años" : "" }}
+          </div>
+        </label>
+      </div>
+
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <button
+          type="submit"
+          class="btn btn-primary px-5 py-2 mt-3"
+          [disabled]="registrarseForm.invalid"
+        >
+          Siguiente
+        </button>
+
+        <div class="mt-5">
+          <span class="">¿Ya tienes una cuenta?</span>
+          <a
+            routerLink="/login"
+            class="btn btn-link"
+            style="text-decoration: none"
+          >
+            Iniciar Sesión
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-app-page>
