@@ -14,6 +14,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Service
@@ -32,6 +35,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAuthenticationResponse registrarUsuario(int dni, String nombres, String apellidos, Date fechaNacimiento,
                                                       String username, String password) {
+        long age = LocalDate.from(LocalDate.ofInstant(fechaNacimiento.toInstant(), ZoneId.systemDefault()))
+                .until(LocalDate.now(), ChronoUnit.YEARS);
+        if (age < 18) {
+            throw new BadRequestException("La persona debe ser mayor de edad.");
+        }
         try {
             return new JwtAuthenticationResponse(jwtService.generateToken(this.repository.save(new Usuario(dni, nombres,
                     apellidos, fechaNacimiento, username, password, Role.USUARIO))));
