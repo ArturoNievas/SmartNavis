@@ -9,7 +9,7 @@ import {
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { SignupService } from '../../services/signup/signup.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-registrarse-page',
@@ -24,7 +24,7 @@ export class RegistrarsePageComponent {
     field: string;
   };
 
-  constructor(private router: Router, private signUpService: SignupService) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   registrarseForm = new FormGroup({
     nombres: new FormControl('', Validators.required),
@@ -108,8 +108,8 @@ export class RegistrarsePageComponent {
     const numeroDocumento = this.numeroDocumento!.value || '';
     const fechaDeNacimiento = this.fechaDeNacimiento!.value || '';
 
-    this.signUpService
-      .signUp({
+    this.authService
+      .signup({
         tipoDocumento,
         numeroDocumento,
         nombres,
