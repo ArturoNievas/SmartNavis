@@ -19,36 +19,24 @@ import { SignupService } from '../../services/signup/signup.service';
   styleUrl: './registrarse-page.component.scss',
 })
 export class RegistrarsePageComponent {
-  private error?: {
+  error?: {
     message: string;
     field: string;
   };
 
   constructor(private router: Router, private signUpService: SignupService) {}
 
-  private get usuario() {
-    return this.signUpService.getUsuario();
-  }
-
   registrarseForm = new FormGroup({
-    nombres: new FormControl(this.usuario?.nombres || '', Validators.required),
-    apellidos: new FormControl(
-      this.usuario?.apellidos || '',
-      Validators.required
-    ),
-    username: new FormControl(
-      this.usuario?.username || '',
-      Validators.required
-    ),
-    tipoDocumento: new FormControl(
-      this.usuario?.tipoDocumento || 'dni',
-      Validators.required
-    ),
-    numeroDocumento: new FormControl(
-      this.usuario?.numeroDocumento || '',
-      Validators.required
-    ),
-    fechaDeNacimiento: new FormControl(this.usuario?.fechaDeNacimiento || '', [
+    nombres: new FormControl('', Validators.required),
+    apellidos: new FormControl('', Validators.required),
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+    tipoDocumento: new FormControl('dni', Validators.required),
+    numeroDocumento: new FormControl('', Validators.required),
+    fechaDeNacimiento: new FormControl('', [
       Validators.required,
       this.validatorEdad.bind(this),
     ]),
@@ -87,6 +75,10 @@ export class RegistrarsePageComponent {
     return this.registrarseForm.get('username');
   }
 
+  get password() {
+    return this.registrarseForm.get('password');
+  }
+
   get tipoDocumento() {
     return this.registrarseForm.get('tipoDocumento');
   }
@@ -104,14 +96,52 @@ export class RegistrarsePageComponent {
       return;
     }
 
-    this.signUpService.setUsuario({
-      dni: this.numeroDocumento!.value,
-      nombres: this.nombres!.value,
-      apellidos: this.apellidos!.value,
-      fechaNacimiento: this.fechaDeNacimiento!.value,
-      username: this.username!.value,
-    });
+    if (this.error) {
+      this.error = undefined;
+    }
 
-    this.router.navigate(['/cambiar-contrasena']);
+    const nombres = this.nombres!.value || '';
+    const apellidos = this.apellidos!.value || '';
+    const username = this.username!.value || '';
+    const password = this.password!.value || '';
+    const tipoDocumento = this.tipoDocumento!.value || '';
+    const numeroDocumento = this.numeroDocumento!.value || '';
+    const fechaDeNacimiento = this.fechaDeNacimiento!.value || '';
+
+    this.signUpService
+      .signUp({
+        tipoDocumento,
+        numeroDocumento,
+        nombres,
+        apellidos,
+        username,
+        password,
+        fechaDeNacimiento,
+      })
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/home']);
+        },
+        error: (error: any) => {
+          if (error.status === 400) {
+            if (error.error === 'La persona y/o el usuario ya existen.') {
+              this.error = {
+                message: 'La persona y/o el usuario ya existen.',
+                field: 'username',
+              };
+            } else if (error.error === 'La persona debe ser mayor de edad.') {
+              this.error = {
+                message: 'La persona debe ser mayor de edad.',
+                field: 'fechaDeNacimiento',
+              };
+            } else {
+              this.error = {
+                message: error.error,
+                field: '',
+              };
+            }
+          }
+        },
+      });
   }
 }
