@@ -1,24 +1,87 @@
 <app-app-page titulo="Amarras" subtitulo="Lista de amarras por puerto">
   <div class="global-container local-container">
     <article>
+      <div>
+        <label for="puerto">Puerto:</label>
+        <select name="puerto" class="form-select" #selectorPuerto (change)="seleccionarPuerto(selectorPuerto.value)">
+          <option value="">(Selecciona un puerto)</option>
+          <option *ngFor="let puerto of puertos" [value]="puerto.nombre">{{puerto.nombre}}</option>
+        </select>
+      </div>
       <ol *ngIf="amarras.length; else sinAmarras">
         <li *ngFor="let amarra of amarras">
           <div>
             <span>
-              <b>{{amarra.nombre}} ({{amarra.puerto.nombre}})</b>
-              | Manga: {{amarra.manga}}
-              | Eslora: {{amarra.eslora}}
-              | Calado: {{amarra.calado}}
+              <b>{{amarra.nombre}}</b>
+              | Manga: {{amarra.manga}},
+              Eslora: {{amarra.eslora}},
+              Calado: {{amarra.calado}}
+              <button class="btn btn-primary" (click)="abrirFormulario(estados.Modificar, amarra)">Modificar</button>
+              <button class="btn btn-danger" (click)="eliminarAmarra(amarra)">Eliminar</button>
             </span>
           </div>
         </li>
       </ol>
 
       <ng-template #sinAmarras>
-        <div *ngIf="!amarras.length">
+        <div *ngIf="!puertoSeleccionado">
+          <p class="alert alert-danger">Por favor, seleccione un puerto.</p>
+        </div>
+        <div *ngIf="puertoSeleccionado && !amarras.length">
           <p class="alert alert-secondary">No hay amarras.</p>
         </div>
       </ng-template>
     </article>
+
+    <aside>
+      <div *ngIf="amarraSeleccionada && estadoFormulario === estados.Modificar;
+        then formularioModificar"></div>
+      <div *ngIf="amarraSeleccionada && estadoFormulario === estados.Crear;
+        then formularioCrear"></div>
+      <div *ngIf="amarraSeleccionada && estadoFormulario === estados.Eliminar;
+        then formularioEliminar"></div>
+      <div *ngIf="mensajeFormulario" class="alert" [class.alert-danger]="mensajeFormulario.tipo === 'error'" [class.alert-primary]="mensajeFormulario.tipo === 'exito'">
+        {{mensajeFormulario.mensaje}}
+      </div>
+    </aside>
   </div>
 </app-app-page>
+
+<ng-template #formularioCrear>
+
+</ng-template>
+
+<ng-template #formularioModificar>
+  <div class="card mb-4">
+    <form class="card-body" [formGroup]="formulario" (submit)="modificarAmarra(formulario)">
+      <h3 class="mb-4">
+        <b>Modificar Amarra</b>
+      </h3>
+
+      <div class="form-group mb-2">
+        <p class="form-label">Puerto: {{amarraSeleccionada!.puerto.nombre}}</p>
+
+        <label for="nombre" class="form-label">Nombre de amarra: </label>
+        <input name="nombre" type="text" class="form-control" formControlName="nombre">
+
+        <label for="manga">Manga: </label>
+        <input type="number" name="manga" class="form-control" formControlName="manga">
+
+        <label for="eslora">Eslora: </label>
+        <input type="number" name="eslora" class="form-control" formControlName="eslora">
+
+        <label for="calado">Calado: </label>
+        <input type="number" name="calado" class="form-control" formControlName="calado">
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" [disabled]="!hayCambios() || !esValido()">Modificar</button>
+        <button class="btn btn-secondary" (click)="cerrarFormulario()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #formularioEliminar>
+
+</ng-template>

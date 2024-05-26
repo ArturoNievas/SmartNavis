@@ -986,6 +986,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "bcc5191e-6bcf-456e-a873-5a8499403029",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "amarra/:id",
+      "responses": [
+        {
+          "uuid": "d03415f0-4d48-4df0-add3-4c4981148ba4",
+          "body": "{{body}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1104,6 +1133,10 @@
     {
       "type": "route",
       "uuid": "4b54a533-f287-4afd-b724-995bea83f0ed"
+    },
+    {
+      "type": "route",
+      "uuid": "bcc5191e-6bcf-456e-a873-5a8499403029"
     }
   ],
   "proxyMode": false,
