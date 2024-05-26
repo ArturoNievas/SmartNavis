@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cambiar-contrasena-page',
@@ -19,7 +20,7 @@ import { JsonPipe } from '@angular/common';
 export class CambiarContrasenaPageComponent {
   protected contrasenaForm: FormGroup;
 
-  constructor() {
+  constructor(private router: Router) {
     this.contrasenaForm = new FormGroup({
       contrasenaNueva: new FormControl('', [
         Validators.required,
@@ -70,5 +71,13 @@ export class CambiarContrasenaPageComponent {
 
   get contrasenaNuevaRepetida() {
     return this.contrasenaForm.get('contrasenaNuevaRepetida');
+  }
+
+  cambiarContrasena() {
+    if (this.contrasenaForm.valid) {
+      console.log('Contraseña cambiada');
+    }
+
+    this.router.navigate(['/registrarse']);
   }
 }

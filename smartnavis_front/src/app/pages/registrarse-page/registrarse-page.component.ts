@@ -9,6 +9,7 @@ import {
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { SignupService } from '../../services/signup/signup.service';
 
 @Component({
   selector: 'app-registrarse-page',
@@ -18,15 +19,36 @@ import { Router } from '@angular/router';
   styleUrl: './registrarse-page.component.scss',
 })
 export class RegistrarsePageComponent {
-  constructor(private router: Router) {}
+  private error?: {
+    message: string;
+    field: string;
+  };
+
+  constructor(private router: Router, private signUpService: SignupService) {}
+
+  private get usuario() {
+    return this.signUpService.getUsuario();
+  }
 
   registrarseForm = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    apellido: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    tipoDocumento: new FormControl('dni', Validators.required),
-    numeroDocumento: new FormControl('', Validators.required),
-    fechaDeNacimiento: new FormControl('', [
+    nombres: new FormControl(this.usuario?.nombres || '', Validators.required),
+    apellidos: new FormControl(
+      this.usuario?.apellidos || '',
+      Validators.required
+    ),
+    username: new FormControl(
+      this.usuario?.username || '',
+      Validators.required
+    ),
+    tipoDocumento: new FormControl(
+      this.usuario?.tipoDocumento || 'dni',
+      Validators.required
+    ),
+    numeroDocumento: new FormControl(
+      this.usuario?.numeroDocumento || '',
+      Validators.required
+    ),
+    fechaDeNacimiento: new FormControl(this.usuario?.fechaDeNacimiento || '', [
       Validators.required,
       this.validatorEdad.bind(this),
     ]),
@@ -53,16 +75,16 @@ export class RegistrarsePageComponent {
     return age;
   }
 
-  get nombre() {
-    return this.registrarseForm.get('nombre');
+  get nombres() {
+    return this.registrarseForm.get('nombres');
   }
 
-  get apellido() {
-    return this.registrarseForm.get('apellido');
+  get apellidos() {
+    return this.registrarseForm.get('apellidos');
   }
 
-  get email() {
-    return this.registrarseForm.get('email');
+  get username() {
+    return this.registrarseForm.get('username');
   }
 
   get tipoDocumento() {
@@ -78,7 +100,18 @@ export class RegistrarsePageComponent {
   }
 
   registrarse() {
-    console.log(this.registrarseForm.value);
+    if (this.registrarseForm.invalid) {
+      return;
+    }
+
+    this.signUpService.setUsuario({
+      dni: this.numeroDocumento!.value,
+      nombres: this.nombres!.value,
+      apellidos: this.apellidos!.value,
+      fechaNacimiento: this.fechaDeNacimiento!.value,
+      username: this.username!.value,
+    });
+
     this.router.navigate(['/cambiar-contrasena']);
   }
 }

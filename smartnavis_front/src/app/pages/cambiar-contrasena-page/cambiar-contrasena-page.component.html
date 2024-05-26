@@ -3,7 +3,7 @@
   subtitulo="Estás cambiando la contraseña para test@test.com"
 >
   <div class="global-container local-container">
-    <form [formGroup]="contrasenaForm">
+    <form [formGroup]="contrasenaForm" (submit)="cambiarContrasena()">
       <div class="form-group">
         <label for="contrasenaNueva">
           <span>Contraseña nueva</span>
