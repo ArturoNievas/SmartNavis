@@ -3,10 +3,13 @@ package com.hexacore.smartnavis_api.controller;
 import com.hexacore.smartnavis_api.controller.input.IniciarSesionInput;
 import com.hexacore.smartnavis_api.controller.input.RegistrarUsuarioInput;
 import com.hexacore.smartnavis_api.exception.UnauthorizedException;
+import com.hexacore.smartnavis_api.model.Usuario;
 import com.hexacore.smartnavis_api.security.JwtAuthenticationResponse;
 import com.hexacore.smartnavis_api.service.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -32,5 +35,10 @@ public class AuthController {
         } catch (UnauthorizedException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).build();
         }
+    }
+
+    @GetMapping("me")
+    public Usuario me(@AuthenticationPrincipal UserDetails userDetails) {
+        return this.service.me(userDetails.getUsername());
     }
 }

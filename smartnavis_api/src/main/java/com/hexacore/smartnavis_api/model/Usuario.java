@@ -28,7 +28,6 @@ public class Usuario extends Persona implements UserDetails {
     @OneToMany(mappedBy = "autor", cascade = CascadeType.REMOVE)
     private List<Mensaje> mensajes;
 
-    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Role role;
 
