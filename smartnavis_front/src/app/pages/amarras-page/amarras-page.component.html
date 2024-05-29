@@ -1,23 +1,43 @@
 <app-app-page titulo="Amarras" subtitulo="Lista de amarras por puerto">
   <div class="global-container local-container">
     <article>
+      <button class="btn btn-primary" (click)="abrirFormulario(estados.Crear)">
+        Crear amarra
+      </button>
       <div>
         <label for="puerto">Puerto:</label>
-        <select name="puerto" class="form-select" #selectorPuerto (change)="seleccionarPuerto(selectorPuerto.value)">
-          <option value="">(Selecciona un puerto)</option>
-          <option *ngFor="let puerto of puertos" [value]="puerto.nombre">{{puerto.nombre}}</option>
+        <select
+          name="puerto"
+          class="form-select"
+          [formControl]="puertoSelect"
+          #selectorPuerto
+          (change)="seleccionarPuerto(selectorPuerto.value)"
+        >
+          <option value="-1">(Selecciona un puerto)</option>
+          <option *ngFor="let puerto of puertos" [value]="puerto.id">
+            {{ puerto.nombre }}
+          </option>
         </select>
       </div>
       <ol *ngIf="amarras.length; else sinAmarras">
         <li *ngFor="let amarra of amarras">
           <div>
             <span>
-              <b>{{amarra.nombre}}</b>
-              | Manga: {{amarra.manga}},
-              Eslora: {{amarra.eslora}},
-              Calado: {{amarra.calado}}
-              <button class="btn btn-primary" (click)="abrirFormulario(estados.Modificar, amarra)">Modificar</button>
-              <button class="btn btn-danger" (click)="eliminarAmarra(amarra)">Eliminar</button>
+              <b>{{ amarra.nombre }}</b>
+              | Manga: {{ amarra.manga }}, Eslora: {{ amarra.eslora }}, Calado:
+              {{ amarra.calado }}
+              <button
+                class="btn btn-primary"
+                (click)="abrirFormulario(estados.Modificar, amarra)"
+              >
+                Modificar
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="abrirFormulario(estados.Eliminar, amarra)"
+              >
+                Eliminar
+              </button>
             </span>
           </div>
         </li>
@@ -34,54 +54,198 @@
     </article>
 
     <aside>
-      <div *ngIf="amarraSeleccionada && estadoFormulario === estados.Modificar;
-        then formularioModificar"></div>
-      <div *ngIf="amarraSeleccionada && estadoFormulario === estados.Crear;
-        then formularioCrear"></div>
-      <div *ngIf="amarraSeleccionada && estadoFormulario === estados.Eliminar;
-        then formularioEliminar"></div>
-      <div *ngIf="mensajeFormulario" class="alert" [class.alert-danger]="mensajeFormulario.tipo === 'error'" [class.alert-primary]="mensajeFormulario.tipo === 'exito'">
-        {{mensajeFormulario.mensaje}}
+      <div
+        *ngIf="
+          amarraSeleccionada && estadoFormulario === estados.Modificar;
+          then formularioModificar
+        "
+      ></div>
+      <div
+        *ngIf="estadoFormulario === estados.Crear; then formularioCrear"
+      ></div>
+      <div
+        *ngIf="
+          amarraSeleccionada && estadoFormulario === estados.Eliminar;
+          then formularioEliminar
+        "
+      ></div>
+      <div
+        *ngIf="mensajeFormulario"
+        class="alert"
+        [class.alert-danger]="mensajeFormulario.tipo === 'error'"
+        [class.alert-primary]="mensajeFormulario.tipo === 'exito'"
+      >
+        {{ mensajeFormulario.mensaje }}
       </div>
     </aside>
   </div>
 </app-app-page>
 
+<!-- FORMULARIO PARA CREAR AMARRA -->
 <ng-template #formularioCrear>
-
-</ng-template>
-
-<ng-template #formularioModificar>
   <div class="card mb-4">
-    <form class="card-body" [formGroup]="formulario" (submit)="modificarAmarra(formulario)">
+    <form
+      class="card-body"
+      [formGroup]="formulario"
+      (submit)="crearAmarra(formulario)"
+    >
       <h3 class="mb-4">
-        <b>Modificar Amarra</b>
+        <b>Crear Amarra</b>
       </h3>
 
       <div class="form-group mb-2">
-        <p class="form-label">Puerto: {{amarraSeleccionada!.puerto.nombre}}</p>
+        <label for="puerto" class="form-label">Puerto: </label>
+        <select name="puerto" class="form-select" formControlName="idPuerto">
+          <option value=""></option>
+          <option *ngFor="let puerto of puertos" [value]="puerto.id">
+            {{ puerto.nombre }}
+          </option>
+        </select>
 
         <label for="nombre" class="form-label">Nombre de amarra: </label>
-        <input name="nombre" type="text" class="form-control" formControlName="nombre">
+        <input
+          name="nombre"
+          type="text"
+          class="form-control"
+          formControlName="nombre"
+        />
 
         <label for="manga">Manga: </label>
-        <input type="number" name="manga" class="form-control" formControlName="manga">
+        <input
+          type="number"
+          min="0"
+          name="manga"
+          class="form-control"
+          formControlName="manga"
+        />
 
         <label for="eslora">Eslora: </label>
-        <input type="number" name="eslora" class="form-control" formControlName="eslora">
+        <input
+          type="number"
+          min="0"
+          name="eslora"
+          class="form-control"
+          formControlName="eslora"
+        />
 
         <label for="calado">Calado: </label>
-        <input type="number" name="calado" class="form-control" formControlName="calado">
+        <input
+          type="number"
+          min="0"
+          name="calado"
+          class="form-control"
+          formControlName="calado"
+        />
       </div>
 
       <div class="form-group">
-        <button type="submit" class="btn btn-primary" [disabled]="!hayCambios() || !esValido()">Modificar</button>
-        <button class="btn btn-secondary" (click)="cerrarFormulario()">Cancelar</button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!esValido() || !formulario.touched"
+        >
+          Crear
+        </button>
+        <button class="btn btn-secondary" (click)="cerrarFormulario()">
+          Cancelar
+        </button>
       </div>
     </form>
   </div>
 </ng-template>
 
-<ng-template #formularioEliminar>
+<!-- FORMULARIO PARA MODIFICAR AMARRA -->
+<ng-template #formularioModificar>
+  <div class="card mb-4">
+    <form
+      class="card-body"
+      [formGroup]="formulario"
+      (submit)="modificarAmarra(formulario)"
+    >
+      <h3 class="mb-4">
+        <b>Modificar Amarra</b>
+      </h3>
 
+      <div class="form-group mb-2">
+        <p class="form-label">
+          Puerto: {{ amarraSeleccionada!.puerto.nombre }}
+        </p>
+
+        <label for="nombre" class="form-label">Nombre de amarra: </label>
+        <input
+          name="nombre"
+          type="text"
+          class="form-control"
+          formControlName="nombre"
+        />
+
+        <label for="manga">Manga: </label>
+        <input
+          type="number"
+          min="0"
+          name="manga"
+          class="form-control"
+          formControlName="manga"
+        />
+
+        <label for="eslora">Eslora: </label>
+        <input
+          type="number"
+          min="0"
+          name="eslora"
+          class="form-control"
+          formControlName="eslora"
+        />
+
+        <label for="calado">Calado: </label>
+        <input
+          type="number"
+          min="0"
+          name="calado"
+          class="form-control"
+          formControlName="calado"
+        />
+      </div>
+
+      <div class="form-group">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!hayCambios() || !esValido()"
+        >
+          Modificar
+        </button>
+        <button class="btn btn-secondary" (click)="cerrarFormulario()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- FORMULARIO PARA ELIMINAR AMARRA -->
+<ng-template #formularioEliminar>
+  <div class="card mb-4">
+    <form
+      class="card-body"
+      [formGroup]="formulario"
+      (submit)="eliminarAmarra(amarraSeleccionada!)"
+    >
+      <h3 class="mb-4">Eliminar amarra</h3>
+      <div class="form-group mb-2">
+        <p>
+          Desea eliminar la amarra <b>{{ amarraSeleccionada!.nombre }}</b> del
+          puerto <b>{{ amarraSeleccionada!.puerto.nombre }}</b
+          >?
+        </p>
+        <p>Esta acción no se puede deshacer</p>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <button class="btn btn-secondary" (click)="cerrarFormulario()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
 </ng-template>

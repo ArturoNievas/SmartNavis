@@ -15,62 +15,86 @@ export enum EstadoFormulario {
 }
 
 class FormularioAmarra extends FormGroup<{
-  nombre: FormControl<string | null>,
-  manga: FormControl<number | null>,
-  eslora: FormControl<number | null>,
-  calado: FormControl<number | null>,
-}>{}
+  nombre: FormControl<string | null>;
+  idPuerto: FormControl<number | null>;
+  manga: FormControl<number | null>;
+  eslora: FormControl<number | null>;
+  calado: FormControl<number | null>;
+}> {}
 
 @Component({
   selector: 'app-amarras-page',
   standalone: true,
   imports: [RouterLink, AppPageComponent, NgIf, NgFor, ReactiveFormsModule],
   templateUrl: './amarras-page.component.html',
-  styleUrl: './amarras-page.component.scss'
+  styleUrl: './amarras-page.component.scss',
 })
 export class AmarrasPageComponent implements OnInit {
   amarras: Amarra[] = [];
   puertos: Puerto[] = [];
   amarraSeleccionada?: Amarra;
+
+  puertoSelect = new FormControl(-1);
   puertoSeleccionado?: Puerto;
 
   readonly estados = EstadoFormulario;
   estadoFormulario?: EstadoFormulario;
-  mensajeFormulario?: {tipo: 'exito' | 'error', mensaje: string};
+  mensajeFormulario?: { tipo: 'exito' | 'error'; mensaje: string };
 
-  formulario= new FormularioAmarra({
-    nombre: new FormControl(''),
-    manga: new FormControl(0.0),
-    eslora: new FormControl(0.0),
-    calado: new FormControl(0.0),
+  formulario = new FormularioAmarra({
+    nombre: new FormControl(),
+    idPuerto: new FormControl(),
+    manga: new FormControl(),
+    eslora: new FormControl(),
+    calado: new FormControl(),
   });
 
   constructor(
     private amarraService: AmarraService,
-    private puertoService: PuertoService,
-  ) {
-  }
+    private puertoService: PuertoService
+  ) {}
 
   ngOnInit() {
     this.listarPuertos();
   }
 
   public listarPuertos() {
-    this.puertoService.listarPuertos().subscribe(
-      (puertos) => this.puertos = puertos
-    );
+    this.puertoService
+      .listarPuertos()
+      .subscribe((puertos) => (this.puertos = puertos));
   }
 
   public listarAmarras(puerto: Puerto) {
-    this.amarraService.listarAmarras().subscribe(
-      (amarras) => this.amarras = amarras.filter(
-        (amarra) => amarra.puerto.id == puerto.id
-      )
-    );
+    this.amarraService
+      .listarAmarras()
+      .subscribe(
+        (amarras) =>
+          (this.amarras = amarras.filter(
+            (amarra) => amarra.puerto.id == puerto.id
+          ))
+      );
   }
 
   public crearAmarra(formulario: FormularioAmarra) {
-
+    let nuevaAmarra: Amarra = {
+      nombre: formulario.value.nombre!,
+      puerto: this.puertos.find((p) => p.id == formulario.value.idPuerto)!,
+      manga: formulario.value.manga!,
+      eslora: formulario.value.eslora!,
+      calado: formulario.value.calado!,
+    };
+    console.log('Amarra creada:', nuevaAmarra);
+    this.amarraService.crearAmarra(nuevaAmarra).subscribe({
+      next: (amarra) => {
+        this.seleccionarPuerto(String(amarra.puerto.id));
+        this.cerrarFormulario();
+        this.mostrarMensaje('exito', 'Amarra creada con éxito.');
+      },
+      error: (error: Error) => {
+        this.cerrarFormulario();
+        this.mostrarMensaje('error', error.message);
+      },
+    });
   }
 
   public modificarAmarra(formulario: FormularioAmarra) {
@@ -81,54 +105,69 @@ export class AmarrasPageComponent implements OnInit {
       manga: formulario.value.manga!,
       eslora: formulario.value.eslora!,
       calado: formulario.value.calado!,
-    }
+    };
     this.amarraService.actualizarAmarra(amarraActualizada).subscribe({
-      next: () => {
-        this.listarAmarras(this.amarraSeleccionada!.puerto);
-        console.error('Debería modificar la amarra en la API.');
-
+      next: (amarra) => {
+        this.seleccionarPuerto(String(amarra.puerto.id));
         this.cerrarFormulario();
-        this.mostrarMensaje('exito', 'Amarra modificada con éxito.')
+        this.mostrarMensaje('exito', 'Amarra modificada con éxito.');
       },
       error: (error: Error) => {
         this.cerrarFormulario();
-        this.mostrarMensaje('error', error.message)
-      }
-    })
+        this.mostrarMensaje('error', error.message);
+      },
+    });
   }
 
   hayCambios(): boolean {
     return (
-      this.amarraSeleccionada!.nombre != this.formulario.value.nombre
-      || this.amarraSeleccionada!.manga != this.formulario.value.manga
-      || this.amarraSeleccionada!.eslora != this.formulario.value.eslora
-      || this.amarraSeleccionada!.calado != this.formulario.value.calado
-    )
+      this.amarraSeleccionada!.nombre !== this.formulario.value.nombre ||
+      this.amarraSeleccionada!.puerto.id !== this.formulario.value.idPuerto ||
+      this.amarraSeleccionada!.manga !== this.formulario.value.manga ||
+      this.amarraSeleccionada!.eslora !== this.formulario.value.eslora ||
+      this.amarraSeleccionada!.calado !== this.formulario.value.calado
+    );
   }
 
   esValido(): boolean {
     return (
-      Boolean(this.formulario.value.nombre)
-      && Boolean(this.formulario.value.manga)
-      && Boolean(this.formulario.value.eslora)
-      && Boolean(this.formulario.value.calado)
-    )
+      Boolean(this.formulario.value.nombre) &&
+      Boolean(this.formulario.value.idPuerto) &&
+      Boolean(this.formulario.value.manga) &&
+      Boolean(this.formulario.value.eslora) &&
+      Boolean(this.formulario.value.calado)
+    );
   }
 
   public eliminarAmarra(amarra: Amarra) {
-
+    console.log('Inicio Page.eliminarAmarra');
+    this.amarraService.eliminarAmarra(amarra).subscribe({
+      next: () => {
+        this.seleccionarPuerto(String(amarra.puerto.id));
+        this.cerrarFormulario();
+        this.mostrarMensaje('exito', 'Amarra eliminada con éxito.');
+      },
+      error: (error: Error) => {
+        this.cerrarFormulario();
+        this.mostrarMensaje('error', error.message);
+      },
+    });
   }
 
   mostrarMensaje(tipo: 'exito' | 'error', mensaje: string) {
-    this.mensajeFormulario = {tipo, mensaje}
-    window.setTimeout(
-      () => {this.mensajeFormulario = undefined},
-      10000
-    )
+    this.mensajeFormulario = { tipo, mensaje };
+    window.setTimeout(() => {
+      this.mensajeFormulario = undefined;
+    }, 10000);
   }
 
-  seleccionarPuerto(nombrePuerto: string) {
-    this.puertoSeleccionado = this.puertos.find(p => p.nombre == nombrePuerto);
+  seleccionarPuerto(idPuerto: string) {
+    if (idPuerto != String(this.puertoSeleccionado?.id)) {
+      this.puertoSelect.setValue(Number(idPuerto));
+    }
+    this.puertoSeleccionado = this.puertos.find(
+      (p) => p.id == Number(idPuerto)
+    );
     this.listarAmarras(this.puertoSeleccionado!);
   }
 
@@ -140,19 +179,32 @@ export class AmarrasPageComponent implements OnInit {
     this.resetearMensajeFormulario();
 
     this.estadoFormulario = estado;
-    this.amarraSeleccionada = amarra;
     switch (this.estadoFormulario) {
       case EstadoFormulario.Modificar:
-        this.formulario.controls.nombre.setValue(amarra!.nombre);
-        this.formulario.controls.manga.setValue(amarra!.manga);
-        this.formulario.controls.eslora.setValue(amarra!.eslora);
-        this.formulario.controls.calado.setValue(amarra!.calado);
+        this.amarraSeleccionada = amarra!;
+        this.formulario.controls.nombre.setValue(
+          this.amarraSeleccionada.nombre
+        );
+        this.formulario.controls.idPuerto.setValue(
+          this.amarraSeleccionada.puerto.id!
+        );
+        this.formulario.controls.manga.setValue(this.amarraSeleccionada.manga);
+        this.formulario.controls.eslora.setValue(
+          this.amarraSeleccionada.eslora
+        );
+        this.formulario.controls.calado.setValue(
+          this.amarraSeleccionada.calado
+        );
         break;
       case EstadoFormulario.Crear:
-        // TODO
+        this.formulario.controls.nombre.setValue(null);
+        this.formulario.controls.idPuerto.setValue(null);
+        this.formulario.controls.manga.setValue(null);
+        this.formulario.controls.eslora.setValue(null);
+        this.formulario.controls.calado.setValue(null);
         break;
       case EstadoFormulario.Eliminar:
-        // TODO
+        this.amarraSeleccionada = amarra!;
         break;
     }
   }
@@ -162,7 +214,8 @@ export class AmarrasPageComponent implements OnInit {
   }
 
   cerrarFormulario() {
-    this.resetearMensajeFormulario();
+    console.log('Formulario:', this.estadoFormulario);
+    this.estadoFormulario = undefined;
     this.amarraSeleccionada = undefined;
   }
 }
