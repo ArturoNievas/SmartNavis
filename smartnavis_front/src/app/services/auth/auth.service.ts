@@ -24,7 +24,6 @@ export class AuthService {
     apellidos: string;
     username: string;
     password: string;
-    tipoDocumento: string;
     numeroDocumento: string;
     fechaDeNacimiento: string;
   }): Observable<any> {

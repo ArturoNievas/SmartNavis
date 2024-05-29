@@ -34,7 +34,6 @@ export class RegistrarsePageComponent {
       Validators.required,
       Validators.minLength(8),
     ]),
-    tipoDocumento: new FormControl('dni', Validators.required),
     numeroDocumento: new FormControl('', Validators.required),
     fechaDeNacimiento: new FormControl('', [
       Validators.required,
@@ -79,10 +78,6 @@ export class RegistrarsePageComponent {
     return this.registrarseForm.get('password');
   }
 
-  get tipoDocumento() {
-    return this.registrarseForm.get('tipoDocumento');
-  }
-
   get numeroDocumento() {
     return this.registrarseForm.get('numeroDocumento');
   }
@@ -104,13 +99,11 @@ export class RegistrarsePageComponent {
     const apellidos = this.apellidos!.value || '';
     const username = this.username!.value || '';
     const password = this.password!.value || '';
-    const tipoDocumento = this.tipoDocumento!.value || '';
     const numeroDocumento = this.numeroDocumento!.value || '';
     const fechaDeNacimiento = this.fechaDeNacimiento!.value || '';
 
     this.authService
       .signup({
-        tipoDocumento,
         numeroDocumento,
         nombres,
         apellidos,

@@ -39,72 +39,6 @@
       </div>
 
       <div class="form-group">
-        <label for="username">
-          <span>Nombre de usuario</span>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="username"
-            placeholder="Nombre de usuario"
-            [class.mb-3]="username?.valid || username?.pristine"
-            [class.is-invalid]="username?.invalid && username?.dirty"
-          />
-          <div
-            class="invalid-feedback"
-            [hidden]="username?.valid || username?.pristine"
-          >
-            {{ username?.errors?.["required"] ? "Campo obligatorio" : "" }}
-          </div>
-          <div class="invalid-feedback" [hidden]="error?.field !== 'username'">
-            {{ username?.errors?.["minlength"] ? "Debe tener al menos 4 caracteres" : "" }}
-          </div>
-        </label>
-
-        <label for="password">
-          <span>Contraseña</span>
-          <input
-            type="password"
-            class="form-control"
-            formControlName="password"
-            placeholder="Contraseña"
-            [class.mb-3]="password?.valid || password?.pristine"
-            [class.is-invalid]="password?.invalid && password?.dirty"
-          />
-          <div
-            class="invalid-feedback"
-            [hidden]="password?.valid || password?.pristine"
-          >
-            {{ password?.errors?.["required"] ? "Campo obligatorio" : "" }}
-          </div>
-          <div
-            class="invalid-feedback"
-            [hidden]="password?.valid || password?.pristine"
-          >
-            {{ password?.errors?.["minlength"] ? "Debe tener al menos 8 caracteres" : "" }}
-          </div>
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label for="tipoDocumento">
-          <span>Tipo</span>
-          <select
-            class="form-select"
-            formControlName="tipoDocumento"
-            [class.mb-3]="tipoDocumento?.valid || tipoDocumento?.pristine"
-            [class.is-invalid]="tipoDocumento?.invalid && tipoDocumento?.dirty"
-          >
-            <option value="dni">DNI</option>
-            <option value="pasaporte">Pasaporte</option>
-          </select>
-          <div
-            class="invalid-feedback"
-            [hidden]="tipoDocumento?.valid || tipoDocumento?.dirty"
-          >
-            {{ tipoDocumento?.errors?.["required"] ? "Campo obligatorio" : "" }}
-          </div>
-        </label>
-
         <label for="numeroDocumento">
           <span>Número de Documento</span>
           <input
@@ -151,6 +85,53 @@
             [hidden]="fechaDeNacimiento?.valid || fechaDeNacimiento?.pristine"
           >
             {{ fechaDeNacimiento?.errors?.["menorDeEdad"] ? "Debe ser mayor de 18 años" : "" }}
+          </div>
+        </label>
+      </div>
+
+      <div class="form-group mt-3 mb-3">
+        <label for="username">
+          <span>Nombre de usuario</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="username"
+            placeholder="Nombre de usuario"
+            [class.mb-3]="username?.valid || username?.pristine"
+            [class.is-invalid]="username?.invalid && username?.dirty"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="username?.valid || username?.pristine"
+          >
+            {{ username?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+          <div class="invalid-feedback" [hidden]="error?.field !== 'username'">
+            {{ username?.errors?.["minlength"] ? "Debe tener al menos 4 caracteres" : "" }}
+          </div>
+        </label>
+
+        <label for="password">
+          <span>Contraseña</span>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Contraseña"
+            [class.mb-3]="password?.valid || password?.pristine"
+            [class.is-invalid]="password?.invalid && password?.dirty"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="password?.valid || password?.pristine"
+          >
+            {{ password?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+          <div
+            class="invalid-feedback"
+            [hidden]="password?.valid || password?.pristine"
+          >
+            {{ password?.errors?.["minlength"] ? "Debe tener al menos 8 caracteres" : "" }}
           </div>
         </label>
       </div>
