@@ -1,6 +1,5 @@
 package com.hexacore.smartnavis_api.controller;
 
-import com.hexacore.smartnavis_api.controller.input.FiltroAmarraInput;
 import com.hexacore.smartnavis_api.model.Amarra;
 import com.hexacore.smartnavis_api.model.Puerto;
 import com.hexacore.smartnavis_api.service.AmarraService;
@@ -31,8 +30,11 @@ public class PuertoController extends SmartNavisController<Puerto, Long> {
     }
     
     @GetMapping("{id}/amarra/disponible")
-    public Iterable<Amarra> listarAmarrasDisponibles(@PathVariable("id") Long id, @RequestBody FiltroAmarraInput filtro) {
-        return this.amarraService.listarAmarrasDisponibles(this.service.getMustExist(id),filtro.getEslora(),filtro.getManga(),filtro.getCalado());
+    public Iterable<Amarra> listarAmarrasDisponibles(@PathVariable("id") Long id,
+    		@RequestParam(required = false) Double eslora,
+            @RequestParam(required = false) Double manga,
+            @RequestParam(required = false) Double calado) {
+        return this.amarraService.listarAmarrasDisponibles(this.service.getMustExist(id),eslora,manga,calado);
     }
 
     @Override

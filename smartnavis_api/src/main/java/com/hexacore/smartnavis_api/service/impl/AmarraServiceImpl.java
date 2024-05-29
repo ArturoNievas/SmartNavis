@@ -23,7 +23,7 @@ public class AmarraServiceImpl extends SmartNavisServiceImpl<Amarra, Long> imple
 	}
 
 	@Override
-	public Iterable<Amarra> listarAmarrasDisponibles(Puerto puerto, double eslora, double manga, double calado) {
+	public Iterable<Amarra> listarAmarrasDisponibles(Puerto puerto, Double eslora, Double manga, Double calado) {
 		return this.repository.buscarDisponiblesPorPuerto(puerto,eslora,manga,calado);
 	}
 }

@@ -12,12 +12,20 @@ import java.util.Optional;
 @Service
 @Transactional
 public class UsuarioServiceImpl extends SmartNavisServiceImpl<Usuario, Long> implements UsuarioService {
-    public UsuarioServiceImpl(UsuarioRepository repository) {
+    private final UsuarioRepository repository;
+	
+	public UsuarioServiceImpl(UsuarioRepository repository) {
         super(repository);
+        this.repository = repository;
     }
 
     @Override
     public Optional<Usuario> buscarPorPersona(Persona persona) {
         return this.findById(persona.getId());
     }
+
+	@Override
+	public Iterable<Usuario> buscarPorDNI(int dni) {
+		return this.repository.findByDniLike(dni);
+	}
 }
