@@ -7,16 +7,20 @@ import {
   Validators,
 } from '@angular/forms';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
+import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-iniciar-sesion-page',
   standalone: true,
-  imports: [AppPageComponent, ReactiveFormsModule],
+  imports: [AppPageComponent, ReactiveFormsModule, NgIf, RouterLink],
   templateUrl: './iniciar-sesion-page.component.html',
   styleUrl: './iniciar-sesion-page.component.scss',
 })
 export class IniciarSesionPageComponent {
   constructor(private authService: AuthService) {}
+
+  loading: boolean = false;
 
   error?: {
     message: string;
@@ -36,7 +40,7 @@ export class IniciarSesionPageComponent {
     return this.loginForm.get('password');
   }
 
-  login() {
+  public iniciarSesion() {
     if (this.loginForm.invalid) return;
 
     if (this.error) this.error = undefined;
@@ -44,19 +48,25 @@ export class IniciarSesionPageComponent {
     const username = this.username!.value || '';
     const password = this.password!.value || '';
 
+    this.loading = true;
+
     this.authService.login({ username, password }).subscribe({
       next: () => {
         this.authService.redirectToHome();
+        this.loading = false;
       },
       error: (error: any) => {
-        if (error.status === 401) {
+        console.error(error);
+        this.loading = false;
+
+        if (error?.status === 401) {
           this.error = {
             message: 'Credenciales incorrectas.',
             field: 'username',
           };
         } else {
           this.error = {
-            message: error.error,
+            message: error.message || 'Error inesperado.',
             field: '',
           };
         }

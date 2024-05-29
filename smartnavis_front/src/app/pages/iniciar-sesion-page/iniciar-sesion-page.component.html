@@ -1,7 +1,79 @@
 <app-app-page titulo="Iniciar sesión">
   <div class="global-container local-container">
-    <div class="form-container">
-      <form [formGroup]="loginForm"></form>
-    </div>
+    <form [formGroup]="loginForm" (submit)="iniciarSesion()">
+      <div class="form-group mb-3">
+        <label for="username">
+          <span>Usuario</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="username"
+            placeholder="Usuario"
+            [class.is-invalid]="username?.invalid && username?.dirty"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="username?.valid || username?.pristine"
+          >
+            {{ username?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+        </label>
+      </div>
+
+      <div class="form-group mt-3 mb-3">
+        <label for="password">
+          <span>Contraseña</span>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Contraseña"
+            [class.mb-3]="password?.valid || password?.pristine"
+            [class.is-invalid]="password?.invalid && password?.dirty"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="password?.valid || password?.pristine"
+          >
+            {{ password?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+        </label>
+      </div>
+
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <button
+          type="submit"
+          class="btn btn-primary px-5 py-2 mt-3 d-flex align-items-center justify-content-center"
+          [disabled]="loginForm.invalid"
+        >
+          <span *ngIf="loading" class="spinner-border" aria-label="Loading...">
+          </span>
+          <span *ngIf="!loading">Iniciar sesión</span>
+        </button>
+
+        <div [hidden]="error?.field !== ''">
+          <div class="invalid-feedback d-block">{{ error?.message }}</div>
+        </div>
+
+        <div class="mt-5 d-flex align-items-center">
+          <span class="">¿Sos nuevo en el sitio?</span>
+          <a
+            routerLink="/registrarse"
+            class="btn btn-link"
+            style="text-decoration: none"
+          >
+            Registrate
+          </a>
+        </div>
+      </div>
+    </form>
   </div>
 </app-app-page>

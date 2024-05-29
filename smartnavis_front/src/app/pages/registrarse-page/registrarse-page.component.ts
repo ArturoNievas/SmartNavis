@@ -7,14 +7,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
-import { JsonPipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { JsonPipe, NgIf } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-registrarse-page',
   standalone: true,
-  imports: [AppPageComponent, ReactiveFormsModule, JsonPipe],
+  imports: [AppPageComponent, ReactiveFormsModule, RouterLink, NgIf],
   templateUrl: './registrarse-page.component.html',
   styleUrl: './registrarse-page.component.scss',
 })
@@ -25,6 +25,8 @@ export class RegistrarsePageComponent {
   };
 
   constructor(private authService: AuthService) {}
+
+  loading: boolean = false;
 
   registrarseForm = new FormGroup({
     nombres: new FormControl('', Validators.required),
@@ -102,6 +104,8 @@ export class RegistrarsePageComponent {
     const numeroDocumento = this.numeroDocumento!.value || '';
     const fechaDeNacimiento = this.fechaDeNacimiento!.value || '';
 
+    this.loading = true;
+
     this.authService
       .signup({
         numeroDocumento,
@@ -113,26 +117,37 @@ export class RegistrarsePageComponent {
       })
       .subscribe({
         next: () => {
+          this.loading = false;
           this.authService.redirectToHome();
         },
         error: (error: any) => {
+          console.log(error);
+          this.loading = false;
+
           if (error.status === 400) {
-            if (error.error === 'La persona y/o el usuario ya existen.') {
+            if (error?.message === 'La persona y/o el usuario ya existen.') {
               this.error = {
                 message: 'La persona y/o el usuario ya existen.',
                 field: 'username',
               };
-            } else if (error.error === 'La persona debe ser mayor de edad.') {
+            } else if (
+              error?.message === 'La persona debe ser mayor de edad.'
+            ) {
               this.error = {
                 message: 'La persona debe ser mayor de edad.',
                 field: 'fechaDeNacimiento',
               };
             } else {
               this.error = {
-                message: error.error,
+                message: 'Error inesperado.',
                 field: '',
               };
             }
+          } else {
+            this.error = {
+              message: error.message || 'Error inesperado.',
+              field: '',
+            };
           }
         },
       });
