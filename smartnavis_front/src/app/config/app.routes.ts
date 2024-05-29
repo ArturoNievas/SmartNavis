@@ -7,6 +7,7 @@ import { PublicacionesPageComponent } from '../pages/publicaciones-page/publicac
 import { EmbarcacionesPublicadasPageComponent } from '../pages/publicaciones-page/embarcaciones-publicadas-page.component';
 import { UsuariosPageComponent } from '../pages/usuarios-page/usuarios-page.component';
 import { RegistrarsePageComponent } from '../pages/registrarse-page/registrarse-page.component';
+import { IniciarSesionPageComponent } from '../pages/iniciar-sesion-page/iniciar-sesion-page.component';
 
 export const routes: Routes = [
   { path: 'home', title: 'YateMate', component: HomePageComponent },
@@ -42,6 +43,11 @@ export const routes: Routes = [
     path: 'registrarse',
     title: 'Registrarse | YateMate',
     component: RegistrarsePageComponent,
+  },
+  {
+    path: 'iniciar-sesion',
+    title: 'Iniciar sesión | YateMate',
+    component: IniciarSesionPageComponent,
   },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];

@@ -24,7 +24,7 @@ export class RegistrarsePageComponent {
     field: string;
   };
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   registrarseForm = new FormGroup({
     nombres: new FormControl('', Validators.required),
@@ -113,7 +113,7 @@ export class RegistrarsePageComponent {
       })
       .subscribe({
         next: () => {
-          this.router.navigate(['/home']);
+          this.authService.redirectToHome();
         },
         error: (error: any) => {
           if (error.status === 400) {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class AuthService {
     return this.usuario;
   }
 
-  constructor(private apiService: ApiService) {}
+  constructor(private router: Router, private apiService: ApiService) {}
 
   public signup(usuario: {
     nombres: string;
@@ -39,5 +40,10 @@ export class AuthService {
 
   public logout(): Observable<any> {
     return this.apiService.post(this.logoutUrl, {});
+  }
+
+  // TODO: Implementar en otra ubiicación
+  public redirectToHome() {
+    this.router.navigate(['/home']);
   }
 }
