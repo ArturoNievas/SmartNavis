@@ -13,10 +13,19 @@
           >
         </div>
         <div class="right-menu">
-          <a class="btn btn-tertiary" routerLink="/iniciar-sesion">
+          <a
+            *ngIf="!loggedIn"
+            class="btn btn-tertiary"
+            routerLink="/iniciar-sesion"
+          >
             Iniciar sesión
           </a>
-          <a class="btn btn-primary" routerLink="/registrarse">Registrarse</a>
+          <a *ngIf="!loggedIn" class="btn btn-primary" routerLink="/registrarse"
+            >Registrarse</a
+          >
+          <a *ngIf="loggedIn" class="btn btn-tertiary" (click)="logout()"
+            >Cerrar sesión</a
+          >
         </div>
       </div>
     </div>
