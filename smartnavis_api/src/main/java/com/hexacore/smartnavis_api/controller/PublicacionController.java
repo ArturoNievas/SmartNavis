@@ -36,45 +36,6 @@ public class PublicacionController extends SmartNavisController<Publicacion, Lon
         return this.permutaService.listarSolicitudes(this.service.getMustExist(id));
     }
 
-    // Por si queremos filtrar las publicaciones
-    /*
-    private Class<? extends Bien> obtenerClasePorTipo(String tipo) {
-        switch (tipo.toLowerCase()) {
-            case "automotor":
-                return BienAutomotor.class;
-            case "inmueble":
-                return BienInmueble.class;
-            case "aeronautico":
-                return BienAeronautico.class;
-            case "embarcacion":
-            	return Embarcacion.class;
-            // Agrega más casos según sea necesario para otros tipos de bien
-            default:
-                throw new IllegalArgumentException("Tipo de bien no válido: " + tipo);
-        }
-    }
-    
-    @GetMapping("/publicaciones")
-    public Iterable<Publicacion> getPublicacionesPorTipoDeBien(@RequestParam("tipos") List<String> tipos) {
-        if (tipos.isEmpty()) {
-        	return this.service.findAll();
-        } else {
-        	// Inicializar una lista para almacenar todas las publicaciones filtradas
-        	List<Publicacion> publicacionesFiltradas = new ArrayList<>();
-
-            // Recorrer cada tipo de bien especificado en los parámetros
-            for (String tipo : tipos) {
-                // Filtrar las publicaciones según el tipo especificado
-            	publicacionesFiltradas.addAll(service.buscarPorTipo(obtenerClasePorTipo(tipo)));
-            }
-
-            // Devolver todas las publicaciones filtradas
-            return publicacionesFiltradas;
-        }
-    }
-    */
-
-
     @Override
     protected Publicacion updateMapper(Publicacion publicacion, Publicacion nuevaPublicacion) {
         publicacion.setDescripcion(nuevaPublicacion.getDescripcion());

@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface UsuarioService extends SmartNavisService<Usuario, Long> {
     Optional<Usuario> buscarPorPersona(Persona persona);
+
+    Iterable<Usuario> buscarPorDNI(int dni);
 }

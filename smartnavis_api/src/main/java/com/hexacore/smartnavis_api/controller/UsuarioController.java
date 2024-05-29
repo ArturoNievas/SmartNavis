@@ -9,6 +9,7 @@ import com.hexacore.smartnavis_api.service.UsuarioService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,5 +35,10 @@ public class UsuarioController extends SmartNavisController<Usuario, Long> {
     @GetMapping("{id}/embarcacion")
     public Iterable<Embarcacion> listarEmbarcaciones(@PathVariable Long id) {
         return this.embarcacionService.buscarPorUsuario(this.service.getMustExist(id));
+    }
+    
+    @GetMapping("dni")
+    public Iterable<Usuario> buscarUsuarioPorDNI(@RequestParam(required = false) int dni) {
+        return this.service.buscarPorDNI(dni);
     }
 }
