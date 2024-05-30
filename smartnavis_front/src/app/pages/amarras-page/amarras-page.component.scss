@@ -1,0 +1,43 @@
+section {
+  margin-top: 30px;
+}
+
+ol>div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+li>div {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.local-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 48px;
+
+  article {
+    width: fit-content;
+
+    >div {
+      padding-bottom: 20px;
+    }
+
+    .btn {
+      margin: 5px;
+    }
+  }
+
+  aside {
+    flex-grow: 1;
+
+    min-width: 480px;
+    max-width: 800px;
+  }
+}
