@@ -65,14 +65,9 @@ export class AmarrasPageComponent implements OnInit {
   }
 
   public listarAmarras(puerto: Puerto) {
-    this.amarraService
-      .listarAmarras()
-      .subscribe(
-        (amarras) =>
-          (this.amarras = amarras.filter(
-            (amarra) => amarra.puerto.id == puerto.id
-          ))
-      );
+    this.puertoService.listarAmarras(puerto).subscribe((amarras) => {
+      this.amarras = amarras;
+    });
   }
 
   public crearAmarra(formulario: FormularioAmarra) {
