@@ -21,6 +21,8 @@ public class Amarra {
     private double calado;
 
     private double manga;
+    
+    private boolean disponible;
 
     @ManyToOne
     @JoinColumn(name = "puerto_id", referencedColumnName = "id")
@@ -37,6 +39,7 @@ public class Amarra {
     public Amarra() {
         this.setDisponibilidades(new ArrayList<>());
         this.setAlquileres(new ArrayList<>());
+        this.disponible = true;
     }
 
     public Long getId() {
@@ -79,7 +82,15 @@ public class Amarra {
         this.manga = manga;
     }
 
-    public Puerto getPuerto() {
+    public boolean isDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(boolean disponible) {
+		this.disponible = disponible;
+	}
+
+	public Puerto getPuerto() {
         return puerto;
     }
 

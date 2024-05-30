@@ -26,7 +26,7 @@ public abstract class SmartNavisController<T, ID> {
     }
 
     protected T updateMapper(T entity, T newEntity) {
-        return entity;
+        return newEntity;
     }
 
     @PutMapping("/{id}")

@@ -14,4 +14,13 @@ public class AmarraController extends SmartNavisController<Amarra, Long> {
         super(service);
         // this.service = service;
     }
+    
+    @Override
+    protected Amarra updateMapper(Amarra amarra, Amarra nuevaAmarra) {
+        amarra.setCalado(nuevaAmarra.getCalado());
+        amarra.setEslora(nuevaAmarra.getEslora());
+        amarra.setManga(nuevaAmarra.getManga());
+        amarra.setNombre(nuevaAmarra.getNombre());
+        return amarra;
+    }
 }
