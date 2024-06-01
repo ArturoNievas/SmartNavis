@@ -9,46 +9,101 @@ import { UsuariosPageComponent } from '../pages/usuarios-page/usuarios-page.comp
 import { RegistrarsePageComponent } from '../pages/registrarse-page/registrarse-page.component';
 import { AmarrasPageComponent } from '../pages/amarras-page/amarras-page.component';
 
-export const routes: Routes = [
-  { path: 'home', title: 'YateMate', component: HomePageComponent },
-  { path: 'puertos', title: 'Puertos', component: PuertosPageComponent },
-  {
-    path: 'embarcaciones',
-    title: 'Embarcaciones | YateMate',
-    component: EmbarcacionesPageComponent,
-  },
-  {
-    path: 'bienes',
-    title: 'Bienes | YateMate',
-    component: BienesPageComponent,
-  },
-  {
-    path: 'publicaciones/embarcaciones',
-    title: 'Publicaciones | YateMate',
-    component: EmbarcacionesPublicadasPageComponent,
-  },
-  {
-    path: 'publicaciones',
-    title: 'Publicaciones | YateMate',
-    component: PublicacionesPageComponent,
+const pages: any = {
+  homepage: {
+    path: '',
+    title: 'Homepage',
+    label: 'Inicio',
+    component: HomePageComponent,
   },
 
-  {
-    path: 'usuarios',
-    title: 'Usuarios | YateMate',
-    component: UsuariosPageComponent,
+  /* Manejo de sesiones */
+  registrarse: {
+    path: 'registrarse',
+    title: 'Registrarse',
+    component: RegistrarsePageComponent,
   },
-  {
+
+  iniciarSesion: {
+    path: 'iniciar-sesion',
+    title: 'Iniciar Sesión',
+    component: HomePageComponent,
+  },
+
+  /* Administración de puertos */
+
+  puertos: {
+    path: 'puertos',
+    title: 'Puertos',
+    component: PuertosPageComponent,
+  },
+
+  /* Administración de amarras */
+
+  amarras: {
     path: 'amarras',
-    title: 'Amarras | YateMate',
+    title: 'Amarras',
     component: AmarrasPageComponent,
   },
 
-  /* Auth */
-  {
-    path: 'registrarse',
-    title: 'Registrarse | YateMate',
-    component: RegistrarsePageComponent,
+  /* Administración de usuarios */
+
+  usuarios: {
+    path: 'usuarios',
+    title: 'Usuarios',
+    label: 'Lista de Usuarios',
+    component: UsuariosPageComponent,
   },
-  { path: '**', redirectTo: '/home', pathMatch: 'full' },
+
+  /* Bienes */
+
+  bienes: {
+    path: 'bienes',
+    title: 'Bienes',
+    label: 'Lista de bienes',
+    component: BienesPageComponent,
+  },
+
+  embarcaciones: {
+    path: 'embarcaciones',
+    title: 'Embarcaciones',
+    label: 'Lista de embarcaciones',
+    component: EmbarcacionesPageComponent,
+  },
+
+  /* Publicaciones */
+
+  publicaciones: {
+    path: 'publicaciones',
+    title: 'Publicaciones',
+    label: 'Publicaciones',
+    component: PublicacionesPageComponent,
+  },
+
+  embarcacionesPublicadas: {
+    path: 'publicaciones/embarcaciones',
+    title: 'Publicaciones',
+    label: 'Publicaciones de embarcaciones',
+    component: EmbarcacionesPublicadasPageComponent,
+  },
+};
+
+const addLabelIfMissing = (page: any): any => {
+  if (!page.label) {
+    page.label = page.title;
+  }
+  return page;
+};
+
+export const allPages: any = Object.fromEntries(
+  Object.entries(pages).map(([key, page]) => [key, addLabelIfMissing(page)])
+);
+
+const pagesToRoutes = () => {
+  return Object.values(allPages).map((page: any) => page);
+};
+
+export const routes: Routes = [
+  ...pagesToRoutes(),
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
