@@ -59,6 +59,26 @@ const pages: any = {
     component: UsuariosPageComponent,
   },
 
+  usuario: {
+    path: 'usuarios/:idUsuario',
+    title: 'Perfil de usuario',
+    component: UsuarioPageComponent,
+  },
+
+  embarcacionesDeUsuario: {
+    path: 'usuarios/:idUsuario/embarcaciones',
+    relativePath: 'embarcaciones',
+    title: 'Embarcaciones de usuario',
+    component: UsuarioEmbarcacionesPageComponent,
+  },
+
+  publicacionesDeUsuario: {
+    path: 'usuarios/:idUsuario/publicaciones',
+    relativePath: 'publicaciones',
+    title: 'Publicaciones de usuario',
+    component: UsuarioPublicacionesPageComponent,
+  },
+
   /* Bienes */
 
   bienes: {
@@ -89,26 +109,6 @@ const pages: any = {
     title: 'Publicaciones',
     label: 'Publicaciones de embarcaciones',
     component: EmbarcacionesPublicadasPageComponent,
-  },
-
-  /* Perfil de usuario */
-
-  usuario: {
-    path: 'usuarios/:idUsuario',
-    title: 'Perfil de usuario',
-    component: UsuarioPageComponent,
-  },
-
-  embarcacionesDeUsuario: {
-    path: 'usuarios/:idUsuario/embarcaciones',
-    title: 'Embarcaciones de usuario',
-    component: UsuarioEmbarcacionesPageComponent,
-  },
-
-  publicacionesDeUsuario: {
-    path: 'usuarios/:idUsuario/publicaciones',
-    title: 'Publicaciones de usuario',
-    component: UsuarioPublicacionesPageComponent,
   },
 };
 

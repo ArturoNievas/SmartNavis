@@ -1,3 +1,16 @@
-<app-app-page titulo="Título" subtitulo="Subtítulo">
-  <div class="global-container local-container"></div>
+<app-app-page [titulo]="titulo" subtitulo="Páginas de usuario">
+  <div class="global-container local-container">
+    <ul>
+      <li>
+        <a [routerLink]="allPages.embarcacionesDeUsuario.relativePath">
+          {{ allPages.embarcacionesDeUsuario.label }}
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="allPages.embarcacionesDeUsuario.relativePath">
+          {{ allPages.embarcacionesDeUsuario.label }}
+        </a>
+      </li>
+    </ul>
+  </div>
 </app-app-page>

@@ -1044,6 +1044,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "603160ac-a42f-4d27-87a7-5885bb40c599",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "usuario/:id",
+      "responses": [
+        {
+          "uuid": "a6d42306-04c2-4a40-b8f1-2965f9b6437a",
+          "body": "{\n  \"id\": 1,\n  \"dni\": 11111111,\n  \"nombres\": \"Simbad\",\n  \"apellidos\": \"Marino\",\n  \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\n  \"habilitadaIntercambio\": false,\n  \"username\": \"simbad\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1170,6 +1199,10 @@
     {
       "type": "route",
       "uuid": "54619e18-53d7-487d-bc67-8ef9a49bc529"
+    },
+    {
+      "type": "route",
+      "uuid": "603160ac-a42f-4d27-87a7-5885bb40c599"
     }
   ],
   "proxyMode": false,

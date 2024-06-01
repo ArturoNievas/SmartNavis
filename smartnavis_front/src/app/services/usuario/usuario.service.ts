@@ -13,6 +13,10 @@ export class UsuarioService {
 
   constructor(private apiService: ApiService) {}
 
+  public obtenerUsuario(id: number): Observable<Usuario> {
+    return this.apiService.get<Usuario>(`${this.usuarioUrl}/${id}`);
+  }
+
   public listarUsuarios(): Observable<Usuario[]> {
     return this.apiService.get<Usuario[]>(this.usuarioUrl);
   }
