@@ -9,6 +9,9 @@ import { UsuariosPageComponent } from '../pages/usuarios-page/usuarios-page.comp
 import { RegistrarsePageComponent } from '../pages/registrarse-page/registrarse-page.component';
 import { IniciarSesionPageComponent } from '../pages/iniciar-sesion-page/iniciar-sesion-page.component';
 import { AmarrasPageComponent } from '../pages/amarras-page/amarras-page.component';
+import { UsuarioPageComponent } from '../pages/usuario-page/usuario-page.component';
+import { UsuarioEmbarcacionesPageComponent } from '../pages/usuario-embarcaciones-page/usuario-embarcaciones-page.component';
+import { UsuarioPublicacionesPageComponent } from '../pages/usuario-publicaciones-page/usuario-publicaciones-page.component';
 
 const pages: any = {
   homepage: {
@@ -86,6 +89,26 @@ const pages: any = {
     title: 'Publicaciones',
     label: 'Publicaciones de embarcaciones',
     component: EmbarcacionesPublicadasPageComponent,
+  },
+
+  /* Perfil de usuario */
+
+  usuario: {
+    path: 'usuarios/:idUsuario',
+    title: 'Perfil de usuario',
+    component: UsuarioPageComponent,
+  },
+
+  embarcacionesDeUsuario: {
+    path: 'usuarios/:idUsuario/embarcaciones',
+    title: 'Embarcaciones de usuario',
+    component: UsuarioEmbarcacionesPageComponent,
+  },
+
+  publicacionesDeUsuario: {
+    path: 'usuarios/:idUsuario/publicaciones',
+    title: 'Publicaciones de usuario',
+    component: UsuarioPublicacionesPageComponent,
   },
 };
 
