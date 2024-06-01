@@ -5,11 +5,19 @@ import { Embarcacion } from '../../interfaces/embarcacion';
 import { Publicacion } from '../../interfaces/publicacion';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { NgFor, NgIf } from '@angular/common';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
+import { debounce } from 'lodash';
 
 @Component({
   selector: 'app-usuarios-page',
   standalone: true,
-  imports: [NgFor, NgIf, AppPageComponent],
+  imports: [NgFor, NgIf, AppPageComponent, ReactiveFormsModule],
   templateUrl: './usuarios-page.component.html',
   styleUrl: './usuarios-page.component.scss',
 })
@@ -64,6 +72,43 @@ export class UsuariosPageComponent implements OnInit {
       },
       error: (error: any) => {
         alert(`Error al eliminar el usuario: ${error.message}`);
+      },
+    });
+  }
+
+  public buscarUsuariosForm = new FormGroup({
+    dni: new FormControl(''),
+  });
+
+  get dniBuscado() {
+    return this.buscarUsuariosForm.get('dni');
+  }
+
+  public ultimoDniBuscado: string = '';
+
+  public buscarUsuarios() {
+    if (this.buscarUsuariosForm.invalid) return;
+    if (!this.dniBuscado?.value) return;
+
+    const currentDni = this.dniBuscado.value.toString().trim();
+    if (currentDni === this.ultimoDniBuscado) return;
+    this.debouncedBuscarUsuariosPorDNI(currentDni);
+  }
+
+  private debouncedBuscarUsuariosPorDNI = debounce((dni: string) => {
+    this.__buscarUsuariosPorDNI(dni);
+  }, 500);
+
+  private __buscarUsuariosPorDNI(dni: string): void {
+    console.log(dni);
+    this.ultimoDniBuscado = dni;
+
+    this.usuarioService.buscarUsuariosPorDNI(dni).subscribe({
+      next: (usuarios: Usuario[]) => {
+        this.usuarios = usuarios;
+      },
+      error: (error: any) => {
+        alert(`Error al buscar el usuario: ${error.message}`);
       },
     });
   }

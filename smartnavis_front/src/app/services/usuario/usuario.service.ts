@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Usuario } from '../../interfaces/usuario';
 import { Publicacion } from '../../interfaces/publicacion';
 import { Embarcacion } from '../../interfaces/embarcacion';
@@ -47,7 +47,13 @@ export class UsuarioService {
     return this.apiService.delete(`${this.usuarioUrl}/${usuario.id}`);
   }
 
-  public buscarUsuarioPorDNI(dni: string) {
-    return this.apiService.get<Usuario>(`${this.usuarioUrl}/${dni}`);
+  public buscarUsuariosPorDNI(dni: string): Observable<Usuario[]> {
+    if (!dni) {
+      return throwError(
+        () =>
+          new Error('No es posible buscar usuario por DNI (No se ingresó DNI).')
+      );
+    }
+    return this.apiService.get<Usuario[]>(`/usuario/dni/${dni}`);
   }
 }
