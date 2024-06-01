@@ -7,6 +7,7 @@ import { PublicacionesPageComponent } from '../pages/publicaciones-page/publicac
 import { EmbarcacionesPublicadasPageComponent } from '../pages/publicaciones-page/embarcaciones-publicadas-page.component';
 import { UsuariosPageComponent } from '../pages/usuarios-page/usuarios-page.component';
 import { RegistrarsePageComponent } from '../pages/registrarse-page/registrarse-page.component';
+import { IniciarSesionPageComponent } from '../pages/iniciar-sesion-page/iniciar-sesion-page.component';
 import { AmarrasPageComponent } from '../pages/amarras-page/amarras-page.component';
 
 const pages: any = {
@@ -26,8 +27,8 @@ const pages: any = {
 
   iniciarSesion: {
     path: 'iniciar-sesion',
-    title: 'Iniciar Sesión',
-    component: HomePageComponent,
+    title: 'Iniciar sesión',
+    component: IniciarSesionPageComponent,
   },
 
   /* Administración de puertos */
