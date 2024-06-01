@@ -10,4 +10,7 @@ export interface Usuario extends Persona {
 
   __publicaciones?: Publicacion[];
   __embarcaciones?: Embarcacion[];
+
+  // TODO: Eliminar en producción.
+  __esAdmin?: boolean;
 }

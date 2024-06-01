@@ -1015,6 +1015,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "54619e18-53d7-487d-bc67-8ef9a49bc529",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "usuario/:id",
+      "responses": [
+        {
+          "uuid": "9cf747c1-fbe9-4f7d-b53a-2f29c3d545af",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1137,6 +1166,10 @@
     {
       "type": "route",
       "uuid": "bcc5191e-6bcf-456e-a873-5a8499403029"
+    },
+    {
+      "type": "route",
+      "uuid": "54619e18-53d7-487d-bc67-8ef9a49bc529"
     }
   ],
   "proxyMode": false,
