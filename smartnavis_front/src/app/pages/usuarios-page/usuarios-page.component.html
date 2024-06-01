@@ -7,11 +7,20 @@
             <span>
               <b>{{ usuario.nombres }}</b>
             </span>
-            <button class="btn btn-primary"
-                    (click)="listarEmbarcaciones(usuario)">Listar Embarcaciones
+            <button
+              class="btn btn-primary"
+              (click)="listarEmbarcaciones(usuario)"
+            >
+              Listar Embarcaciones
             </button>
-            <button class="btn btn-primary"
-                    (click)="listarPublicaciones(usuario)">Listar Publicaciones
+            <button
+              class="btn btn-primary"
+              (click)="listarPublicaciones(usuario)"
+            >
+              Listar Publicaciones
+            </button>
+            <button class="btn btn-danger" (click)="eliminarUsuario(usuario)">
+              Eliminar usuario
             </button>
           </div>
 
@@ -21,7 +30,10 @@
             <ul>
               <li *ngFor="let embarcacion of usuario.__embarcaciones">
                 <div>
-                  <span><b>{{ embarcacion.nombre }}</b> - {{ embarcacion.matricula }}</span>
+                  <span
+                    ><b>{{ embarcacion.nombre }}</b> -
+                    {{ embarcacion.matricula }}</span
+                  >
                 </div>
               </li>
             </ul>
@@ -33,7 +45,10 @@
             <ul>
               <li *ngFor="let publicacion of usuario.__publicaciones">
                 <div>
-                  <span><b>{{ publicacion.titulo }}</b> - {{ publicacion.descripcion }}</span>
+                  <span
+                    ><b>{{ publicacion.titulo }}</b> -
+                    {{ publicacion.descripcion }}</span
+                  >
                 </div>
               </li>
             </ul>
