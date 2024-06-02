@@ -82,7 +82,7 @@ export class UsuariosPageComponent implements OnInit {
     return this.buscarUsuariosPorDniForm.get('dni');
   }
 
-  public buscarUsuarios() {
+  public buscarUsuariosPorDni() {
     if (this.buscarUsuariosPorDniForm.invalid) return;
     if (!this.dniBuscado?.value) return;
 

@@ -1,6 +1,9 @@
 <app-app-page [titulo]="titulo">
   <div class="global-container">
-    <form [formGroup]="buscarUsuariosForm" (keyup)="buscarUsuarios()">
+    <form
+      [formGroup]="buscarUsuariosPorDniForm"
+      (keyup)="buscarUsuariosPorDni()"
+    >
       <div class="form-group mb-3">
         <label>
           <span>Buscar usuario por DNI</span>
