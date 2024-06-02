@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
-import { Observable, throwError } from 'rxjs';
+import { EMPTY, Observable, throwError } from 'rxjs';
 import { Usuario } from '../../interfaces/usuario';
 import { Publicacion } from '../../interfaces/publicacion';
 import { Embarcacion } from '../../interfaces/embarcacion';
+import { debounce } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -47,13 +48,37 @@ export class UsuarioService {
     return this.apiService.delete(`${this.usuarioUrl}/${usuario.id}`);
   }
 
+  private ultimoDniBuscado: string = '';
+  private debouncedBuscarUsuariosPorDNI = debounce(
+    (dni: string, observer: any) => {
+      this._buscarUsuariosPorDNI(dni).subscribe(observer);
+    },
+    500,
+    { leading: false, trailing: true }
+  );
+
   public buscarUsuariosPorDNI(dni: string): Observable<Usuario[]> {
+    dni = dni.toString().trim();
+
     if (!dni) {
       return throwError(
         () =>
           new Error('No es posible buscar usuario por DNI (No se ingresó DNI).')
       );
     }
+
+    if (dni === this.ultimoDniBuscado) {
+      return EMPTY;
+    }
+
+    this.ultimoDniBuscado = dni;
+
+    return new Observable<Usuario[]>((observer) => {
+      this.debouncedBuscarUsuariosPorDNI(dni, observer);
+    });
+  }
+
+  private _buscarUsuariosPorDNI(dni: string): Observable<Usuario[]> {
     return this.apiService.get<Usuario[]>(`/usuario/dni/${dni}`);
   }
 }

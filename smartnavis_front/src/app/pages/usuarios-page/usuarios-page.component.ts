@@ -12,8 +12,6 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { debounce } from 'lodash';
-
 @Component({
   selector: 'app-usuarios-page',
   standalone: true,
@@ -76,34 +74,19 @@ export class UsuariosPageComponent implements OnInit {
     });
   }
 
-  public buscarUsuariosForm = new FormGroup({
+  public buscarUsuariosPorDniForm = new FormGroup({
     dni: new FormControl(''),
   });
 
   get dniBuscado() {
-    return this.buscarUsuariosForm.get('dni');
+    return this.buscarUsuariosPorDniForm.get('dni');
   }
-
-  public ultimoDniBuscado: string = '';
 
   public buscarUsuarios() {
-    if (this.buscarUsuariosForm.invalid) return;
+    if (this.buscarUsuariosPorDniForm.invalid) return;
     if (!this.dniBuscado?.value) return;
 
-    const currentDni = this.dniBuscado.value.toString().trim();
-    if (currentDni === this.ultimoDniBuscado) return;
-    this.debouncedBuscarUsuariosPorDNI(currentDni);
-  }
-
-  private debouncedBuscarUsuariosPorDNI = debounce((dni: string) => {
-    this.__buscarUsuariosPorDNI(dni);
-  }, 500);
-
-  private __buscarUsuariosPorDNI(dni: string): void {
-    console.log(dni);
-    this.ultimoDniBuscado = dni;
-
-    this.usuarioService.buscarUsuariosPorDNI(dni).subscribe({
+    this.usuarioService.buscarUsuariosPorDNI(this.dniBuscado.value).subscribe({
       next: (usuarios: Usuario[]) => {
         this.usuarios = usuarios;
       },
