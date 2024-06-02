@@ -2,42 +2,168 @@
   titulo="Asignar amarra"
   subtitulo="Seleccione un usuario para asignarle una amarra"
 >
-  <div class="global-container local-container">
-    <form
-      [formGroup]="buscarUsuariosPorDniForm"
-      (keyup)="buscarUsuariosPorDni()"
-    >
-      <div class="form-group mb-3">
-        <label>
-          <span>Buscar usuario por DNI</span>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="dni"
-            placeholder="DNI del usuario"
-          />
-        </label>
-      </div>
-    </form>
+  <div class="global-container local-container formContainer">
+    <div class="">
+      <form
+        [formGroup]="buscarUsuariosPorDniForm"
+        (keyup)="buscarUsuariosPorDni()"
+      >
+        <div class="form-group mb-3">
+          <label>
+            <span>Buscar usuario por DNI</span>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="dni"
+              placeholder="DNI del usuario"
+            />
+          </label>
+        </div>
+      </form>
 
-    <div class="local-container">
-      <ol class="p-0 m-0" *ngIf="usuarios.length; else sinUsuarios">
-        <div>
-          <li *ngFor="let usuario of usuarios">
+      <div class="options">
+        <form [formGroup]="asignarAmarraForm">
+          <ol class="p-0 m-0" *ngIf="usuarios.length; else sinUsuarios">
             <div>
-              <span>
-                <b>{{ usuario.nombres }}</b>
-              </span>
-            </div>
-          </li>
-        </div>
-      </ol>
+              <li *ngFor="let _usuario of usuarios">
+                <div>
+                  <span>
+                    <b>{{ _usuario.nombres }} {{ _usuario.apellidos }}</b>
+                  </span>
 
-      <ng-template #sinUsuarios>
-        <div>
-          <p class="alert alert-secondary">No hay usuarios.</p>
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    (click)="seleccionarUsuario(_usuario)"
+                    *ngIf="mostrarBotonDeSeleccionUsuario"
+                  >
+                    Seleccionar
+                  </button>
+                </div>
+              </li>
+            </div>
+          </ol>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="usuario?.value" class="details card">
+      <div class="card-header">
+        <h3>Detalles</h3>
+      </div>
+
+      <div class="card-body">
+        <div *ngIf="usuario?.value" class="details-section">
+          <div class="details-section-title">
+            <h4 class="card-title">Usuario seleccionado:</h4>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="cambiarUsuario()"
+            >
+              Modificar
+            </button>
+          </div>
+          <div class="card-body details-col">
+            <span>
+              <b>Nombre de usuario: </b>
+              {{ usuario?.value?.username }}
+            </span>
+
+            <span>
+              <b>Nombres: </b>
+              {{ usuario?.value?.nombres }}
+            </span>
+
+            <span>
+              <b>Apellidos: </b>
+              {{ usuario?.value?.apellidos }}
+            </span>
+
+            <span>
+              <b>DNI: </b>
+              {{ usuario?.value?.dni }}
+            </span>
+          </div>
         </div>
-      </ng-template>
+
+        <div *ngIf="embarcacion?.value" class="details-section">
+          <div class="row d-flex justify-content-space-between">
+            <h4 class="card-title">Embarcación seleccionada:</h4>
+            <div>a</div>
+          </div>
+
+          <div class="details-col">
+            <span>
+              Nombre:
+              <b>{{ embarcacion?.value?.nombre }}</b>
+            </span>
+
+            <span>
+              <b>Matrícula: </b>
+              {{ embarcacion?.value?.matricula }}
+            </span>
+
+            <span>
+              <b>Eslora: </b>
+              {{ embarcacion?.value?.eslora }}
+            </span>
+
+            <span>
+              <b>Manga: </b>
+              {{ embarcacion?.value?.manga }}
+            </span>
+
+            <span>
+              <b>Calado: </b>
+              {{ embarcacion?.value?.calado }}
+            </span>
+          </div>
+        </div>
+
+        <div *ngIf="propietario?.value" class="details-section">
+          <h4 class="card-title">Propietario de la embarcación:</h4>
+          <div class="details-col">
+            <span>
+              <b>Nombres: </b>
+              {{ usuario?.value?.nombres }}
+            </span>
+
+            <span>
+              <b>Apellidos: </b>
+              {{ usuario?.value?.apellidos }}
+            </span>
+
+            <span>
+              <b>DNI: </b>
+              {{ usuario?.value?.dni }}
+            </span>
+          </div>
+        </div>
+
+        <div *ngIf="amarra?.value" class="details-section">
+          <h4 class="card-title">Amarra seleccionada:</h4>
+          <div class="details-col">
+            <span>
+              <b>Puerto: </b>
+              <b>{{ amarra?.value?.puerto }}</b>
+            </span>
+            <span>
+              <b>Nombre: </b>
+              <b>{{ amarra?.value?.nombre }}</b>
+            </span>
+            <span>
+              <b>Eslora: </b>
+              <b>{{ amarra?.value?.eslora }}</b>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </app-app-page>
+
+<ng-template #sinUsuarios>
+  <div>
+    <p class="alert alert-secondary">No hay usuarios.</p>
+  </div>
+</ng-template>

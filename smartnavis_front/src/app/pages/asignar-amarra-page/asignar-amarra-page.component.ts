@@ -32,11 +32,17 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   public asignarAmarraForm = new FormGroup({
-    usuario: new FormControl<Usuario | null>(null, Validators.required),
+    usuario: new FormControl<Usuario | undefined>(
+      undefined,
+      Validators.required
+    ),
     usuarioEsPropietario: new FormControl<boolean>(false),
-    propietario: new FormControl<Persona | null>(null),
-    embarcacion: new FormControl<Embarcacion | null>(null, Validators.required),
-    amarra: new FormControl<Amarra | null>(null, Validators.required),
+    propietario: new FormControl<Persona | undefined>(undefined),
+    embarcacion: new FormControl<Embarcacion | undefined>(
+      undefined,
+      Validators.required
+    ),
+    amarra: new FormControl<Amarra | undefined>(undefined, Validators.required),
   });
 
   get usuario() {
@@ -82,4 +88,22 @@ export class AsignarAmarraPageComponent implements OnInit {
       },
     });
   }
+
+  /* Elegir usuario */
+  public mostrarBotonDeSeleccionUsuario = true;
+
+  public seleccionarUsuario(usuario: Usuario) {
+    this.asignarAmarraForm.controls.usuario.setValue(usuario);
+    this.mostrarBotonDeSeleccionUsuario = false;
+  }
+
+  public cambiarUsuario() {
+    this.mostrarBotonDeSeleccionUsuario = true;
+  }
+
+  /* Elegir embarcación */
+
+  /* Elegir amarra */
+
+  /* Asignar amarra */
 }
