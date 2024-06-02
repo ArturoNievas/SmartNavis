@@ -1,0 +1,172 @@
+<app-app-page titulo="Crear Cuenta">
+  <div class="global-container local-container">
+    <form [formGroup]="registrarseForm" (submit)="registrarse()">
+      <div class="form-group">
+        <label for="nombres">
+          <span>Nombres</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nombres"
+            placeholder="Nombres"
+            [class.mb-3]="nombres?.valid || nombres?.pristine"
+            [class.is-invalid]="nombres?.invalid && nombres?.dirty"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="nombres?.valid || nombres?.pristine"
+          >
+            {{ nombres?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+        </label>
+
+        <label for="apellidos">
+          <span>Apellidos</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="apellidos"
+            placeholder="Apellidos"
+            [class.mb-3]="apellidos?.valid || apellidos?.pristine"
+            [class.is-invalid]="apellidos?.invalid && apellidos?.dirty"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="apellidos?.valid || apellidos?.pristine"
+          >
+            {{ apellidos?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+        </label>
+
+        <label for="numeroDocumento">
+          <span>Número de Documento</span>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="numeroDocumento"
+            placeholder="Número de Documento"
+            [class.mb-3]="numeroDocumento?.valid || numeroDocumento?.pristine"
+            [class.is-invalid]="
+              numeroDocumento?.invalid && numeroDocumento?.dirty
+            "
+          />
+          <p
+            class="invalid-feedback"
+            [hidden]="numeroDocumento?.valid || numeroDocumento?.pristine"
+          >
+            {{ numeroDocumento?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </p>
+        </label>
+
+        <label for="fechaNacimiento">
+          <span>Fecha de Nacimiento</span>
+
+          <input
+            type="date"
+            class="form-control date-field"
+            formControlName="fechaDeNacimiento"
+            placeholder="Fecha de Nacimiento"
+            [class.mb-3]="
+              fechaDeNacimiento?.valid || fechaDeNacimiento?.pristine
+            "
+            [class.is-invalid]="
+              fechaDeNacimiento?.invalid && fechaDeNacimiento?.dirty
+            "
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="fechaDeNacimiento?.valid || fechaDeNacimiento?.pristine"
+          >
+            {{ fechaDeNacimiento?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+          <div
+            class="invalid-feedback"
+            [hidden]="fechaDeNacimiento?.valid || fechaDeNacimiento?.pristine"
+          >
+            {{ fechaDeNacimiento?.errors?.["menorDeEdad"] ? "Debe ser mayor de 18 años" : "" }}
+          </div>
+        </label>
+
+        <label for="username">
+          <span>Nombre de usuario</span>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="username"
+            placeholder="Nombre de usuario"
+            [class.mb-3]="username?.valid || username?.pristine"
+            [class.is-invalid]="username?.invalid && username?.dirty"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="username?.valid || username?.pristine"
+          >
+            {{ username?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+          <div class="invalid-feedback" [hidden]="error?.field !== 'username'">
+            {{ username?.errors?.["minlength"] ? "Debe tener al menos 4 caracteres" : "" }}
+          </div>
+        </label>
+
+        <label for="password">
+          <span>Contraseña</span>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Contraseña"
+            [class.mb-3]="password?.valid || password?.pristine"
+            [class.is-invalid]="password?.invalid && password?.dirty"
+          />
+          <div
+            class="invalid-feedback"
+            [hidden]="password?.valid || password?.pristine"
+          >
+            {{ password?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+          <div
+            class="invalid-feedback"
+            [hidden]="password?.valid || password?.pristine"
+          >
+            {{ password?.errors?.["minlength"] ? "Debe tener al menos 8 caracteres" : "" }}
+          </div>
+        </label>
+      </div>
+
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <button
+          type="submit"
+          class="btn btn-primary px-5 py-2 mt-3 d-flex align-items-center justify-content-center"
+          [disabled]="registrarseForm.invalid"
+        >
+          <span *ngIf="loading" class="spinner-border" aria-label="Loading...">
+          </span>
+          <span *ngIf="!loading">Registrarse</span>
+        </button>
+
+        <div [hidden]="error?.field !== ''">
+          <div class="invalid-feedback d-block">{{ error?.message }}</div>
+        </div>
+
+        <div class="mt-5 d-flex align-items-center">
+          <span class="">¿Ya tienes una cuenta?</span>
+          <a
+            routerLink="/iniciar-sesion"
+            class="btn btn-link"
+            style="text-decoration: none"
+          >
+            Iniciá Sesión
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-app-page>
