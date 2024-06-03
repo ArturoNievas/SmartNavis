@@ -2,7 +2,7 @@ package com.hexacore.smartnavis_api.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "alquileres")
@@ -20,14 +20,29 @@ public class Alquiler {
     @JoinColumn(name = "embarcacion_id", referencedColumnName = "id")
     private Embarcacion embarcacion;
 
-    private Date inicio;
+    private LocalDateTime inicio;
 
-    private Date fin;
+    private LocalDateTime fin;
 
     public Alquiler() {
+    	
     }
+    
+    public Alquiler(Amarra amarra, Embarcacion embarcacion) {
+		this.amarra = amarra;
+		this.embarcacion = embarcacion;
+		this.inicio = LocalDateTime.now();
+	}
+    
+    public Alquiler(Amarra amarra, Embarcacion embarcacion, LocalDateTime inicio, LocalDateTime fin) {
+		this.amarra = amarra;
+		this.embarcacion = embarcacion;
+		this.inicio = LocalDateTime.now();
+		this.inicio = inicio;
+		this.fin = fin;
+	}
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
@@ -51,19 +66,19 @@ public class Alquiler {
         this.embarcacion = embarcacion;
     }
 
-    public Date getInicio() {
+    public LocalDateTime getInicio() {
         return inicio;
     }
 
-    public void setInicio(Date inicio) {
+    public void setInicio(LocalDateTime inicio) {
         this.inicio = inicio;
     }
 
-    public Date getFin() {
+    public LocalDateTime getFin() {
         return fin;
     }
 
-    public void setFin(Date fin) {
+    public void setFin(LocalDateTime fin) {
         this.fin = fin;
     }
 }

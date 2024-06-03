@@ -2,6 +2,7 @@ package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.model.Alquiler;
 import com.hexacore.smartnavis_api.service.AlquilerService;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,4 +15,5 @@ public class AlquilerController extends SmartNavisController<Alquiler, Long> {
         super(service);
         // this.service = service;
     }
+    
 }
