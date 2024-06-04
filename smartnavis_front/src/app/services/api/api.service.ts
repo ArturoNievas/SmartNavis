@@ -47,7 +47,7 @@ export class ApiService {
     );
   }
 
-  public post<T>(endpoint: string, payload: any): Observable<T> {
+  public post<T>(endpoint: string, payload: any = null): Observable<T> {
     return this.http.post<T>(this.baseUrl + endpoint, payload, {}).pipe(
       retry(environment.apiRetryAttempts),
       catchError((error) => this.handleError(error, 'POST', endpoint, payload)),

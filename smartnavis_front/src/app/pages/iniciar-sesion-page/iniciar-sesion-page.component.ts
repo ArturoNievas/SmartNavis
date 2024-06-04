@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
+import {Component} from '@angular/core';
+import {AuthService} from '../../services/auth/auth.service';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
-import { NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import {AppPageComponent} from '../../shared/components/app-page/app-page.component';
+import {NgIf} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {Me} from "../../interfaces/me";
 
 @Component({
   selector: 'app-iniciar-sesion-page',
@@ -18,7 +19,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './iniciar-sesion-page.component.scss',
 })
 export class IniciarSesionPageComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+  }
 
   loading: boolean = false;
 
@@ -50,8 +52,8 @@ export class IniciarSesionPageComponent {
 
     this.loading = true;
 
-    this.authService.login({ username, password }).subscribe({
-      next: () => {
+    this.authService.doLogin(username, password).subscribe({
+      next: (userDetails: Me) => {
         this.authService.redirectToHome();
         this.loading = false;
       },

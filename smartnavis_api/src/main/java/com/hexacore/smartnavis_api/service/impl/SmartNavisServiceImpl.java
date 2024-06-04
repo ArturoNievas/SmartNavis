@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 @Transactional
 public abstract class SmartNavisServiceImpl<T, ID> implements SmartNavisService<T, ID> {
-    protected final JpaRepository<T, ID> repository;
+    private final JpaRepository<T, ID> repository;
 
     public SmartNavisServiceImpl(JpaRepository<T, ID> repository) {
         this.repository = repository;
