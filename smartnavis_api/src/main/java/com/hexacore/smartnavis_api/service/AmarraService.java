@@ -8,4 +8,7 @@ public interface AmarraService extends SmartNavisService<Amarra, Long> {
 	Iterable<Amarra> listarAmarras(Puerto puerto);
 
 	Iterable<Amarra> listarAmarrasDisponibles(Puerto puerto, Double eslora, Double manga, Double calado);
+	
+	Amarra toggleDisponible(Amarra amarra);
+
 }

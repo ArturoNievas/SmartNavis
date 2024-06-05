@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { SectionHeaderComponent } from '../section-header/section-header.component';
-import { ModalComponent } from '../modal/modal.component';
-import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../services/auth/auth.service';
-import { NgIf } from '@angular/common';
+import {Component, Input} from '@angular/core';
+import {SectionHeaderComponent} from '../section-header/section-header.component';
+import {ModalComponent} from '../modal/modal.component';
+import {RouterLink} from '@angular/router';
+import {AuthService} from '../../../services/auth/auth.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-app-page',
@@ -16,11 +16,12 @@ export class AppPageComponent {
   @Input() public titulo?: string;
   @Input() public subtitulo?: string;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+  }
 
-  public loggedIn = this.authService.getUsuario() !== null; // TODO
+  public loggedIn = this.authService.isUserAuthenticated(); // TODO
 
   logout() {
-    this.authService.logout();
+    this.authService.doLogout();
   }
 }

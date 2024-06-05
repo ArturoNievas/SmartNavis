@@ -13,6 +13,12 @@ public class AlquilerTercero extends Alquiler {
     private Persona titular;
 
     public AlquilerTercero() {
+	}
+
+	public AlquilerTercero(Amarra amarra, Embarcacion embarcacion, Persona titular, String parentezco) {
+    	super(amarra, embarcacion);
+    	this.titular = titular;
+    	this.parentezco = parentezco;
     }
 
     public String getParentezco() {
