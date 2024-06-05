@@ -10,6 +10,7 @@ import { AppPageComponent } from '../../shared/components/app-page/app-page.comp
 import { JsonPipe, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { isFinite } from 'lodash';
 
 @Component({
   selector: 'app-registrarse-page',
@@ -104,16 +105,24 @@ export class RegistrarsePageComponent {
     const numeroDocumento = this.numeroDocumento!.value || '';
     const fechaDeNacimiento = this.fechaDeNacimiento!.value || '';
 
+    if (!isFinite(numeroDocumento)) {
+      this.error = {
+        message: 'El número de documento debe ser un número.',
+        field: 'numeroDocumento',
+      };
+      return;
+    }
+
     this.loading = true;
 
     this.authService
       .signup({
-        numeroDocumento,
+        dni: parseInt(numeroDocumento, 10),
         nombres,
         apellidos,
         username,
         password,
-        fechaDeNacimiento,
+        fechaNacimiento: fechaDeNacimiento,
       })
       .subscribe({
         next: () => {

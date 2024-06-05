@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {ApiService} from '../api/api.service';
-import {Router} from '@angular/router';
-import {environment} from "../../../environments/environment";
-import {catchError, map, Observable, of, switchMap, tap} from "rxjs";
-import {AuthResult} from "../../interfaces/auth-result";
-import {Me} from "../../interfaces/me";
+import { Injectable } from '@angular/core';
+import { ApiService } from '../api/api.service';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { AuthResult } from '../../interfaces/auth-result';
+import { Me } from '../../interfaces/me';
 
 @Injectable({
   providedIn: 'root',
@@ -14,22 +14,21 @@ export class AuthService {
     return localStorage.getItem(environment.jwtTokenStorageKey);
   };
 
-  private readonly authUrl: string = "/auth";
+  private readonly authUrl: string = '/auth';
 
   private userData: Me | null;
 
-  constructor(private router: Router,
-              private apiService: ApiService) {
+  constructor(private router: Router, private apiService: ApiService) {
     this.userData = null;
   }
 
   public signup(usuario: {
     nombres: string;
     apellidos: string;
+    fechaNacimiento: string;
     username: string;
     password: string;
-    numeroDocumento: string;
-    fechaDeNacimiento: string;
+    dni: number;
   }): Observable<any> {
     return this.apiService.post(`${this.authUrl}/signup`, usuario);
   }
@@ -48,23 +47,23 @@ export class AuthService {
   }
 
   public isUserAuthenticated(): boolean {
-    return (AuthService.jwtTokenGetter() !== null);
+    return AuthService.jwtTokenGetter() !== null;
   }
 
   public getMe(): Me {
     if (!this.isUserAuthenticated()) {
-      throw new Error("Usuario no autenticado.");
+      throw new Error('Usuario no autenticado.');
     }
     return this.userData!;
   }
 
   public userIsAdmin(): boolean {
-    return (this.getMe().role === 'ADMINISTRADOR');
+    return this.getMe().role === 'ADMINISTRADOR';
   }
 
   public me(): Observable<Me> {
     if (!this.isUserAuthenticated()) {
-      throw new Error("Usuario no autenticado.");
+      throw new Error('Usuario no autenticado.');
     }
     this.userData = null;
     return this.apiService.get<Me>(`${this.authUrl}/me`).pipe(
@@ -76,14 +75,16 @@ export class AuthService {
 
   public doLogin(username: string, password: string): Observable<Me> {
     this.deleteToken();
-    return this.apiService.post<AuthResult>(`${this.authUrl}/login`, {username, password}).pipe(
-      tap((authResult: AuthResult) => {
-        this.storeToken(authResult.token);
-      }),
-      switchMap(() => {
-        return this.me();
-      })
-    );
+    return this.apiService
+      .post<AuthResult>(`${this.authUrl}/login`, { username, password })
+      .pipe(
+        tap((authResult: AuthResult) => {
+          this.storeToken(authResult.token);
+        }),
+        switchMap(() => {
+          return this.me();
+        })
+      );
   }
 
   public doLogout(): Observable<boolean> {
