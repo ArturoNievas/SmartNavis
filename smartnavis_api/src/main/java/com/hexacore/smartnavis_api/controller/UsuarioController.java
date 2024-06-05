@@ -44,8 +44,8 @@ public class UsuarioController extends SmartNavisController<Usuario, Long> {
         return this.usuarioService.promoverAdministrador(this.usuarioService.getMustExist(id));
     }
     
-    @GetMapping("dni")
-    public Iterable<Usuario> buscarUsuarioPorDNI(@RequestParam(required = false) int dni) {
+    @GetMapping("buscar/dni/{dni}")
+    public Iterable<Usuario> buscarUsuarioPorDNI(@PathVariable int dni) {
         return this.usuarioService.buscarPorDNI(dni);
     }
 }

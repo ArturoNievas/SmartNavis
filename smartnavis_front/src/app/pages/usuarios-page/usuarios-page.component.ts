@@ -74,6 +74,8 @@ export class UsuariosPageComponent implements OnInit {
     });
   }
 
+  /* Buscar usuario por DNI */
+
   public buscarUsuariosPorDniForm = new FormGroup({
     dni: new FormControl(''),
   });
@@ -83,16 +85,23 @@ export class UsuariosPageComponent implements OnInit {
   }
 
   public buscarUsuariosPorDni() {
-    if (this.buscarUsuariosPorDniForm.invalid) return;
-    if (!this.dniBuscado?.value) return;
+    const dni = this.dniBuscado?.value;
 
-    this.usuarioService.buscarUsuariosPorDNI(this.dniBuscado.value).subscribe({
-      next: (usuarios: Usuario[]) => {
-        this.usuarios = usuarios;
-      },
-      error: (error: any) => {
-        alert(`Error al buscar el usuario: ${error.message}`);
-      },
-    });
+    if (!dni) {
+      this.listarUsuarios();
+    } else {
+      this.usuarioService.buscarUsuariosPorDNI(dni).subscribe({
+        next: (usuarios: Usuario[]) => {
+          // Comprobar si cambió el valor desde que se hizo la búsqueda
+          // Puede ocurrir si el usuario escribe un DNI y luego borra el campo
+          if (this.dniBuscado?.value === dni) {
+            this.usuarios = usuarios;
+          }
+        },
+        error: (error: any) => {
+          alert(`Error al buscar el usuario: ${error.message}`);
+        },
+      });
+    }
   }
 }

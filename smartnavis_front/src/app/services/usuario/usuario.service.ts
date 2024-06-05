@@ -53,7 +53,7 @@ export class UsuarioService {
     (dni: string, observer: any) => {
       this._buscarUsuariosPorDNI(dni).subscribe(observer);
     },
-    500,
+    200,
     { leading: false, trailing: true }
   );
 
@@ -79,6 +79,6 @@ export class UsuarioService {
   }
 
   private _buscarUsuariosPorDNI(dni: string): Observable<Usuario[]> {
-    return this.apiService.get<Usuario[]>(`/usuario/dni/${dni}`);
+    return this.apiService.get<Usuario[]>(`/usuario/buscar/dni/${dni}`);
   }
 }

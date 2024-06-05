@@ -1,12 +1,4 @@
 <form [formGroup]="formulario" (submit)="onSubmit()">
-  <!-- formulario = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    matricula: new FormControl('', Validators.required),
-    eslora: new FormControl('', Validators.required),
-    manga: new FormControl('', Validators.required),
-    calado: new FormControl('', Validators.required),
-  }); -->
-
   <div class="form-group">
     <label id="nombre">
       <span>Nombre</span>
@@ -129,6 +121,8 @@
                 </div> -->
     </label>
   </div>
+
+  <ng-content></ng-content>
 
   <div
     style="

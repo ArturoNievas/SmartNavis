@@ -8,15 +8,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Persona } from '../../interfaces/persona';
 import { Embarcacion } from '../../interfaces/embarcacion';
 import { Amarra } from '../../interfaces/amarra';
+import { CrearEmbarcacionFormComponent } from '../../shared/components/forms/crear-embarcacion-form/crear-embarcacion-form.component';
 
 @Component({
   selector: 'app-asignar-amarra-page',
   standalone: true,
-  imports: [AppPageComponent, ReactiveFormsModule, NgFor, NgIf],
+  imports: [
+    AppPageComponent,
+    ReactiveFormsModule,
+    NgFor,
+    NgIf,
+    NgTemplateOutlet,
+    CrearEmbarcacionFormComponent,
+  ],
   templateUrl: './asignar-amarra-page.component.html',
   styleUrl: './asignar-amarra-page.component.scss',
 })
@@ -26,11 +34,40 @@ export class AsignarAmarraPageComponent implements OnInit {
   constructor(private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {
-    this.usuarioService.listarUsuarios().subscribe((usuarios) => {
-      this.usuarios = usuarios;
+    this.listarUsuarios();
+  }
+
+  /* Listar usuarios */
+  public listarUsuarios() {
+    this.usuarioService.listarUsuarios().subscribe({
+      next: (usuarios: Usuario[]) => {
+        this.usuarios = usuarios;
+      },
+      error: (error: any) => {
+        alert(`Error al listar los usuarios: ${error.message}`);
+      },
     });
   }
 
+  /* FORMULARIOS PARA ASIGNAR AMARRA */
+  private formularios = ['USUARIO', 'EMBARCACION', 'PROPIETARIO', 'AMARRA'];
+  public formularioActual = this.formularios[0];
+
+  siguienteFormulario() {
+    const indice = this.formularios.indexOf(this.formularioActual);
+    if (indice < this.formularios.length - 1) {
+      this.formularioActual = this.formularios[indice + 1];
+    }
+  }
+
+  anteriorFormulario() {
+    const indice = this.formularios.indexOf(this.formularioActual);
+    if (indice > 0) {
+      this.formularioActual = this.formularios[indice - 1];
+    }
+  }
+
+  /* Asignar amarra */
   public asignarAmarraForm = new FormGroup({
     usuario: new FormControl<Usuario | undefined>(
       undefined,
@@ -66,7 +103,6 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   /* Buscar usuario por DNI */
-
   public buscarUsuariosPorDniForm = new FormGroup({
     dni: new FormControl(''),
   });
@@ -76,32 +112,38 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   public buscarUsuariosPorDni() {
-    if (this.buscarUsuariosPorDniForm.invalid) return;
-    if (!this.dniBuscado?.value) return;
+    const dni = this.dniBuscado?.value;
 
-    this.usuarioService.buscarUsuariosPorDNI(this.dniBuscado.value).subscribe({
-      next: (usuarios: Usuario[]) => {
-        this.usuarios = usuarios;
-      },
-      error: (error: any) => {
-        alert(`Error al buscar el usuario: ${error.message}`);
-      },
-    });
+    if (!dni) {
+      this.listarUsuarios();
+    } else {
+      this.usuarioService.buscarUsuariosPorDNI(dni).subscribe({
+        next: (usuarios: Usuario[]) => {
+          // Comprobar si cambió el valor desde que se hizo la búsqueda
+          // Puede ocurrir si el usuario escribe un DNI y luego borra el campo
+          if (this.dniBuscado?.value === dni) {
+            this.usuarios = usuarios;
+          }
+        },
+        error: (error: any) => {
+          alert(`Error al buscar el usuario: ${error.message}`);
+        },
+      });
+    }
   }
 
   /* Elegir usuario */
-  public mostrarBotonDeSeleccionUsuario = true;
 
   public seleccionarUsuario(usuario: Usuario) {
     this.asignarAmarraForm.controls.usuario.setValue(usuario);
-    this.mostrarBotonDeSeleccionUsuario = false;
+    this.siguienteFormulario();
   }
 
-  public cambiarUsuario() {
-    this.mostrarBotonDeSeleccionUsuario = true;
+  /* Cargar embarcación */
+  public cargarEmbarcacion(embarcacion: any) {
+    this.asignarAmarraForm.controls.embarcacion.setValue(embarcacion);
+    this.siguienteFormulario();
   }
-
-  /* Elegir embarcación */
 
   /* Elegir amarra */
 
