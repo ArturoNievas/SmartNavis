@@ -14,6 +14,11 @@ import { Embarcacion } from '../../interfaces/embarcacion';
 import { Amarra } from '../../interfaces/amarra';
 import { CrearEmbarcacionFormComponent } from '../../shared/components/forms/crear-embarcacion-form/crear-embarcacion-form.component';
 
+import { RouterLink } from '@angular/router';
+import { allPages } from '../../config/app.routes';
+import { PuertoService } from '../../services/puerto/puerto.service';
+import { Puerto } from '../../interfaces/puerto';
+
 @Component({
   selector: 'app-asignar-amarra-page',
   standalone: true,
@@ -24,14 +29,19 @@ import { CrearEmbarcacionFormComponent } from '../../shared/components/forms/cre
     NgIf,
     NgTemplateOutlet,
     CrearEmbarcacionFormComponent,
+    RouterLink,
   ],
   templateUrl: './asignar-amarra-page.component.html',
   styleUrl: './asignar-amarra-page.component.scss',
 })
 export class AsignarAmarraPageComponent implements OnInit {
+  public allPages = allPages;
   public usuarios: Usuario[] = [];
 
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(
+    private usuarioService: UsuarioService,
+    private puertoService: PuertoService
+  ) {}
 
   ngOnInit(): void {
     this.listarUsuarios();
@@ -50,31 +60,17 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   /* FORMULARIOS PARA ASIGNAR AMARRA */
-  private formularios = ['USUARIO', 'EMBARCACION', 'PROPIETARIO', 'AMARRA'];
-  public formularioActual = this.formularios[0];
-
-  siguienteFormulario() {
-    const indice = this.formularios.indexOf(this.formularioActual);
-    if (indice < this.formularios.length - 1) {
-      this.formularioActual = this.formularios[indice + 1];
-    }
-  }
-
-  anteriorFormulario() {
-    const indice = this.formularios.indexOf(this.formularioActual);
-    if (indice > 0) {
-      this.formularioActual = this.formularios[indice - 1];
-    }
-  }
-
   /* Asignar amarra */
   public asignarAmarraForm = new FormGroup({
     usuario: new FormControl<Usuario | undefined>(
       undefined,
       Validators.required
     ),
-    usuarioEsPropietario: new FormControl<boolean>(false),
-    propietario: new FormControl<Persona | undefined>(undefined),
+    usuarioEsPropietario: new FormControl<boolean>(true, Validators.required),
+    propietario: new FormControl<Persona | undefined>(
+      undefined,
+      Validators.required
+    ),
     embarcacion: new FormControl<Embarcacion | undefined>(
       undefined,
       Validators.required
@@ -100,6 +96,45 @@ export class AsignarAmarraPageComponent implements OnInit {
 
   get amarra() {
     return this.asignarAmarraForm.get('amarra');
+  }
+
+  public formularios = [
+    'USUARIO',
+    'EMBARCACION',
+    'PROPIETARIO',
+    'AMARRA',
+    'RESUMEN',
+  ].filter(Boolean);
+  public formularioActual = this.formularios[0];
+
+  siguienteFormulario() {
+    const indice = this.formularios.indexOf(this.formularioActual);
+    if (indice < this.formularios.length - 1) {
+      this.formularioActual = this.formularios[indice + 1];
+    }
+
+    this.actualizarFormularioActual();
+  }
+
+  anteriorFormulario() {
+    const indice = this.formularios.indexOf(this.formularioActual);
+    if (indice > 0) {
+      this.formularioActual = this.formularios[indice - 1];
+    }
+
+    this.actualizarFormularioActual();
+  }
+
+  private actualizarFormularioActual() {
+    if (this.formularioActual === 'PROPIETARIO') {
+      if (this.usuarioEsPropietario?.value) {
+        this.propietario?.setValue(this.usuario?.value as Persona);
+      }
+    }
+
+    if (this.formularioActual === 'AMARRA') {
+      this.listarPuertos();
+    }
   }
 
   /* Buscar usuario por DNI */
@@ -145,7 +180,56 @@ export class AsignarAmarraPageComponent implements OnInit {
     this.siguienteFormulario();
   }
 
+  /* Cargar propietario */
+
   /* Elegir amarra */
+  public puertos: any = [];
+  public puerto?: Puerto = undefined;
+
+  public amarras: any = [];
+  public amarrasDisponibles: any = [];
+
+  public listarPuertos() {
+    this.puertoService
+      .listarPuertos()
+      .subscribe((puertos) => (this.puertos = puertos));
+  }
+
+  public seleccionarPuerto(e: any) {
+    const idPuerto =
+      e.target.value || e.target.options[e.target.selectedIndex].value;
+
+    if (idPuerto != String(this.puerto?.id)) {
+      this.puerto = this.puertos.find((p: Puerto) => p.id == Number(idPuerto));
+
+      this.cargarAmarras();
+    }
+  }
+
+  public cargarAmarras() {
+    if (!this.puerto) return;
+
+    this.puertoService.listarAmarras(this.puerto).subscribe({
+      next: (amarras: Amarra[]) => {
+        this.amarras = amarras;
+        this.amarrasDisponibles = amarras;
+
+        console.log(this.amarras);
+      },
+      error: (error: any) => {
+        alert(`Error al cargar las amarras: ${error.message}`);
+      },
+    });
+  }
+
+  public seleccionarAmarra(amarra: Amarra) {
+    this.asignarAmarraForm.controls.amarra.setValue(amarra);
+    this.siguienteFormulario();
+  }
 
   /* Asignar amarra */
+
+  public asignarAmarra() {
+    console.log(this.asignarAmarraForm.value);
+  }
 }
