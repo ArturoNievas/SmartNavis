@@ -1,0 +1,94 @@
+<form [formGroup]="formulario" (submit)="onSubmit()" class="container">
+  <div class="form-group row">
+    <label class="col">
+      <span>Nombres</span>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="nombres"
+        placeholder="Nombres del propietario"
+        [value]="nombres?.value"
+        [class.mb-3]="nombres?.valid || nombres?.pristine"
+        [class.is-invalid]="nombres?.invalid && nombres?.dirty"
+      />
+      <div
+        class="invalid-feedback"
+        [hidden]="nombres?.valid || nombres?.pristine"
+      >
+        {{ nombres?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+    </label>
+
+    <label class="col">
+      <span>Apellidos</span>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="apellidos"
+        placeholder="Apellidos del propietario"
+        [class.mb-3]="apellidos?.valid || apellidos?.pristine"
+        [class.is-invalid]="apellidos?.invalid && apellidos?.dirty"
+      />
+      <div
+        class="invalid-feedback"
+        [hidden]="apellidos?.valid || apellidos?.pristine"
+      >
+        {{ apellidos?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+    </label>
+  </div>
+
+  <div class="form-group row">
+    <label class="col">
+      <span>DNI</span>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="dni"
+        placeholder="DNI del propietario"
+        [class.mb-3]="dni?.valid || dni?.pristine"
+        [class.is-invalid]="dni?.invalid && dni?.dirty"
+      />
+      <div class="invalid-feedback" [hidden]="dni?.valid || dni?.pristine">
+        {{ dni?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+    </label>
+
+    <label class="col">
+      <span>Fecha de nacimiento</span>
+      <input
+        type="date"
+        class="form-control"
+        formControlName="fechaNacimiento"
+        [class.mb-3]="fechaNacimiento?.valid || fechaNacimiento?.pristine"
+        [class.is-invalid]="fechaNacimiento?.invalid && fechaNacimiento?.dirty"
+      />
+      <div
+        class="invalid-feedback"
+        [hidden]="fechaNacimiento?.valid || fechaNacimiento?.pristine"
+      >
+        {{ fechaNacimiento?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+    </label>
+  </div>
+
+  <ng-content></ng-content>
+
+  <div
+    style="
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    "
+  >
+    <button
+      type="submit"
+      class="btn btn-primary px-5 py-2 mt-3 d-flex align-items-center justify-content-center"
+      [disabled]="formulario.invalid"
+    >
+      <span>{{ modificar ? "Modificar" : "Confirmar" }}</span>
+    </button>
+  </div>
+</form>

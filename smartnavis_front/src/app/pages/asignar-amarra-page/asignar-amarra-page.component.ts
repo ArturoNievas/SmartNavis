@@ -22,6 +22,7 @@ import { Puerto } from '../../interfaces/puerto';
 import { Usuario } from '../../interfaces/usuario';
 
 import { allPages } from '../../config/app.routes';
+import { PropietarioFormComponent } from './components/propietario-form/propietario-form.component';
 
 @Component({
   selector: 'app-asignar-amarra-page',
@@ -33,6 +34,7 @@ import { allPages } from '../../config/app.routes';
     NgIf,
     NgTemplateOutlet,
     CrearEmbarcacionFormComponent,
+    PropietarioFormComponent,
     RouterLink,
   ],
   templateUrl: './asignar-amarra-page.component.html',
@@ -44,6 +46,9 @@ export class AsignarAmarraPageComponent implements OnInit {
 
   @ViewChild('crearEmbarcacionForm', { static: false })
   crearEmbarcacionForm!: CrearEmbarcacionFormComponent;
+
+  @ViewChild('propietarioForm', { static: false })
+  propietarioForm!: PropietarioFormComponent;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -78,6 +83,11 @@ export class AsignarAmarraPageComponent implements OnInit {
       Validators.required
     ),
     amarra: new FormControl<Amarra | undefined>(undefined, Validators.required),
+
+    // Propietario
+    usuarioEsPropietario: new FormControl<boolean>(false),
+    propietario: new FormControl<Persona | undefined>(undefined),
+    parentezco: new FormControl<string>(''),
   });
 
   get usuario() {
@@ -92,9 +102,26 @@ export class AsignarAmarraPageComponent implements OnInit {
     return this.asignarAmarraForm.get('amarra');
   }
 
-  get formularios() {
-    return ['USUARIO', 'EMBARCACION', 'AMARRA', 'RESUMEN'];
+  get usuarioEsPropietario() {
+    return this.asignarAmarraForm.get('usuarioEsPropietario');
   }
+
+  get propietario() {
+    return this.asignarAmarraForm.get('propietario');
+  }
+
+  get parentezco() {
+    return this.asignarAmarraForm.get('parentezco');
+  }
+
+  /* Manejo de formularios */
+  protected formularios = [
+    'USUARIO',
+    'EMBARCACION',
+    'PROPIETARIO',
+    'AMARRA',
+    'RESUMEN',
+  ];
 
   public formularioActual = this.formularios[0];
   siguienteFormulario() {
@@ -103,7 +130,7 @@ export class AsignarAmarraPageComponent implements OnInit {
       this.formularioActual = this.formularios[indice + 1];
     }
 
-    this.actualizarFormularioActual();
+    this.actualizarFormulario();
   }
 
   anteriorFormulario() {
@@ -112,11 +139,15 @@ export class AsignarAmarraPageComponent implements OnInit {
       this.formularioActual = this.formularios[indice - 1];
     }
 
-    this.actualizarFormularioActual();
+    this.actualizarFormulario();
   }
 
-  private actualizarFormularioActual() {
+  private actualizarFormulario() {
     console.log(this.asignarAmarraForm.value);
+
+    if (this.formularioActual === 'PROPIETARIO') {
+      this.actualizarPropietarioForm();
+    }
 
     if (this.formularioActual === 'AMARRA') {
       this.listarPuertos();
@@ -167,16 +198,31 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   /* Seleccionar usuario */
-  public seleccionarUsuario(usuario: Usuario) {
+  protected seleccionarUsuario(usuario: Usuario) {
     this.asignarAmarraForm.controls.usuario.setValue(usuario);
   }
 
   /* Cargar embarcación */
-  public cargarEmbarcacion(embarcacion: any) {
+  protected cargarEmbarcacion(embarcacion: any) {
     this.asignarAmarraForm.controls.embarcacion.setValue(embarcacion);
   }
 
+  protected actualizarPropietarioForm() {
+    const usuarioEsPropietario = this.usuarioEsPropietario?.value;
+
+    if (usuarioEsPropietario) {
+      this.propietario?.setValue(this.usuario?.value as Persona);
+      this.propietarioForm.setFormulario(this.usuario?.value as Persona);
+    } else {
+      this.propietarioForm.reset();
+      this.propietario?.setValue(undefined);
+    }
+  }
+
   /* Cargar propietario */
+  protected cargarPropietario(propietario: any) {
+    this.asignarAmarraForm.controls.propietario.setValue(propietario);
+  }
 
   /* Elegir amarra */
   public puertos: Puerto[] = [];

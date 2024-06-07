@@ -11,6 +11,11 @@
         </ng-container>
       </div>
 
+      <div [class.d-none]="formularioActual !== 'PROPIETARIO'">
+        <ng-container *ngTemplateOutlet="formularioSeleccionarPropietario">
+        </ng-container>
+      </div>
+
       <div [class.d-none]="formularioActual !== 'AMARRA'">
         <ng-container *ngTemplateOutlet="formularioSeleccionarAmarra">
         </ng-container>
@@ -97,27 +102,27 @@
         </div>
       </div>
 
-      <!-- <div class="details-section">
+      <div class="details-section">
         <div class="details-section-title">
           <h4 class="card-title">Propietario de la embarcación:</h4>
         </div>
         <div class="details-col">
           <span>
             <b>Nombres: </b>
-            {{ usuario?.value?.nombres }}
+            {{ propietario?.value?.nombres }}
           </span>
 
           <span>
             <b>Apellidos: </b>
-            {{ usuario?.value?.apellidos }}
+            {{ propietario?.value?.apellidos }}
           </span>
 
           <span>
             <b>DNI: </b>
-            {{ usuario?.value?.dni }}
+            {{ propietario?.value?.dni }}
           </span>
         </div>
-      </div> -->
+      </div>
 
       <div class="details-section">
         <div class="details-section-title">
@@ -226,7 +231,46 @@
         (enviarFormulario)="cargarEmbarcacion($event)"
         #crearEmbarcacionForm
       >
-        <!-- <form [formGroup]="asignarAmarraForm">
+        <form [formGroup]="asignarAmarraForm">
+          <div class="form-check">
+            <input
+              id="esPropietario"
+              formControlName="usuarioEsPropietario"
+              type="checkbox"
+              class="form-check-input"
+              (change)="actualizarPropietarioForm()"
+            />
+            <label class="form-check-label" for="esPropietario">
+              El usuario seleccionado es el propietario de la embarcación.
+            </label>
+          </div>
+        </form>
+      </app-crear-embarcacion-form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #formularioSeleccionarPropietario>
+  <div class="">
+    <div class="card-header">
+      <h3>
+        Elección de propietario ({{ formularios.indexOf("PROPIETARIO") + 1 }}/{{
+          formularios.length
+        }})
+      </h3>
+    </div>
+
+    <div class="card-body p-3">
+      <div *ngIf="usuarioEsPropietario!.value && !usuario?.value?.dni">
+        <ng-container *ngTemplateOutlet="sinUsuarioPropietario"></ng-container>
+      </div>
+
+      <div [class.d-none]="usuarioEsPropietario!.value && !usuario?.value?.dni">
+        <app-propietario-form
+          (enviarFormulario)="cargarPropietario($event)"
+          #propietarioForm
+        >
+          <!-- <form [formGroup]="asignarAmarraForm">
           <div class="form-check">
             <input
               id="esPropietario"
@@ -240,7 +284,8 @@
             </label>
           </div>
         </form> -->
-      </app-crear-embarcacion-form>
+        </app-propietario-form>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -307,6 +352,15 @@
         </ol>
       </ng-container>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #sinUsuarioPropietario>
+  <div>
+    <p class="alert alert-secondary">
+      Seleccione un usuario o marque la casilla para indicar que el usuario no
+      es el propietario de la embarcación.
+    </p>
   </div>
 </ng-template>
 
