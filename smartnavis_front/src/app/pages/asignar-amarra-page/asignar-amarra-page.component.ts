@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
-import { UsuarioService } from '../../services/usuario/usuario.service';
-import { Usuario } from '../../interfaces/usuario';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Persona } from '../../interfaces/persona';
-import { Embarcacion } from '../../interfaces/embarcacion';
-import { Amarra } from '../../interfaces/amarra';
+
+import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { CrearEmbarcacionFormComponent } from '../../shared/components/forms/crear-embarcacion-form/crear-embarcacion-form.component';
 
-import { RouterLink } from '@angular/router';
-import { allPages } from '../../config/app.routes';
+import { AmarraService } from '../../services/amarra/amarra.service';
 import { PuertoService } from '../../services/puerto/puerto.service';
+import { UsuarioService } from '../../services/usuario/usuario.service';
+
+import { Amarra } from '../../interfaces/amarra';
+import { Embarcacion } from '../../interfaces/embarcacion';
+import { Persona } from '../../interfaces/persona';
 import { Puerto } from '../../interfaces/puerto';
+import { Usuario } from '../../interfaces/usuario';
+
+import { allPages } from '../../config/app.routes';
 
 @Component({
   selector: 'app-asignar-amarra-page',
@@ -38,9 +42,13 @@ export class AsignarAmarraPageComponent implements OnInit {
   public allPages = allPages;
   public usuarios: Usuario[] = [];
 
+  @ViewChild('crearEmbarcacionForm', { static: false })
+  crearEmbarcacionForm!: CrearEmbarcacionFormComponent;
+
   constructor(
     private usuarioService: UsuarioService,
-    private puertoService: PuertoService
+    private puertoService: PuertoService,
+    private amarraService: AmarraService
   ) {}
 
   ngOnInit(): void {
@@ -60,14 +68,8 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   /* FORMULARIOS PARA ASIGNAR AMARRA */
-  /* Asignar amarra */
   public asignarAmarraForm = new FormGroup({
     usuario: new FormControl<Usuario | undefined>(
-      undefined,
-      Validators.required
-    ),
-    usuarioEsPropietario: new FormControl<boolean>(true, Validators.required),
-    propietario: new FormControl<Persona | undefined>(
       undefined,
       Validators.required
     ),
@@ -82,14 +84,6 @@ export class AsignarAmarraPageComponent implements OnInit {
     return this.asignarAmarraForm.get('usuario');
   }
 
-  get usuarioEsPropietario() {
-    return this.asignarAmarraForm.get('usuarioEsPropietario');
-  }
-
-  get propietario() {
-    return this.asignarAmarraForm.get('propietario');
-  }
-
   get embarcacion() {
     return this.asignarAmarraForm.get('embarcacion');
   }
@@ -98,15 +92,11 @@ export class AsignarAmarraPageComponent implements OnInit {
     return this.asignarAmarraForm.get('amarra');
   }
 
-  public formularios = [
-    'USUARIO',
-    'EMBARCACION',
-    'PROPIETARIO',
-    'AMARRA',
-    'RESUMEN',
-  ].filter(Boolean);
-  public formularioActual = this.formularios[0];
+  get formularios() {
+    return ['USUARIO', 'EMBARCACION', 'AMARRA', 'RESUMEN'];
+  }
 
+  public formularioActual = this.formularios[0];
   siguienteFormulario() {
     const indice = this.formularios.indexOf(this.formularioActual);
     if (indice < this.formularios.length - 1) {
@@ -126,16 +116,27 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   private actualizarFormularioActual() {
-    if (this.formularioActual === 'PROPIETARIO') {
-      if (this.usuarioEsPropietario?.value) {
-        this.propietario?.setValue(this.usuario?.value as Persona);
-      }
-    }
+    console.log(this.asignarAmarraForm.value);
 
     if (this.formularioActual === 'AMARRA') {
       this.listarPuertos();
+      this.cargarAmarras();
     }
   }
+
+  private reiniciarFormulario = () => {
+    this.asignarAmarraForm.reset();
+    this.formularioActual = this.formularios[0];
+
+    this.buscarUsuariosPorDniForm.reset();
+
+    this.listarUsuarios();
+
+    this.puerto = undefined;
+    this.amarrasDisponibles = [];
+
+    this.crearEmbarcacionForm.reset();
+  };
 
   /* Buscar usuario por DNI */
   public buscarUsuariosPorDniForm = new FormGroup({
@@ -147,46 +148,40 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   public buscarUsuariosPorDni() {
-    const dni = this.dniBuscado?.value;
-
-    if (!dni) {
+    if (!this.dniBuscado?.value) {
       this.listarUsuarios();
     } else {
-      this.usuarioService.buscarUsuariosPorDNI(dni).subscribe({
-        next: (usuarios: Usuario[]) => {
-          // Comprobar si cambió el valor desde que se hizo la búsqueda
-          // Puede ocurrir si el usuario escribe un DNI y luego borra el campo
-          if (this.dniBuscado?.value === dni) {
-            this.usuarios = usuarios;
-          }
-        },
-        error: (error: any) => {
-          alert(`Error al buscar el usuario: ${error.message}`);
-        },
-      });
+      this.usuarioService
+        .buscarUsuariosPorDNI(this.dniBuscado.value)
+        .subscribe({
+          next: (usuarios: Usuario[]) => {
+            if (this.dniBuscado?.value) {
+              this.usuarios = usuarios;
+            }
+          },
+          error: (error: any) => {
+            alert(`Error al buscar el usuario: ${error.message}`);
+          },
+        });
     }
   }
 
-  /* Elegir usuario */
-
+  /* Seleccionar usuario */
   public seleccionarUsuario(usuario: Usuario) {
     this.asignarAmarraForm.controls.usuario.setValue(usuario);
-    this.siguienteFormulario();
   }
 
   /* Cargar embarcación */
   public cargarEmbarcacion(embarcacion: any) {
     this.asignarAmarraForm.controls.embarcacion.setValue(embarcacion);
-    this.siguienteFormulario();
   }
 
   /* Cargar propietario */
 
   /* Elegir amarra */
-  public puertos: any = [];
-  public puerto?: Puerto = undefined;
+  public puertos: Puerto[] = [];
+  public puerto?: Puerto | undefined = undefined;
 
-  public amarras: any = [];
   public amarrasDisponibles: any = [];
 
   public listarPuertos() {
@@ -196,8 +191,7 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   public seleccionarPuerto(e: any) {
-    const idPuerto =
-      e.target.value || e.target.options[e.target.selectedIndex].value;
+    const idPuerto = e.target.value;
 
     if (idPuerto != String(this.puerto?.id)) {
       this.puerto = this.puertos.find((p: Puerto) => p.id == Number(idPuerto));
@@ -207,14 +201,14 @@ export class AsignarAmarraPageComponent implements OnInit {
   }
 
   public cargarAmarras() {
-    if (!this.puerto) return;
+    if (!this.puerto || !this.embarcacion) {
+      this.amarrasDisponibles = [];
+      return;
+    }
 
     this.puertoService.listarAmarras(this.puerto).subscribe({
       next: (amarras: Amarra[]) => {
-        this.amarras = amarras;
-        this.amarrasDisponibles = amarras;
-
-        console.log(this.amarras);
+        this.amarrasDisponibles = this.filtrarAmarrasDisponibles(amarras);
       },
       error: (error: any) => {
         alert(`Error al cargar las amarras: ${error.message}`);
@@ -222,14 +216,53 @@ export class AsignarAmarraPageComponent implements OnInit {
     });
   }
 
+  private filtrarAmarrasDisponibles(amarras: Amarra[]): Amarra[] {
+    return amarras.filter(
+      (amarra: Amarra) =>
+        this.amarraEstaDisponible(amarra) &&
+        this.amarraDimensionesValidas(amarra)
+    );
+  }
+
+  private amarraEstaDisponible(amarra: Amarra): boolean {
+    return Boolean(amarra?.disponible);
+  }
+
+  private amarraDimensionesValidas = (amarra: Amarra): boolean => {
+    if (!this.embarcacion) return false;
+    if (!this.embarcacion.valid) return false;
+    const { eslora, manga, calado } = this.embarcacion.value!;
+
+    return (
+      amarra?.eslora >= eslora &&
+      amarra?.manga >= manga &&
+      amarra?.calado >= calado
+    );
+  };
+
   public seleccionarAmarra(amarra: Amarra) {
     this.asignarAmarraForm.controls.amarra.setValue(amarra);
-    this.siguienteFormulario();
   }
 
   /* Asignar amarra */
-
   public asignarAmarra() {
-    console.log(this.asignarAmarraForm.value);
+    const { usuario, embarcacion, amarra } = this.asignarAmarraForm.value;
+
+    if (!usuario?.id || !embarcacion || !amarra?.id) {
+      alert('Faltan datos para asignar la amarra');
+      return;
+    }
+
+    this.amarraService
+      .asignarAmarraTitular(usuario.id, amarra.id, embarcacion)
+      .subscribe({
+        next: () => {
+          alert('Amarra asignada correctamente');
+          this.reiniciarFormulario();
+        },
+        error: (error: any) => {
+          alert(`Error al asignar la amarra: ${error.message}`);
+        },
+      });
   }
 }

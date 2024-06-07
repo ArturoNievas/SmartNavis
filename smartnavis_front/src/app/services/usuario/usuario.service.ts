@@ -48,7 +48,6 @@ export class UsuarioService {
     return this.apiService.delete(`${this.usuarioUrl}/${usuario.id}`);
   }
 
-  private ultimoDniBuscado: string = '';
   private debouncedBuscarUsuariosPorDNI = debounce(
     (dni: string, observer: any) => {
       this._buscarUsuariosPorDNI(dni).subscribe(observer);
@@ -66,12 +65,6 @@ export class UsuarioService {
           new Error('No es posible buscar usuario por DNI (No se ingresó DNI).')
       );
     }
-
-    if (dni === this.ultimoDniBuscado) {
-      return EMPTY;
-    }
-
-    this.ultimoDniBuscado = dni;
 
     return new Observable<Usuario[]>((observer) => {
       this.debouncedBuscarUsuariosPorDNI(dni, observer);

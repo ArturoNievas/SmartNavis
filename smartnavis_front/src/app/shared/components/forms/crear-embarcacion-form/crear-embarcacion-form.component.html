@@ -30,6 +30,7 @@
         placeholder="REY 00000"
         [class.mb-3]="matricula?.valid || matricula?.pristine"
         [class.is-invalid]="matricula?.invalid && matricula?.dirty"
+        [value]="matricula?.value"
       />
       <div
         class="invalid-feedback"
@@ -138,7 +139,7 @@
       class="btn btn-primary px-5 py-2 mt-3 d-flex align-items-center justify-content-center"
       [disabled]="formulario.invalid"
     >
-      <span>Cargar embarcación</span>
+      <span>{{ modificar ? "Modificar" : "Confirmar" }}</span>
     </button>
 
     <!-- <div [hidden]="error?.field !== ''">

@@ -14,11 +14,12 @@ import {
   styleUrl: './crear-embarcacion-form.component.scss',
 })
 export class CrearEmbarcacionFormComponent {
-  constructor() {}
-
   @Output() enviarFormulario = new EventEmitter<any>();
 
-  formulario = new FormGroup({
+  constructor() {}
+
+  protected modificar = false;
+  protected formulario = new FormGroup({
     nombre: new FormControl('', Validators.required),
     matricula: new FormControl('', Validators.required),
     eslora: new FormControl('', Validators.required),
@@ -26,27 +27,33 @@ export class CrearEmbarcacionFormComponent {
     calado: new FormControl('', Validators.required),
   });
 
-  get nombre() {
+  protected get nombre() {
     return this.formulario.get('nombre');
   }
 
-  get matricula() {
+  protected get matricula() {
     return this.formulario.get('matricula');
   }
 
-  get eslora() {
+  protected get eslora() {
     return this.formulario.get('eslora');
   }
 
-  get manga() {
+  protected get manga() {
     return this.formulario.get('manga');
   }
 
-  get calado() {
+  protected get calado() {
     return this.formulario.get('calado');
   }
 
-  onSubmit() {
+  protected onSubmit() {
     this.enviarFormulario.emit(this.formulario.value);
+    this.modificar = true;
+  }
+
+  public reset() {
+    this.formulario.reset();
+    this.modificar = false;
   }
 }

@@ -1,4 +1,4 @@
-import {Puerto} from "./puerto";
+import { Puerto } from './puerto';
 
 export interface Amarra {
   id?: number;
@@ -7,4 +7,5 @@ export interface Amarra {
   calado: number;
   manga: number;
   puerto: Puerto;
+  disponible?: boolean;
 }

@@ -1,66 +1,26 @@
 <app-app-page titulo="Asignar amarra">
   <div class="global-container local-container formContainer">
     <div class="card h-100">
-      <ng-container *ngIf="formularioActual === 'USUARIO'">
+      <div [class.d-none]="formularioActual !== 'USUARIO'">
         <ng-container *ngTemplateOutlet="formularioSeleccionarUsuario">
         </ng-container>
-      </ng-container>
+      </div>
 
-      <ng-container *ngIf="formularioActual === 'EMBARCACION'">
+      <div [class.d-none]="formularioActual !== 'EMBARCACION'">
         <ng-container *ngTemplateOutlet="formularioCargarEmbarcacion">
         </ng-container>
-      </ng-container>
+      </div>
 
-      <ng-container *ngIf="formularioActual === 'PROPIETARIO'">
-        <ng-container *ngTemplateOutlet="formularioCargarPropietario">
-        </ng-container>
-      </ng-container>
-
-      <ng-container *ngIf="formularioActual === 'AMARRA'">
+      <div [class.d-none]="formularioActual !== 'AMARRA'">
         <ng-container *ngTemplateOutlet="formularioSeleccionarAmarra">
         </ng-container>
-      </ng-container>
-
-      <ng-container *ngIf="formularioActual === 'RESUMEN'">
-        <ng-container *ngTemplateOutlet="resumen"></ng-container>
-      </ng-container>
-
-      <!-- Botón siguiente y anterior -->
-
-      <div class="card-footer">
-        <div class="d-flex justify-content-between">
-          <button
-            class="btn btn-secondary"
-            *ngIf="formularioActual !== formularios[0]; else botonCancelar"
-            (click)="anteriorFormulario()"
-          >
-            Anterior
-          </button>
-          <ng-template #botonCancelar>
-            <a class="btn btn-danger" [routerLink]="allPages.homepage.path">
-              Cancelar
-            </a>
-          </ng-template>
-
-          <button
-            class="btn btn-primary ml-auto"
-            *ngIf="formularioActual !== formularios[formularios.length - 1]"
-            (click)="siguienteFormulario()"
-          >
-            Siguiente
-          </button>
-
-          <button
-            type="submit"
-            class="btn btn-success"
-            *ngIf="formularioActual === formularios[formularios.length - 1]"
-            [disabled]="false && asignarAmarraForm.invalid"
-            (click)="asignarAmarra()"
-          >
-            Asignar amarra
-          </button>
-        </div>
       </div>
+
+      <div [class.d-none]="formularioActual !== 'RESUMEN'">
+        <ng-container *ngTemplateOutlet="resumen"></ng-container>
+      </div>
+
+      <ng-container *ngTemplateOutlet="formFooter"></ng-container>
     </div>
   </div>
 </app-app-page>
@@ -68,7 +28,11 @@
 <ng-template #resumen>
   <div class="details card">
     <div class="card-header">
-      <h3>Confirmar datos</h3>
+      <h3>
+        Confirmar datos ({{ formularios.indexOf("RESUMEN") + 1 }}/{{
+          formularios.length
+        }})
+      </h3>
     </div>
 
     <div class="card-body">
@@ -77,7 +41,7 @@
           <h4 class="card-title">Usuario seleccionado:</h4>
         </div>
 
-        <div class="card-body details-col">
+        <div class="details-col">
           <span>
             <b>Nombre de usuario: </b>
             {{ usuario?.value?.username }}
@@ -105,7 +69,7 @@
           <h4 class="card-title">Embarcación seleccionada:</h4>
         </div>
 
-        <div class="card-body details-col">
+        <div class="details-col">
           <span>
             <b>Nombre:</b>
             {{ embarcacion?.value?.nombre }}
@@ -133,11 +97,11 @@
         </div>
       </div>
 
-      <div class="details-section">
+      <!-- <div class="details-section">
         <div class="details-section-title">
           <h4 class="card-title">Propietario de la embarcación:</h4>
         </div>
-        <div class="card-body details-col">
+        <div class="details-col">
           <span>
             <b>Nombres: </b>
             {{ usuario?.value?.nombres }}
@@ -153,24 +117,24 @@
             {{ usuario?.value?.dni }}
           </span>
         </div>
-      </div>
+      </div> -->
 
       <div class="details-section">
         <div class="details-section-title">
           <h4 class="card-title">Amarra seleccionada:</h4>
         </div>
-        <div class="card-body details-col">
+        <div class="details-col">
           <span>
             <b>Puerto: </b>
-            <b>{{ amarra?.value?.puerto?.nombre }}</b>
+            {{ amarra?.value?.puerto?.nombre }}
           </span>
           <span>
             <b>Nombre: </b>
-            <b>{{ amarra?.value?.nombre }}</b>
+            {{ amarra?.value?.nombre }}
           </span>
           <span>
             <b>Eslora: </b>
-            <b>{{ amarra?.value?.eslora }}</b>
+            {{ amarra?.value?.eslora }}
           </span>
         </div>
       </div>
@@ -188,7 +152,7 @@
   <div class="">
     <div class="card-header">
       <h3>
-        Seleccionar usuario ({{ formularios.indexOf("USUARIO") + 1 }}/{{
+        Elección de usuario ({{ formularios.indexOf("USUARIO") + 1 }}/{{
           formularios.length
         }})
       </h3>
@@ -228,8 +192,14 @@
                     class="btn btn-primary"
                     type="button"
                     (click)="seleccionarUsuario(_usuario)"
+                    [class.btn-success]="usuario?.value?.id === _usuario.id"
+                    [disabled]="usuario?.value?.id === _usuario.id"
                   >
-                    Seleccionar
+                    {{
+                      usuario?.value?.id === _usuario.id
+                        ? "Seleccionado"
+                        : "Seleccionar"
+                    }}
                   </button>
                 </div>
               </li>
@@ -245,7 +215,7 @@
   <div class="">
     <div class="card-header">
       <h3>
-        Cargar embarcación ({{ formularios.indexOf("EMBARCACION") + 1 }}/{{
+        Datos de la embarcación ({{ formularios.indexOf("EMBARCACION") + 1 }}/{{
           formularios.length
         }})
       </h3>
@@ -254,6 +224,7 @@
     <div class="card-body p-3">
       <app-crear-embarcacion-form
         (enviarFormulario)="cargarEmbarcacion($event)"
+        #crearEmbarcacionForm
       >
         <!-- <form [formGroup]="asignarAmarraForm">
           <div class="form-check">
@@ -262,7 +233,7 @@
               formControlName="usuarioEsPropietario"
               type="checkbox"
               class="form-check-input"
-              checked
+              (change)="usuarioEsPropietarioChange()"
             />
             <label class="form-check-label" for="esPropietario">
               ¿El usuario seleccionado es el propietario de la embarcación?
@@ -274,76 +245,11 @@
   </div>
 </ng-template>
 
-<ng-template #formularioCargarPropietario>
-  <div class="">
-    <div class="card-header">
-      <h3>
-        Cargar propietario ({{ formularios.indexOf("PROPIETARIO") + 1 }}/{{
-          formularios.length
-        }})
-      </h3>
-    </div>
-
-    <div class="card-body p-3">
-      <form class="container">
-        <div class="form-group mb-3 row">
-          <label class="col">
-            <span>Nombres</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Nombres"
-              [value]="propietario?.value?.nombres"
-              disabled
-            />
-          </label>
-          <label class="col">
-            <span>Apellidos</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Apellidos"
-              [value]="propietario?.value?.apellidos"
-              disabled
-            />
-          </label>
-        </div>
-        <div class="form-group mb-3 row">
-          <label class="col">
-            <span>DNI</span>
-            <input
-              type="number"
-              class="form-control"
-              placeholder="DNI"
-              [value]="propietario?.value?.dni"
-              disabled
-            />
-          </label>
-
-          <label class="col">
-            <span>Fecha de nacimiento</span>
-            <input
-              type="date"
-              class="form-control date-field"
-              placeholder="01-01-2000"
-              [value]="
-                propietario?.value?.fechaNacimiento &&
-                propietario?.value?.fechaNacimiento!.split('T')[0]
-              "
-              disabled
-            />
-          </label>
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template>
-
 <ng-template #formularioSeleccionarAmarra>
   <div class="">
     <div class="card-header">
       <h3>
-        Seleccionar amarra ({{ formularios.indexOf("AMARRA") + 1 }}/{{
+        Elección de amarra ({{ formularios.indexOf("AMARRA") + 1 }}/{{
           formularios.length
         }})
       </h3>
@@ -358,34 +264,57 @@
             placeholder="Puerto de la amarra"
             (change)="seleccionarPuerto($event)"
           >
-            <option [value]=""></option>
-            <option *ngFor="let puerto of puertos" [value]="puerto.id">
-              {{ puerto.nombre }}
+            <option [value]="null" [selected]="!puerto?.id">
+              Elija un puerto
+            </option>
+            <option
+              *ngFor="let _puerto of puertos"
+              [value]="_puerto.id"
+              [selected]="_puerto.id === puerto?.id"
+            >
+              {{ _puerto.nombre }}
             </option>
           </select>
         </label>
       </div>
 
-      <ol class="p-0 m-0" *ngIf="amarras.length; else sinAmarras">
-        <div>
-          <li *ngFor="let amarra of amarras">
-            <div>
-              <span>
-                <b>{{ amarra.nombre }}</b>
-              </span>
+      <ng-container *ngIf="embarcacion?.value; else sinEmbarcacion">
+        <ol class="p-0 m-0" *ngIf="amarrasDisponibles.length; else sinAmarras">
+          <div>
+            <li *ngFor="let _amarra of amarrasDisponibles">
+              <div>
+                <span>
+                  <b>{{ _amarra.nombre }} </b>
+                  ({{ _amarra.eslora }} ft)
+                </span>
 
-              <button
-                class="btn btn-primary"
-                type="button"
-                (click)="seleccionarAmarra(amarra)"
-              >
-                Seleccionar
-              </button>
-            </div>
-          </li>
-        </div>
-      </ol>
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  (click)="seleccionarAmarra(_amarra)"
+                  [class.btn-success]="_amarra.id === amarra?.value?.id"
+                  [disabled]="_amarra.id == _amarra.value?.id"
+                >
+                  {{
+                    _amarra.id === amarra?.value?.id
+                      ? "Seleccionada"
+                      : "Seleccionar"
+                  }}
+                </button>
+              </div>
+            </li>
+          </div>
+        </ol>
+      </ng-container>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #sinEmbarcacion>
+  <div>
+    <p class="alert alert-secondary">
+      Seleccione una embarcación antes de continuar.
+    </p>
   </div>
 </ng-template>
 
@@ -393,4 +322,44 @@
   <div>
     <p class="alert alert-secondary">No hay amarras disponibles.</p>
   </div>
+</ng-template>
+
+<ng-template #formFooter>
+  <div class="card-footer">
+    <div class="d-flex justify-content-between">
+      <button
+        class="btn btn-secondary"
+        *ngIf="formularioActual !== formularios[0]; else botonCancelar"
+        (click)="anteriorFormulario()"
+      >
+        Anterior
+      </button>
+
+      <button
+        class="btn btn-primary ml-auto"
+        *ngIf="formularioActual !== formularios[formularios.length - 1]"
+        (click)="siguienteFormulario()"
+      >
+        Siguiente
+      </button>
+
+      <div *ngIf="formularioActual === formularios[formularios.length - 1]">
+        <span class="mx-2">
+          <ng-container *ngTemplateOutlet="botonCancelar" />
+        </span>
+        <button
+          type="submit"
+          class="btn btn-success"
+          [disabled]="asignarAmarraForm.invalid"
+          (click)="asignarAmarra()"
+        >
+          Asignar amarra
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #botonCancelar>
+  <a class="btn btn-danger" [routerLink]="allPages.homepage.path"> Cancelar </a>
 </ng-template>
