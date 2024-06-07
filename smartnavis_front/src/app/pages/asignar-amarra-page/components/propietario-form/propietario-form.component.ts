@@ -6,11 +6,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Persona } from '../../../../interfaces/persona';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-propietario-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIf],
   templateUrl: './propietario-form.component.html',
   styleUrl: './propietario-form.component.scss',
 })
@@ -20,6 +21,8 @@ export class PropietarioFormComponent {
   constructor() {}
 
   protected modificar = false;
+  protected disabled = false;
+
   protected formulario = new FormGroup({
     dni: new FormControl<number | undefined>(undefined, Validators.required),
     nombres: new FormControl('', Validators.required),
@@ -44,13 +47,14 @@ export class PropietarioFormComponent {
   }
 
   protected onSubmit() {
+    console.log(this.formulario.value);
     this.enviarFormulario.emit(this.formulario.value);
     this.modificar = true;
   }
 
   public reset() {
+    this.enable();
     this.formulario.reset();
-    this.formulario.enable();
     this.modificar = false;
   }
 
@@ -65,7 +69,16 @@ export class PropietarioFormComponent {
       apellidos,
       fechaNacimiento: fechaNacimiento.split('T')[0],
     });
-    this.formulario.disable();
     this.modificar = false;
+  }
+
+  public disable() {
+    this.formulario.disable();
+    this.disabled = true;
+  }
+
+  public enable() {
+    this.formulario.enable();
+    this.disabled = false;
   }
 }

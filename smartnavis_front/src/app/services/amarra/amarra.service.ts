@@ -39,24 +39,34 @@ export class AmarraService {
     return this.apiService.delete(`${this.baseUrl}/${amarra.id}`);
   }
 
-  public asignarAmarraTitular(
-    titularId: number,
-    amarraId: number,
-    embarcacion: Embarcacion
-  ): Observable<unknown> {
+  public asignarAmarraTitular({
+    titularId,
+    amarraId,
+    embarcacion,
+  }: {
+    titularId: number;
+    amarraId: number;
+    embarcacion: Embarcacion;
+  }): Observable<unknown> {
     return this.apiService.post(`${this.baseUrl}/${amarraId}/alquilarTitular`, {
       titularId,
       embarcacion,
     });
   }
 
-  public asignarAmarraTercero(
-    titularId: number,
-    duenio: Persona,
-    parentezco: string,
-    amarraId: number,
-    embarcacion: Embarcacion
-  ) {
+  public asignarAmarraTercero({
+    titularId,
+    duenio,
+    parentezco,
+    amarraId,
+    embarcacion,
+  }: {
+    titularId: number;
+    duenio: Persona;
+    parentezco: string;
+    amarraId: number;
+    embarcacion: Embarcacion;
+  }) {
     return this.apiService.post(`${this.baseUrl}/${amarraId}/alquilarTercero`, {
       duenio,
       parentezco,

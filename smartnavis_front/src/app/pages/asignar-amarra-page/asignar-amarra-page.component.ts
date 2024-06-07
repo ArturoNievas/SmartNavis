@@ -87,7 +87,7 @@ export class AsignarAmarraPageComponent implements OnInit {
     // Propietario
     usuarioEsPropietario: new FormControl<boolean>(false),
     propietario: new FormControl<Persona | undefined>(undefined),
-    parentezco: new FormControl<string>(''),
+    parentezco: new FormControl<string | undefined>(''),
   });
 
   get usuario() {
@@ -167,6 +167,9 @@ export class AsignarAmarraPageComponent implements OnInit {
     this.amarrasDisponibles = [];
 
     this.crearEmbarcacionForm.reset();
+
+    this.propietarioForm.reset();
+    this.parentezcoForm.reset();
   };
 
   /* Buscar usuario por DNI */
@@ -207,21 +210,57 @@ export class AsignarAmarraPageComponent implements OnInit {
     this.asignarAmarraForm.controls.embarcacion.setValue(embarcacion);
   }
 
+  protected usuarioEsPropietarioChangeHandler() {
+    const usuarioEsPropietario = this.usuarioEsPropietario?.value;
+
+    if (usuarioEsPropietario) {
+      this.propietario?.setValue(this.usuario?.value as Persona);
+      this.propietarioForm.setFormulario(this.usuario?.value as Persona);
+      this.propietarioForm.disable();
+    } else {
+      this.propietario?.setValue(undefined);
+      this.propietarioForm.reset();
+      this.propietarioForm.enable();
+    }
+  }
+
   protected actualizarPropietarioForm() {
     const usuarioEsPropietario = this.usuarioEsPropietario?.value;
 
     if (usuarioEsPropietario) {
       this.propietario?.setValue(this.usuario?.value as Persona);
       this.propietarioForm.setFormulario(this.usuario?.value as Persona);
+      this.propietarioForm.disable();
+      this.parentezcoForm.reset();
+      this.cargarParentezco();
     } else {
-      this.propietarioForm.reset();
-      this.propietario?.setValue(undefined);
+      if (this.propietario?.value) {
+        this.propietarioForm.enable();
+        this.propietarioForm.setFormulario(this.propietario?.value as Persona);
+      } else {
+        this.propietarioForm.enable();
+        this.propietarioForm.reset();
+      }
     }
   }
 
   /* Cargar propietario */
+  protected parentezcoForm = new FormGroup({
+    parentezco: new FormControl('', Validators.required),
+  });
+
+  get parentezcoFormParentezco() {
+    return this.parentezcoForm.get('parentezco');
+  }
+
   protected cargarPropietario(propietario: any) {
     this.asignarAmarraForm.controls.propietario.setValue(propietario);
+  }
+
+  protected cargarParentezco() {
+    this.asignarAmarraForm.controls.parentezco.setValue(
+      this.parentezcoFormParentezco?.value
+    );
   }
 
   /* Elegir amarra */
@@ -292,23 +331,74 @@ export class AsignarAmarraPageComponent implements OnInit {
 
   /* Asignar amarra */
   public asignarAmarra() {
-    const { usuario, embarcacion, amarra } = this.asignarAmarraForm.value;
+    if (this.usuarioEsPropietario?.value) {
+      this.asignarAmarraTitular();
+    } else {
+      this.asignarAmarraTercero();
+    }
+  }
 
+  private asignarAmarraTitular() {
+    const { usuario, embarcacion, amarra } = this.asignarAmarraForm.value;
     if (!usuario?.id || !embarcacion || !amarra?.id) {
       alert('Faltan datos para asignar la amarra');
       return;
     }
 
     this.amarraService
-      .asignarAmarraTitular(usuario.id, amarra.id, embarcacion)
+      .asignarAmarraTitular({
+        titularId: usuario.id,
+        amarraId: amarra.id,
+        embarcacion,
+      })
       .subscribe({
         next: () => {
-          alert('Amarra asignada correctamente');
-          this.reiniciarFormulario();
+          this.asignarAmarraExitoso();
         },
         error: (error: any) => {
-          alert(`Error al asignar la amarra: ${error.message}`);
+          this.asignarAmarraFallido(error);
         },
       });
+  }
+
+  private asignarAmarraTercero() {
+    const { usuario, embarcacion, amarra, propietario, parentezco } =
+      this.asignarAmarraForm.value;
+    if (
+      !usuario?.id ||
+      !embarcacion ||
+      !amarra?.id ||
+      !propietario?.dni ||
+      !parentezco
+    ) {
+      alert('Faltan datos para asignar la amarra');
+      return;
+    }
+
+    this.amarraService
+      .asignarAmarraTercero({
+        titularId: usuario.id,
+        duenio: propietario,
+        parentezco,
+        embarcacion,
+        amarraId: amarra.id,
+      })
+      .subscribe({
+        next: () => {
+          this.asignarAmarraExitoso();
+        },
+        error: (error: any) => {
+          this.asignarAmarraFallido(error);
+        },
+      });
+  }
+
+  private asignarAmarraExitoso() {
+    alert('Amarra asignada correctamente');
+    this.reiniciarFormulario();
+  }
+
+  private asignarAmarraFallido(error: any) {
+    alert(`Error al asignar la amarra: ${error.message}`);
   }
 }

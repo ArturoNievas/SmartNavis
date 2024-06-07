@@ -121,6 +121,11 @@
             <b>DNI: </b>
             {{ propietario?.value?.dni }}
           </span>
+
+          <span>
+            <b>Relación: </b>
+            {{ parentezco?.value }}
+          </span>
         </div>
       </div>
 
@@ -238,7 +243,7 @@
               formControlName="usuarioEsPropietario"
               type="checkbox"
               class="form-check-input"
-              (change)="actualizarPropietarioForm()"
+              (change)="usuarioEsPropietarioChangeHandler()"
             />
             <label class="form-check-label" for="esPropietario">
               El usuario seleccionado es el propietario de la embarcación.
@@ -270,22 +275,55 @@
           (enviarFormulario)="cargarPropietario($event)"
           #propietarioForm
         >
-          <!-- <form [formGroup]="asignarAmarraForm">
-          <div class="form-check">
-            <input
-              id="esPropietario"
-              formControlName="usuarioEsPropietario"
-              type="checkbox"
-              class="form-check-input"
-              (change)="usuarioEsPropietarioChange()"
-            />
-            <label class="form-check-label" for="esPropietario">
-              ¿El usuario seleccionado es el propietario de la embarcación?
-            </label>
-          </div>
-        </form> -->
         </app-propietario-form>
       </div>
+
+      <form
+        [formGroup]="parentezcoForm"
+        (submit)="cargarParentezco()"
+        class="p-3"
+        [class.d-none]="usuarioEsPropietario!.value"
+      >
+        <label class="p-2">
+          <span> Parentezco o relación con el propietario</span>
+          <div class="d-flex">
+            <input
+              placeholder="Relación"
+              formControlName="parentezco"
+              type="text"
+              class="form-control"
+              [class.mb-3]="parentezco?.valid || parentezco?.pristine"
+              [class.is-invalid]="parentezco?.invalid && parentezco?.dirty"
+              [value]="parentezco?.value"
+            />
+            <div>
+              <button
+                type="submit"
+                class="btn btn-primary mx-2"
+                [disabled]="
+                  parentezcoFormParentezco?.invalid ||
+                  parentezcoFormParentezco?.pristine
+                "
+              >
+                {{
+                  !parentezco?.value ||
+                  (parentezco?.value &&
+                    parentezco?.value !== parentezcoFormParentezco?.value)
+                    ? "Confirmar"
+                    : "Confirmado"
+                }}
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="invalid-feedback"
+            [hidden]="parentezco?.valid || parentezco?.pristine"
+          >
+            {{ parentezco?.errors?.["required"] ? "Campo obligatorio" : "" }}
+          </div>
+        </label>
+      </form>
     </div>
   </div>
 </ng-template>
