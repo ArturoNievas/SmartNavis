@@ -47,11 +47,24 @@ export class PuertosPageComponent {
   }
 
   public actualizarPuerto(puerto: Puerto): void {
-    const nuevoNombre: string | null = prompt('Nuevo nombre?', puerto.nombre);
-    if (nuevoNombre !== null) {
-      puerto.nombre = nuevoNombre;
-      this.puertoService.actualizarPuerto(puerto).subscribe();
+    const nuevoNombre: string | null = prompt(
+      'Ingrese el nuevo nombre del puerto:',
+      puerto.nombre
+    );
+    if (!nuevoNombre) return;
+    if (this.puertos.some((p: Puerto) => p.nombre === nuevoNombre)) {
+      alert('Ya existe un puerto con ese nombre.');
+      return;
     }
+
+    this.puertoService.actualizarPuerto(puerto).subscribe({
+      next: () => {
+        puerto.nombre = nuevoNombre;
+      },
+      error: (error: any) => {
+        alert('Error al actualizar el puerto: ' + error?.message);
+      },
+    });
   }
 
   public eliminarPuerto(puerto: Puerto): void {
