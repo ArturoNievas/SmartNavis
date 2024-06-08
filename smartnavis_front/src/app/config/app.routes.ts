@@ -10,6 +10,7 @@ import { RegistrarsePageComponent } from '../pages/registrarse-page/registrarse-
 import { IniciarSesionPageComponent } from '../pages/iniciar-sesion-page/iniciar-sesion-page.component';
 import { AmarrasPageComponent } from '../pages/amarras-page/amarras-page.component';
 import { AsignarAmarraPageComponent } from '../pages/asignar-amarra-page/asignar-amarra-page.component';
+import { AmarrasDisponiblesPageComponent } from '../pages/amarras-disponibles-page/amarras-disponibles-page.component';
 
 const pages: any = {
   homepage: {
@@ -52,6 +53,12 @@ const pages: any = {
     path: 'amarras/asignar',
     title: 'Asignar Amarra',
     component: AsignarAmarraPageComponent,
+  },
+
+  amarrasDisponibles: {
+    path: 'amarras/disponibles',
+    title: 'Amarras disponibles',
+    component: AmarrasDisponiblesPageComponent,
   },
 
   /* Administración de usuarios */
