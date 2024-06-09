@@ -1,14 +1,24 @@
-<app-app-page>
+<app-app-page titulo="Puertos" subtitulo="Lista de puertos">
   <div titulo="Puertos" subtitulo="Lista de puertos">
     <div class="global-container local-container section">
-      <div>
-        <button class="btn btn-primary" (click)="listarPuertos()">
-          Ver puertos
-        </button>
+      <div class="section">
+        <div class="d-flex">
+          <label class="w-25">
+            <input class="form-control" #nombrePuerto type="text" />
+          </label>
+          <div class="">
+            <button
+              class="btn btn-primary mx-2"
+              (click)="crearPuerto(nombrePuerto.value)"
+            >
+              Crear Puerto
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="section">
-        <ul *ngIf="puertos.length">
+        <ul *ngIf="puertos.length; else sinPuertos">
           <li *ngFor="let puerto of puertos" class="my-1">
             <span>
               <b>{{ puerto.nombre }}</b> ({{ puerto.id }})
@@ -27,22 +37,10 @@
           </li>
         </ul>
       </div>
-
-      <div class="section">
-        <div class="d-flex">
-          <label class="w-25">
-            <input class="form-control" #nombrePuerto type="text" />
-          </label>
-          <div class="">
-            <button
-              class="btn btn-primary mx-2"
-              (click)="crearPuerto(nombrePuerto.value)"
-            >
-              Crear Puerto
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </app-app-page>
+
+<ng-template #sinPuertos>
+  <div class="alert alert-secondary">No hay puertos registrados</div>
+</ng-template>
