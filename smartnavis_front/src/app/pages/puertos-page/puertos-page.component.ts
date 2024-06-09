@@ -27,6 +27,10 @@ export class PuertosPageComponent {
     });
   }
 
+  ngOnInit() {
+    this.listarPuertos();
+  }
+
   public crearPuerto(nombre: string): void {
     if (!nombre) {
       return;
