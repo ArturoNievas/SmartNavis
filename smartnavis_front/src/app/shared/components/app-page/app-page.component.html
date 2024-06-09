@@ -5,19 +5,27 @@
         <div class="logo">
           <a class="btn btn-primary logo" routerLink="/home">YateMate</a>
         </div>
-        <div class="left-menu">
-          <a class="btn btn-tertiary" routerLink="/embarcaciones">Embarcaciones</a>
-        </div>
+        <div class="left-menu"></div>
         <div class="right-menu">
-          <a *ngIf="!authService.isUserAuthenticated()"
-             class="btn btn-tertiary"
-             routerLink="/iniciar-sesion">
+          <a
+            *ngIf="!authService.isUserAuthenticated()"
+            class="btn btn-tertiary"
+            routerLink="/iniciar-sesion"
+          >
             Iniciar sesión
           </a>
-          <a *ngIf="!authService.isUserAuthenticated()"
-             class="btn btn-primary" routerLink="/registrarse">Registrarse</a>
-          <a *ngIf="authService.isUserAuthenticated()"
-             class="btn btn-tertiary" (click)="logout()">Cerrar sesión</a>
+          <a
+            *ngIf="!authService.isUserAuthenticated()"
+            class="btn btn-primary"
+            routerLink="/registrarse"
+            >Registrarse</a
+          >
+          <a
+            *ngIf="authService.isUserAuthenticated()"
+            class="btn btn-tertiary"
+            (click)="logout()"
+            >Cerrar sesión</a
+          >
         </div>
       </div>
     </div>

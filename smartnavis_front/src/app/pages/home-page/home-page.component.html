@@ -20,18 +20,20 @@
           </ul>
         </div>
 
-        <div class="col col-lg-4 col-md-12"
-             *ngIf="authService.isUserAuthenticated()">
+        <div
+          class="col col-lg-4 col-md-12"
+          *ngIf="authService.isUserAuthenticated()"
+        >
           <h2>Usuarios</h2>
 
           <ul>
-            <li>
+            <li *ngIf="authService.userIsAdmin() || misAlquileres.length">
               <a [routerLink]="allPages.publicaciones.path">
                 {{ allPages.publicaciones.label }}
               </a>
             </li>
 
-            <li>
+            <li *ngIf="authService.userIsAdmin() || !misAlquileres.length">
               <a [routerLink]="allPages.embarcacionesPublicadas.path">
                 {{ allPages.embarcacionesPublicadas.label }}
               </a>
@@ -39,8 +41,10 @@
           </ul>
         </div>
 
-        <div class="col col-lg-4 col-md-12"
-             *ngIf="authService.isUserAuthenticated() && authService.userIsAdmin()">
+        <div
+          class="col col-lg-4 col-md-12"
+          *ngIf="authService.isUserAuthenticated() && authService.userIsAdmin()"
+        >
           <h2>Administradores</h2>
 
           <ul>
