@@ -19,9 +19,11 @@ export class AppPageComponent {
   constructor(private authService: AuthService) {
   }
 
-  public loggedIn = this.authService.isUserAuthenticated(); // TODO
+  public loggedIn = this.authService.isUserAuthenticated();
 
   logout() {
-    this.authService.doLogout();
+    this.authService.doLogout().subscribe(() => {
+      this.loggedIn = false;
+    });
   }
 }
