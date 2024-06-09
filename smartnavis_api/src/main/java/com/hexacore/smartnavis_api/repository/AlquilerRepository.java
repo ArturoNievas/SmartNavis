@@ -15,4 +15,6 @@ public interface AlquilerRepository extends JpaRepository<Alquiler, Long> {
 
 	@Query("SELECT a FROM Alquiler a WHERE a.embarcacion = ?1 AND a.fin IS NULL")
 	Optional<Alquiler> findVigenteByEmbarcacion(Embarcacion embarcacion);
+
+	Iterable<Alquiler> findByEmbarcacionIn(Iterable<Embarcacion> embarcaciones);
 }

@@ -12,4 +12,6 @@ public interface UsuarioService extends SmartNavisService<Usuario, Long> {
     Iterable<Usuario> buscarPorDNI(int dni);
 
     Administrador promoverAdministrador(Usuario usuario);
+
+    Usuario buscarPorUsernameSeguroExiste(String username);
 }

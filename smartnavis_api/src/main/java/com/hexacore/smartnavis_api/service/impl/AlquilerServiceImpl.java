@@ -4,6 +4,7 @@ import com.hexacore.smartnavis_api.controller.input.CrearEmbarcacionInput;
 import com.hexacore.smartnavis_api.model.Alquiler;
 import com.hexacore.smartnavis_api.model.Amarra;
 import com.hexacore.smartnavis_api.model.Embarcacion;
+import com.hexacore.smartnavis_api.model.Usuario;
 import com.hexacore.smartnavis_api.repository.AlquilerRepository;
 import com.hexacore.smartnavis_api.repository.AlquilerTerceroRepository;
 import com.hexacore.smartnavis_api.service.AlquilerService;
@@ -19,28 +20,32 @@ import org.springframework.transaction.annotation.Transactional;
 public class AlquilerServiceImpl extends SmartNavisServiceImpl<Alquiler, Long> implements AlquilerService {
     private final AlquilerRepository repository;
     private final AlquilerTerceroRepository terceroRepository;
-	private final EmbarcacionService embarcacionService;
-	private final UsuarioService usuarioService;
-	private final AmarraService amarraService;
-	
+    private final EmbarcacionService embarcacionService;
+    private final UsuarioService usuarioService;
+    private final AmarraService amarraService;
+
 
     public AlquilerServiceImpl(AlquilerRepository repository, EmbarcacionService embarcacionService, UsuarioService usuarioService, AmarraService amarraService, AlquilerTerceroRepository terceroRepository) {
-    	super(repository);
-		this.terceroRepository = terceroRepository;
-    	this.embarcacionService = embarcacionService;
+        super(repository);
+        this.terceroRepository = terceroRepository;
+        this.embarcacionService = embarcacionService;
         this.repository = repository;
-		this.usuarioService = usuarioService;
-		this.amarraService = amarraService;
+        this.usuarioService = usuarioService;
+        this.amarraService = amarraService;
     }
 
-	@Override
-	public Alquiler alquilarTitular(Long amarraId, CrearEmbarcacionInput embarcacion, Long titularId) {
-		
-		Embarcacion embarcacion1 = this.embarcacionService.registrarEmbarcacion(embarcacion, this.usuarioService.getMustExist(titularId));
-		
-		Amarra amarra = this.amarraService.toggleDisponible(this.amarraService.getMustExist(amarraId));
+    @Override
+    public Alquiler alquilarTitular(Long amarraId, CrearEmbarcacionInput embarcacion, Long titularId) {
 
-		return this.persist(new Alquiler(amarra,embarcacion1));
-	}
+        Embarcacion embarcacion1 = this.embarcacionService.registrarEmbarcacion(embarcacion, this.usuarioService.getMustExist(titularId));
 
+        Amarra amarra = this.amarraService.toggleDisponible(this.amarraService.getMustExist(amarraId));
+
+        return this.persist(new Alquiler(amarra, embarcacion1));
+    }
+
+    @Override
+    public Iterable<Alquiler> buscarPorUsuario(Usuario usuario) {
+        return this.repository.findByEmbarcacionIn(this.embarcacionService.buscarPorUsuario(usuario));
+    }
 }

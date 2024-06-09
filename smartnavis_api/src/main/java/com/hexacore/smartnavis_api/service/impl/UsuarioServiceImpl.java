@@ -56,6 +56,12 @@ public class UsuarioServiceImpl extends SmartNavisServiceImpl<Usuario, Long> imp
     }
 
     @Override
+    public Usuario buscarPorUsernameSeguroExiste(String username) {
+        return this.usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("El usuario no existe."));
+    }
+
+    @Override
     public void delete(Long id) throws NotFoundException {
         Optional<Administrador> administradorOptional = this.administradorRepository.findById(id);
         if (administradorOptional.isPresent()) {
