@@ -20,7 +20,8 @@
           </ul>
         </div>
 
-        <div class="col col-lg-4 col-md-12">
+        <div class="col col-lg-4 col-md-12"
+             *ngIf="authService.isUserAuthenticated()">
           <h2>Usuarios</h2>
 
           <ul>
@@ -38,7 +39,8 @@
           </ul>
         </div>
 
-        <div class="col col-lg-4 col-md-12">
+        <div class="col col-lg-4 col-md-12"
+             *ngIf="authService.isUserAuthenticated() && authService.userIsAdmin()">
           <h2>Administradores</h2>
 
           <ul>

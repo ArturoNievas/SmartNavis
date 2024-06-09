@@ -1,6 +1,4 @@
 <div class="page">
-  <!-- <app-header></app-header> -->
-
   <nav class="navbar-container">
     <div class="global-container">
       <div class="navbar-content">
@@ -8,24 +6,18 @@
           <a class="btn btn-primary logo" routerLink="/home">YateMate</a>
         </div>
         <div class="left-menu">
-          <a class="btn btn-tertiary" routerLink="/embarcaciones"
-            >Embarcaciones</a
-          >
+          <a class="btn btn-tertiary" routerLink="/embarcaciones">Embarcaciones</a>
         </div>
         <div class="right-menu">
-          <a
-            *ngIf="!loggedIn"
-            class="btn btn-tertiary"
-            routerLink="/iniciar-sesion"
-          >
+          <a *ngIf="!authService.isUserAuthenticated()"
+             class="btn btn-tertiary"
+             routerLink="/iniciar-sesion">
             Iniciar sesión
           </a>
-          <a *ngIf="!loggedIn" class="btn btn-primary" routerLink="/registrarse"
-            >Registrarse</a
-          >
-          <a *ngIf="loggedIn" class="btn btn-tertiary" (click)="logout()"
-            >Cerrar sesión</a
-          >
+          <a *ngIf="!authService.isUserAuthenticated()"
+             class="btn btn-primary" routerLink="/registrarse">Registrarse</a>
+          <a *ngIf="authService.isUserAuthenticated()"
+             class="btn btn-tertiary" (click)="logout()">Cerrar sesión</a>
         </div>
       </div>
     </div>
@@ -33,7 +25,6 @@
 
   <main class="page-content">
     <section-header [titulo]="titulo" [subtitulo]="subtitulo"></section-header>
-
     <ng-content></ng-content>
   </main>
 </div>

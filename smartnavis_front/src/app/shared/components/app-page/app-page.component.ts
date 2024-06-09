@@ -16,14 +16,10 @@ export class AppPageComponent {
   @Input() public titulo?: string;
   @Input() public subtitulo?: string;
 
-  constructor(private authService: AuthService) {
+  constructor(public authService: AuthService) {
   }
 
-  public loggedIn = this.authService.isUserAuthenticated();
-
   logout() {
-    this.authService.doLogout().subscribe(() => {
-      this.loggedIn = false;
-    });
+    this.authService.doLogout().subscribe();
   }
 }

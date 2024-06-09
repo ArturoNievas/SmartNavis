@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import {catchError, map, Observable, of, switchMap, tap} from 'rxjs';
 import { AuthResult } from '../../interfaces/auth-result';
 import { Me } from '../../interfaces/me';
 
@@ -50,15 +50,23 @@ export class AuthService {
     return AuthService.jwtTokenGetter() !== null;
   }
 
-  public getMe(): Me {
+  public getMe(): Me | null {
     if (!this.isUserAuthenticated()) {
       throw new Error('Usuario no autenticado.');
     }
-    return this.userData!;
+    if (this.userData === null) {
+      this.me().subscribe();
+      return null;
+    }
+    return this.userData;
   }
 
   public userIsAdmin(): boolean {
-    return this.getMe().role === 'ADMINISTRADOR';
+    const me: Me | null = this.getMe();
+    if (me === null) {
+      return false;
+    }
+    return me.role === 'ADMINISTRADOR';
   }
 
   public me(): Observable<Me> {
