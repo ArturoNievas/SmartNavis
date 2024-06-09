@@ -16,23 +16,35 @@
             >
               Solicitar intercambio
             </button>
-            <button
-              (click)="abrirFormulario(estados.Modificar, publicacion)"
-              class="btn btn-secondary"
-            >
-              Modificar
-            </button>
-            <button
-              (click)="abrirFormulario(estados.Eliminar, publicacion)"
-              class="btn btn-danger"
-            >
-              X
-            </button>
-            <button class="btn btn-primary"
-                    (click)="listarSolicitudes(publicacion)">Listar Solicitudes
-            </button>
+
+            <ng-container *ngIf="authService.userIsAdmin()">
+              <button
+                (click)="abrirFormulario(estados.Modificar, publicacion)"
+                class="btn btn-secondary"
+              >
+                Modificar
+              </button>
+              <button
+                (click)="abrirFormulario(estados.Eliminar, publicacion)"
+                class="btn btn-danger"
+              >
+                X
+              </button>
+              <button
+                class="btn btn-primary"
+                (click)="listarSolicitudes(publicacion)"
+              >
+                Listar Solicitudes
+              </button>
+            </ng-container>
           </div>
-          <ul *ngIf="publicacion.__permutasSolicitadas?.length">
+
+          <ul
+            *ngIf="
+              publicacion.__permutasSolicitadas?.length &&
+              authService.userIsAdmin()
+            "
+          >
             <li *ngFor="let permuta of publicacion.__permutasSolicitadas">
               <div class="permutasSolicitadas">
                 <span>
@@ -191,10 +203,13 @@
 <!-- FORMULARIO PARA SOLICITAR INTERCAMBIO -->
 <ng-template #formularioIntercambiar>
   <div class="card mb-4">
-    <form class="card-body">
-      <h3 class="mb-4">
+    <div class="card-header">
+      <h3>
         <b>Solicitar intercambio</b>
       </h3>
+    </div>
+    <form class="card-body">
+      <h4>{{ publicacionSeleccionada?.titulo }}</h4>
 
       <div class="form-group mb-2">
         <label for="elegirPublicacionParaOfertar" class="form-label">
@@ -210,16 +225,19 @@
             [value]="publicacion.id"
             *ngFor="let publicacion of publicacionesOfertables"
           >
-            {{ publicacion.titulo }} - {{ publicacion.bien.__dominio }} de
-            {{ publicacion.bien.titular.nombres }}
-            {{ publicacion.bien.titular.apellidos }}
+            {{ publicacion.titulo }} ({{ publicacion.bien.__dominio }})
+            <ng-container *ngIf="authService.userIsAdmin()">
+              de
+              {{ publicacion.bien.titular.nombres }}
+              {{ publicacion.bien.titular.apellidos }}
+            </ng-container>
           </option>
         </select>
       </div>
 
       <div class="form-group">
         <button
-          (click)="intercambiarPublicacion()"
+          (click)="solicitarIntercambio()"
           type="submit"
           class="btn btn-primary mx-2"
           [disabled]="!idPublicacionOfertada"
