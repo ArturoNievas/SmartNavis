@@ -23,7 +23,11 @@
           <li *ngFor="let usuario of usuarios">
             <div>
               <span>
-                <b>{{ usuario.nombres }}</b>
+                <b>
+                  {{ usuario.nombres }} {{ usuario.apellidos }} ({{
+                    usuario.username
+                  }})
+                </b>
               </span>
               <button
                 class="btn btn-primary"
