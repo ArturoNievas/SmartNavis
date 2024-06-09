@@ -35,6 +35,10 @@ export class ApiService {
       return throwError(() => new Error("Error de autenticación. Compruebe las credenciales ingresadas."));
     }
 
+    if (error.status === 403) {
+      return throwError(() => new Error("No posee los permisos suficientes para acceder al recurso solicitado."));
+    }
+
     console.error('Error:', error);
     return throwError(
       () =>
