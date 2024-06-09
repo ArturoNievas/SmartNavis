@@ -48,4 +48,9 @@ public class AdministradorServiceImpl extends SmartNavisServiceImpl<Administrado
                 .executeUpdate();
         return this.usuarioRepository.save(usuario);
     }
+
+    @Override
+    protected NotFoundException getNotFoundException() {
+        return new NotFoundException("El administrador no existe.");
+    }
 }
