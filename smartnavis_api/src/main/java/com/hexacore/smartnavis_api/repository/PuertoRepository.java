@@ -6,8 +6,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PuertoRepository extends JpaRepository<Puerto, Long> {
-    List<Puerto> findByNombre(@Param("nombre") String nombre);
+    Optional<Puerto> findByNombre(@Param("nombre") String nombre);
+
+    List<Puerto> findByNombreContainsIgnoreCase(@Param("nombre") String nombre);
 }
