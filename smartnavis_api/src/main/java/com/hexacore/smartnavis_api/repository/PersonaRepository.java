@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonaRepository extends JpaRepository<Persona, Long> {
-
-	Optional<Persona> findByDni(int dni);
+    Optional<Persona> findByDni(int dni);
 }
