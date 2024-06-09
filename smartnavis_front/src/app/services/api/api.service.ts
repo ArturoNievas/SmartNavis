@@ -31,6 +31,10 @@ export class ApiService {
       return throwError(() => new Error(error.error));
     }
 
+    if (error.status === 401) {
+      return throwError(() => new Error("Error de autenticación. Compruebe las credenciales ingresadas."));
+    }
+
     console.error('Error:', error);
     return throwError(
       () =>
