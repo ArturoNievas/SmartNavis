@@ -104,4 +104,34 @@ export class UsuariosPageComponent implements OnInit {
       });
     }
   }
+
+  public promoverUsuario(usuario: Usuario) {
+    let confirmacion = confirm(
+      `¿Desea promover al usuario "${usuario.nombres}" a Administrador?`
+    );
+    if (!confirmacion) return;
+    this.usuarioService.promoverUsuario(usuario).subscribe({
+      next: () => {
+        alert(`Usuario "${usuario.nombres}" promovido correctamente.`);
+      },
+      error: (error: Error) => {
+        alert(error.message);
+      },
+    });
+  }
+
+  public degradarUsuario(usuario: Usuario) {
+    let confirmacion = confirm(
+      `¿Desea degradar al administrador "${usuario.nombres}" a Usuario?`
+    );
+    if (!confirmacion) return;
+    this.usuarioService.degradarUsuario(usuario).subscribe({
+      next: () => {
+        alert(`Administrador "${usuario.nombres}" degradado correctamente.`);
+      },
+      error: (error: Error) => {
+        alert(error.message);
+      },
+    });
+  }
 }

@@ -5,12 +5,14 @@ import { Usuario } from '../../interfaces/usuario';
 import { Publicacion } from '../../interfaces/publicacion';
 import { Embarcacion } from '../../interfaces/embarcacion';
 import { debounce } from 'lodash';
+import { Administrador } from '../../interfaces/administrador';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsuarioService {
   private readonly usuarioUrl: string = '/usuario';
+  private readonly adminUrl: string = '/administrador';
 
   constructor(private apiService: ApiService) {}
 
@@ -73,5 +75,27 @@ export class UsuarioService {
 
   private _buscarUsuariosPorDNI(dni: string): Observable<Usuario[]> {
     return this.apiService.get<Usuario[]>(`/usuario/buscar/dni/${dni}`);
+  }
+
+  public promoverUsuario(usuario: Usuario): Observable<Administrador> {
+    if (!usuario.id) {
+      return throwError(
+        () => new Error('No es posible promover al usuario (no ID).')
+      );
+    }
+    return this.apiService.post<Administrador>(
+      `${this.usuarioUrl}/${usuario.id}/promover`
+    );
+  }
+
+  public degradarUsuario(usuario: Usuario): Observable<Usuario> {
+    if (!usuario.id) {
+      return throwError(
+        () => new Error('No es posible degradar al usuario (no ID).')
+      );
+    }
+    return this.apiService.post<Usuario>(
+      `${this.adminUrl}/${usuario.id}/degradar`
+    );
   }
 }
