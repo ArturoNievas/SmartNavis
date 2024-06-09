@@ -70,9 +70,9 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
         if (permutaOptional.isPresent()) {
             throw new BadRequestException("El bien seleccionado ya fue ofertado para esta publicación.");
         }
-        if (this.alquilerRepository.findAllById(this.embarcacionRepository.findAllById(Stream.of(solicitada, ofertada)
-                        .mapToLong(publicacion -> publicacion.getBien().getId()).boxed().toList()).stream()
-                .mapToLong(Embarcacion::getId).boxed().toList()).isEmpty()) {
+        if (this.alquilerRepository.findByEmbarcacionIn(this.embarcacionRepository
+                .findAllById(Stream.of(solicitada, ofertada)
+                        .mapToLong(publicacion -> publicacion.getBien().getId()).boxed().toList())).isEmpty()) {
             throw new BadRequestException("Al menos uno de los bienes a permutar debe ser una embarcación amarrada en puerto.");
         }
         return this.repository.save(new Permuta(solicitada, ofertada));
