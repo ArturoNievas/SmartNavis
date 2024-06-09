@@ -274,18 +274,19 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
         this.publicacionOfertada
       )
       .subscribe({
-        next: () => {
+        next: (permuta: Permuta) => {
           if (!this.publicacionSeleccionada!.__permutasSolicitadas) {
             this.publicacionSeleccionada!.__permutasSolicitadas = [];
           }
 
           this.publicacionSeleccionada!.__permutasSolicitadas.push({
+            id: permuta.id,
             solicitada: this.publicacionSeleccionada!,
             ofertada: this.publicacionOfertada!,
-            pendiente: true,
-            aceptada: false,
-            registrada: false,
-            finalizada: false,
+            pendiente: permuta.pendiente,
+            aceptada: permuta.aceptada,
+            registrada: permuta.registrada,
+            finalizada: permuta.finalizada,
           });
 
           this.resetearFormulario();
