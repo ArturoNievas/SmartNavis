@@ -1,90 +1,99 @@
 <app-app-page titulo="YateMate" subtitulo="Todas las páginas">
   <div class="global-container">
-    <!-- Inicio -->
-    <ul>
-      <li>
-        <a [routerLink]="allPages.homepage.path">
-          {{ allPages.homepage.label }}
-        </a>
-      </li>
-    </ul>
+    <div class="container">
+      <div class="row">
+        <div class="col col-lg-4 col-md-12">
+          <h2>Personas</h2>
 
-    <!-- Usuarios -->
-    <ul>
-      <li>
-        <a [routerLink]="allPages.registrarse.path">
-          {{ allPages.registrarse.label }}
-        </a>
-      </li>
+          <ul>
+            <li>
+              <a [routerLink]="allPages.registrarse.path">
+                {{ allPages.registrarse.label }}
+              </a>
+            </li>
 
-      <li>
-        <a [routerLink]="allPages.iniciarSesion.path">
-          {{ allPages.iniciarSesion.label }}
-        </a>
-      </li>
-    </ul>
+            <li>
+              <a [routerLink]="allPages.iniciarSesion.path">
+                {{ allPages.iniciarSesion.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
 
-    <ul>
-      <li>
-        <a [routerLink]="allPages.puertos.path">
-          {{ allPages.puertos.label }}
-        </a>
-      </li>
+        <div class="col col-lg-4 col-md-12">
+          <h2>Usuarios</h2>
 
-      <li>
-        <a [routerLink]="allPages.amarras.path">
-          {{ allPages.amarras.label }}
-        </a>
-      </li>
+          <ul>
+            <li>
+              <a [routerLink]="allPages.publicaciones.path">
+                {{ allPages.publicaciones.label }}
+              </a>
+            </li>
 
-      <li>
-        <a [routerLink]="allPages.amarrasDisponibles.path">
-          {{ allPages.amarrasDisponibles.label }}
-        </a>
-      </li>
-    </ul>
+            <li>
+              <a [routerLink]="allPages.embarcacionesPublicadas.path">
+                {{ allPages.embarcacionesPublicadas.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
 
-    <ul>
-      <li>
-        <a [routerLink]="allPages.usuarios.path">
-          {{ allPages.usuarios.label }}
-        </a>
-      </li>
-    </ul>
+        <div class="col col-lg-4 col-md-12">
+          <h2>Administradores</h2>
 
-    <ul>
-      <li>
-        <a [routerLink]="allPages.bienes.path">
-          {{ allPages.bienes.label }}
-        </a>
-      </li>
+          <ul>
+            <li>
+              <a [routerLink]="allPages.puertos.path">
+                {{ allPages.puertos.label }}
+              </a>
+            </li>
+          </ul>
 
-      <li>
-        <a [routerLink]="allPages.publicaciones.path">
-          {{ allPages.publicaciones.label }}
-        </a>
-      </li>
-    </ul>
+          <ul>
+            <li>
+              <a [routerLink]="allPages.amarras.path">
+                {{ allPages.amarras.label }}
+              </a>
+            </li>
 
-    <ul>
-      <li>
-        <a [routerLink]="allPages.embarcaciones.path">
-          {{ allPages.embarcaciones.label }}
-        </a>
-      </li>
-      <li>
-        <a [routerLink]="allPages.embarcacionesPublicadas.path">
-          {{ allPages.embarcacionesPublicadas.label }}
-        </a>
-      </li>
-    </ul>
+            <li>
+              <a [routerLink]="allPages.amarrasDisponibles.path">
+                {{ allPages.amarrasDisponibles.label }}
+              </a>
+            </li>
 
-    <ul>
-      <li>
-        <a [routerLink]="allPages.asignarAmarra.path">
-          {{ allPages.asignarAmarra.label }}
-        </a>
-      </li>
-    </ul>
+            <li>
+              <a [routerLink]="allPages.asignarAmarra.path">
+                {{ allPages.asignarAmarra.label }}
+              </a>
+            </li>
+          </ul>
+
+          <ul>
+            <li>
+              <a [routerLink]="allPages.usuarios.path">
+                {{ allPages.usuarios.label }}
+              </a>
+            </li>
+          </ul>
+
+          <ul>
+            <li>
+              <a [routerLink]="allPages.bienes.path">
+                {{ allPages.bienes.label }}
+              </a>
+            </li>
+          </ul>
+
+          <ul>
+            <li>
+              <a [routerLink]="allPages.embarcaciones.path">
+                {{ allPages.embarcaciones.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </app-app-page>
