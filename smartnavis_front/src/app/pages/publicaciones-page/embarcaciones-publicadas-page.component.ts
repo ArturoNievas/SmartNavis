@@ -9,6 +9,7 @@ import { PublicacionesPageComponent } from './publicaciones-page.component';
 import { PublicacionService } from '../../services/publicacion/publicacion.service';
 import { PermutaService } from '../../services/permuta/permuta.service';
 import { Permuta } from '../../interfaces/permuta';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-embarcaciones-publicadas-page',
@@ -21,9 +22,15 @@ export class EmbarcacionesPublicadasPageComponent extends PublicacionesPageCompo
   constructor(
     publicacionService: PublicacionService,
     publicacionEmbarcacionService: PublicacionEmbarcacionService,
-    permutaService: PermutaService
+    permutaService: PermutaService,
+    authService: AuthService
   ) {
-    super(publicacionService, publicacionEmbarcacionService, permutaService);
+    super(
+      publicacionService,
+      publicacionEmbarcacionService,
+      permutaService,
+      authService
+    );
     this.titulo = 'Embarcaciones Publicadas';
   }
 

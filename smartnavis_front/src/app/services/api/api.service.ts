@@ -31,6 +31,14 @@ export class ApiService {
       return throwError(() => new Error(error.error));
     }
 
+    if (error.status === 401) {
+      return throwError(() => new Error("Error de autenticación. Compruebe las credenciales ingresadas."));
+    }
+
+    if (error.status === 403) {
+      return throwError(() => new Error("No posee los permisos suficientes para acceder al recurso solicitado."));
+    }
+
     console.error('Error:', error);
     return throwError(
       () =>
@@ -47,7 +55,7 @@ export class ApiService {
     );
   }
 
-  public post<T>(endpoint: string, payload: any): Observable<T> {
+  public post<T>(endpoint: string, payload: any = null): Observable<T> {
     return this.http.post<T>(this.baseUrl + endpoint, payload, {}).pipe(
       retry(environment.apiRetryAttempts),
       catchError((error) => this.handleError(error, 'POST', endpoint, payload)),

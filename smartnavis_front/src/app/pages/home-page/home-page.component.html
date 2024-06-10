@@ -1,27 +1,94 @@
 <app-app-page titulo="YateMate" subtitulo="Todas las páginas">
   <div class="global-container">
-    <ul class="d-none">
-      <li><a routerLink="/puertos">Puertos</a></li>
-    </ul>
+    <div class="container">
+      <div class="row">
+        <div class="col col-lg-4 col-md-12">
+          <ul>
+            <li>
+              <a [routerLink]="allPages.registrarse.path">
+                {{ allPages.registrarse.label }}
+              </a>
+            </li>
 
-    <ul>
-      <li><a routerLink="/embarcaciones">Lista de embarcaciones</a></li>
-      <li>
-        <a routerLink="/publicaciones/embarcaciones">Embarcaciones publicadas</a>
-      </li>
-    </ul>
+            <li>
+              <a [routerLink]="allPages.iniciarSesion.path">
+                {{ allPages.iniciarSesion.label }}
+              </a>
+            </li>
+          </ul>
 
-    <ul>
-      <li><a routerLink="/bienes">Lista de bienes</a></li>
-      <li><a routerLink="/publicaciones">Bienes publicadas</a></li>
-    </ul>
+          <ng-container *ngIf="authService.isUserAuthenticated()">
+            <ul>
+              <li *ngIf="authService.userIsAdmin() || misAlquileres.length">
+                <a [routerLink]="allPages.publicaciones.path">
+                  {{ allPages.publicaciones.label }}
+                </a>
+              </li>
 
-    <ul>
-      <li><a routerLink="/amarras">Lista de amarras</a></li>
-    </ul>
+              <li *ngIf="authService.userIsAdmin() || !misAlquileres.length">
+                <a [routerLink]="allPages.embarcacionesPublicadas.path">
+                  {{ allPages.embarcacionesPublicadas.label }}
+                </a>
+              </li>
+            </ul>
+          </ng-container>
+        </div>
 
-    <ul>
-      <li><a routerLink="/usuarios">Lista de Usuarios</a></li>
-    </ul>
+        <div
+          class="col col-lg-4 col-md-12"
+          *ngIf="authService.isUserAuthenticated() && authService.userIsAdmin()"
+        >
+          <ul>
+            <li>
+              <a [routerLink]="allPages.puertos.path">
+                {{ allPages.puertos.label }}
+              </a>
+            </li>
+          </ul>
+
+          <ul>
+            <li>
+              <a [routerLink]="allPages.amarras.path">
+                {{ allPages.amarras.label }}
+              </a>
+            </li>
+
+            <li>
+              <a [routerLink]="allPages.amarrasDisponibles.path">
+                {{ allPages.amarrasDisponibles.label }}
+              </a>
+            </li>
+
+            <li>
+              <a [routerLink]="allPages.asignarAmarra.path">
+                {{ allPages.asignarAmarra.label }}
+              </a>
+            </li>
+          </ul>
+
+          <ul>
+            <li>
+              <a [routerLink]="allPages.usuarios.path">
+                {{ allPages.usuarios.label }}
+              </a>
+            </li>
+          </ul>
+
+          <ul>
+            <li>
+              <a [routerLink]="allPages.bienes.path">
+                {{ allPages.bienes.label }}
+              </a>
+            </li>
+
+            <li>
+              <a [routerLink]="allPages.embarcaciones.path">
+                {{ allPages.embarcaciones.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </app-app-page>

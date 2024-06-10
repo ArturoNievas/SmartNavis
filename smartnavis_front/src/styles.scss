@@ -1,26 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
-
+@import "bootstrap/scss/bootstrap";
 
 :root {
-    --global-max-width: 1920px;
+  --global-max-width: 1920px;
 }
 
 .global-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    width: 100%;
-    max-width: var(--global-max-width);
+  width: 100%;
+  max-width: var(--global-max-width);
 
-    margin: 0 auto;
-    padding: 0 20px;
+  margin: 0 auto;
+  padding: 0 20px;
 
-    @media screen and (min-width: 768px) {
-        padding: 0 120px;
-        
-    }
+  @media screen and (min-width: 768px) {
+    padding: 0 120px;
+  }
 }
 
+* li {
+  list-style-position: inside;
+}
+
+* {
+  box-sizing: border-box;
+}

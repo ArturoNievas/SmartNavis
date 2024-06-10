@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Observable, throwError } from 'rxjs';
 import { Amarra } from '../../interfaces/amarra';
+import { Embarcacion } from '../../interfaces/embarcacion';
+import { Persona } from '../../interfaces/persona';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AmarraService {
   private baseUrl = '/amarra';
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
 
   public listarAmarras(): Observable<Amarra[]> {
     return this.apiService.get(this.baseUrl);
@@ -35,5 +37,41 @@ export class AmarraService {
       );
     }
     return this.apiService.delete(`${this.baseUrl}/${amarra.id}`);
+  }
+
+  public asignarAmarraTitular({
+    titularId,
+    amarraId,
+    embarcacion,
+  }: {
+    titularId: number;
+    amarraId: number;
+    embarcacion: Embarcacion;
+  }): Observable<unknown> {
+    return this.apiService.post(`${this.baseUrl}/${amarraId}/alquilarTitular`, {
+      titularId,
+      embarcacion,
+    });
+  }
+
+  public asignarAmarraTercero({
+    titularId,
+    duenio,
+    parentezco,
+    amarraId,
+    embarcacion,
+  }: {
+    titularId: number;
+    duenio: Persona;
+    parentezco: string;
+    amarraId: number;
+    embarcacion: Embarcacion;
+  }) {
+    return this.apiService.post(`${this.baseUrl}/${amarraId}/alquilarTercero`, {
+      duenio,
+      parentezco,
+      titularId,
+      embarcacion,
+    });
   }
 }

@@ -18,5 +18,4 @@ public class PermutaController extends SmartNavisController<Permuta, Long> {
     public Permuta aceptar(@PathVariable("id") Long id) {
         return this.service.aceptar(this.service.getMustExist(id));
     }
-
 }

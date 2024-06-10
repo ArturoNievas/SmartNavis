@@ -65,8 +65,8 @@ export class PublicacionService {
   public solicitarIntercambio(
     publicacionSolicitada: Publicacion,
     publicacionOfertada: Publicacion
-  ): any {
-    return this.apiService.post(
+  ): Observable<Permuta> {
+    return this.apiService.post<Permuta>(
       `${this.publicacionUrl}/${publicacionSolicitada.id}/solicitar`,
       { ofertadaId: publicacionOfertada.id }
     );

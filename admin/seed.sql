@@ -72,14 +72,14 @@ SET @odiseo = (SELECT id FROM smartnavis.personas WHERE nombres = 'Odiseo');
 SET @jack = (SELECT id FROM smartnavis.personas WHERE nombres = 'Jack');
 SET @guillermo = (SELECT id FROM smartnavis.personas WHERE nombres = 'Guillermo');
 SET @vito = (SELECT id FROM smartnavis.personas WHERE nombres = 'Vito');
-INSERT INTO smartnavis.usuarios (password,username,persona_id) VALUES
-	 ('simbad','simbad',@simbad),
-     ('beto','beto',@beto),
-	 ('cristobal','cristobal',@cristobal),
-	 ('odiseo','odiseo',@odiseo),
-	 ('jack','jack',@jack),
-	 ('guillermo','guillermo',@guillermo),
-	 ('vito','vito',@vito);
+INSERT INTO smartnavis.usuarios (password,username,persona_id, role) VALUES
+	 ('simbad','simbad',@simbad,'USUARIO'),
+     ('beto','beto',@beto,'USUARIO'),
+	 ('cristobal','cristobal',@cristobal,'ADMINISTRADOR'),
+	 ('odiseo','odiseo',@odiseo,'USUARIO'),
+	 ('jack','jack',@jack,'USUARIO'),
+	 ('guillermo','guillermo',@guillermo,'ADMINISTRADOR'),
+	 ('vito','vito',@vito,'USUARIO');
 
 INSERT INTO smartnavis.administradores (usuario_id) VALUES
 	 (@cristobal),

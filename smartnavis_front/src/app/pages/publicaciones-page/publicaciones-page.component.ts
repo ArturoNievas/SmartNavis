@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PublicacionService} from '../../services/publicacion/publicacion.service';
-import {NgFor, NgIf} from '@angular/common';
-import {AppPageComponent} from '../../shared/components/app-page/app-page.component';
-import {FormsModule} from '@angular/forms';
-import {Bien} from '../../interfaces/bien';
-import {Publicacion} from '../../interfaces/publicacion';
-import {PublicacionEmbarcacionService} from '../../services/publicacionEmbarcacion/publicacion-embarcacion.service';
-import {Permuta} from '../../interfaces/permuta';
-import {PermutaService} from '../../services/permuta/permuta.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PublicacionService } from '../../services/publicacion/publicacion.service';
+import { NgFor, NgIf } from '@angular/common';
+import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
+import { FormsModule } from '@angular/forms';
+import { Bien } from '../../interfaces/bien';
+import { Publicacion } from '../../interfaces/publicacion';
+import { PublicacionEmbarcacionService } from '../../services/publicacionEmbarcacion/publicacion-embarcacion.service';
+import { Permuta } from '../../interfaces/permuta';
+import { PermutaService } from '../../services/permuta/permuta.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 export enum EstadoFormulario {
   Modificar = 'modificar',
@@ -17,7 +18,7 @@ export enum EstadoFormulario {
 
 const bienAdapter = (bien: Bien | any): Bien => {
   const __dominio = bien?.patente || bien?.partida || bien?.matricula;
-  return {...bien, __dominio};
+  return { ...bien, __dominio };
 };
 
 @Component({
@@ -54,9 +55,9 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
   constructor(
     private publicacionService: PublicacionService,
     private publicacionEmbarcacionService: PublicacionEmbarcacionService,
-    private permutaService: PermutaService
-  ) {
-  }
+    private permutaService: PermutaService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.listarTodasLasPublicaciones();
@@ -110,7 +111,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
 
   seleccionarPublicacion(publicacion: Publicacion): void {
     this.publicacionSeleccionada = publicacion;
-    this.publicacionModificada = {...publicacion};
+    this.publicacionModificada = { ...publicacion };
 
     if (this.estadoFormulario === EstadoFormulario.Intercambiar) {
       this.publicacionesOfertables = this.obtenerPublicacionesOfertables();
@@ -131,8 +132,19 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
       ? this.todasLasPublicaciones
       : this.publicacionesEmbarcaciones;
 
-    const titularDiferente = (ofertada: Publicacion, solicitada: Publicacion) =>
-      solicitada.bien.titular !== ofertada.bien.titular;
+    const usuarioEsAdmin = () => this.authService.userIsAdmin();
+
+    const publicacionEsPropia = (publicacion: Publicacion) => {
+      return publicacion.bien.titular.id === this.authService.getMe()?.id;
+    };
+
+    const titularDiferente = (
+      ofertada: Publicacion,
+      solicitada: Publicacion
+    ) => {
+      console.log({ ofertada, solicitada });
+      return solicitada.bien.titular.id !== ofertada.bien.titular.id;
+    };
 
     const publicacionDiferente = (
       ofertada: Publicacion,
@@ -147,6 +159,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
         (permuta) => permuta.ofertada.id === ofertada.id
       );
 
+    // TODO: Obtener publicaciones con permuta aceptada desde el backend
     const publicacionConPermutaAceptada = (publicacion: Publicacion) => {
       return this.publicacionesConPermutaAceptada.some(
         (publicacionAceptada) => publicacionAceptada.id === publicacion.id
@@ -155,6 +168,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
 
     const publicacionesOfertables = ofertables.filter((publicacion) => {
       return (
+        (usuarioEsAdmin() || publicacionEsPropia(publicacion)) &&
         titularDiferente(publicacion, this.publicacionSeleccionada!) &&
         publicacionDiferente(publicacion, this.publicacionSeleccionada!) &&
         !ofertadaPreviamente(publicacion, this.publicacionSeleccionada!) &&
@@ -224,7 +238,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
       throw new Error('No hay cambios en la publicación');
     }
 
-    const {__permutasSolicitadas, ...publicacion} =
+    const { __permutasSolicitadas, ...publicacion } =
       this.publicacionModificada;
 
     this.publicacionService.actualizarPublicacion(publicacion).subscribe({
@@ -248,7 +262,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  intercambiarPublicacion(): void {
+  solicitarIntercambio(): void {
     if (!this.publicacionSeleccionada) {
       throw new Error('No existe publicación seleccionada');
     }
@@ -274,29 +288,27 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
         this.publicacionOfertada
       )
       .subscribe({
-        next: () => {
+        next: (permuta: Permuta) => {
           if (!this.publicacionSeleccionada!.__permutasSolicitadas) {
             this.publicacionSeleccionada!.__permutasSolicitadas = [];
           }
 
           this.publicacionSeleccionada!.__permutasSolicitadas.push({
+            id: permuta.id,
             solicitada: this.publicacionSeleccionada!,
             ofertada: this.publicacionOfertada!,
-            pendiente: true,
-            aceptada: false,
-            registrada: false,
-            finalizada: false,
+            pendiente: permuta.pendiente,
+            aceptada: permuta.aceptada,
+            registrada: permuta.registrada,
+            finalizada: permuta.finalizada,
           });
 
           this.resetearFormulario();
           this.cerrarFormulario();
-          this.mostrarMensaje(
-            'exito',
-            'Publicación intercambiada correctamente'
-          );
+          this.mostrarMensaje('exito', 'Intercambio solicitado con éxito');
         },
         error: (error: any) => {
-          console.error('Error al intercambiar publicación.', error);
+          console.error('Error al solicitar el intercambio.', error);
           this.mostrarMensaje('error', error.message || error);
         },
       });
@@ -343,7 +355,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
   }
 
   private mostrarMensaje(tipo: 'exito' | 'error', mensaje: string): void {
-    this.mensajeFormulario = {tipo, mensaje};
+    this.mensajeFormulario = { tipo, mensaje };
 
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
@@ -366,7 +378,7 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
         this.publicacionesConPermutaAceptada.push(permuta.solicitada);
         this.publicacionesConPermutaAceptada.push(permuta.ofertada);
         this.filtrarPublicacionesSolicitablesConPermutasAceptadas();
-        this.mostrarMensaje('exito', 'Permuta aceptada correctamente');
+        this.mostrarMensaje('exito', 'Intercambio aceptado.');
       },
       error: (error: any) => {
         console.error('Error al aceptar permuta.', error);
@@ -382,7 +394,8 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
   }
 
   public listarSolicitudes(publicacion: Publicacion): void {
-    this.publicacionService.listarSolicitudes(publicacion)
+    this.publicacionService
+      .listarSolicitudes(publicacion)
       .subscribe((solicitudes: Permuta[]) => {
         publicacion.__permutasSolicitadas = solicitudes;
         if (solicitudes.length === 0) {

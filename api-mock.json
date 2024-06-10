@@ -1015,6 +1015,208 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "70206660-fa40-4594-ba49-7faaf4791ba9",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/login",
+      "responses": [
+        {
+          "uuid": "45bf1793-8a5a-42a9-b69b-53e9cbbad2f1",
+          "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaW1iYWQiLCJpYXQiOjE3MTY1NjE5MDMsImV4cCI6MTcxNjU2MzM0M30.jvS9GPDQjjOCjQGFt9vZCpTsGkEvjYpQ5SKcdiO3GX0\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "54619e18-53d7-487d-bc67-8ef9a49bc529",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "usuario/:id",
+      "responses": [
+        {
+          "uuid": "9cf747c1-fbe9-4f7d-b53a-2f29c3d545af",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "9a936f0d-aa1b-4ad1-be02-55cc16355cdf",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/signup",
+      "responses": [
+        {
+          "uuid": "5f8f155f-db3a-456e-a88e-11ae45f3041f",
+          "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaW1iYWQiLCJpYXQiOjE3MTY1NjE5MDMsImV4cCI6MTcxNjU2MzM0M30.jvS9GPDQjjOCjQGFt9vZCpTsGkEvjYpQ5SKcdiO3GX0\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f6fcd586-3ddc-4dd2-8ba8-9edb2bf9e0ec",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "usuario/dni/:dni",
+      "responses": [
+        {
+          "uuid": "083b88e1-d1f7-4f13-a311-2005768c388a",
+          "body": "[\n  {\n    \"id\": 2,\n    \"dni\": 25487754,\n    \"nombres\": \"Capitan Beto\",\n    \"apellidos\": \"Beto\",\n    \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\n    \"habilitadaIntercambio\": false,\n    \"username\": \"beto\"\n  },\n  {\n    \"id\": 10,\n    \"dni\": 21543876,\n    \"nombres\": \"Jack\",\n    \"apellidos\": \"Sparrow\",\n    \"fechaNacimiento\": \"1969-09-16T00:00:00.000+00:00\",\n    \"habilitadaIntercambio\": true,\n    \"username\": \"jack\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "494a97eb-1e80-41fd-bb10-1547deaf38e1",
+          "body": "[\n  {\n    \"id\": 2,\n    \"dni\": 25487754,\n    \"nombres\": \"Capitan Beto\",\n    \"apellidos\": \"Beto\",\n    \"fechaNacimiento\": \"1950-03-13T00:00:00.000+00:00\",\n    \"habilitadaIntercambio\": false,\n    \"username\": \"beto\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "e2efe249-d0d7-433a-a735-26e24247e723",
+          "body": "[]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "749dd03a-4197-4954-9e20-34bb709669b3",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "8732",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": "SEQUENTIAL"
+    },
+    {
+      "uuid": "acfabd17-e206-41eb-a009-916a03dcc800",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/logout",
+      "responses": [
+        {
+          "uuid": "41d4e76c-9a63-4df9-a81e-17773bdf9532",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -1037,6 +1239,18 @@
     {
       "type": "route",
       "uuid": "2ee3b7a9-308e-484d-a9f6-c0d4c1243ca4"
+    },
+    {
+      "type": "route",
+      "uuid": "70206660-fa40-4594-ba49-7faaf4791ba9"
+    },
+    {
+      "type": "route",
+      "uuid": "acfabd17-e206-41eb-a009-916a03dcc800"
+    },
+    {
+      "type": "route",
+      "uuid": "9a936f0d-aa1b-4ad1-be02-55cc16355cdf"
     },
     {
       "type": "route",
@@ -1089,6 +1303,14 @@
     {
       "type": "route",
       "uuid": "b88ea323-5a43-4b14-a4ad-ef5ed1786a09"
+    },
+    {
+      "type": "route",
+      "uuid": "54619e18-53d7-487d-bc67-8ef9a49bc529"
+    },
+    {
+      "type": "route",
+      "uuid": "f6fcd586-3ddc-4dd2-8ba8-9edb2bf9e0ec"
     },
     {
       "type": "route",

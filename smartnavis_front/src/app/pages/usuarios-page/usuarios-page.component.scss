@@ -1,15 +1,3 @@
-ol > div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-li > div {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .local-container {
   width: 100%;
   display: flex;
@@ -17,4 +5,41 @@ li > div {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 48px;
+
+  ol {
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    li {
+      list-style-position: outside;
+      margin-left: 16px;
+    }
+
+    .opciones-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      width: 100%;
+
+      .nombre {
+        flex-shrink: 0;
+      }
+
+      .opciones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    }
+
+    li > div {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
 }
