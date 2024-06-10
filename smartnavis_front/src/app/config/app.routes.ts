@@ -50,8 +50,8 @@ const pages: any = {
   },
 
   asignarAmarra: {
-    path: 'amarras/asignar',
-    title: 'Asignar Amarra',
+    path: 'amarras/alquilar',
+    title: 'Alquilar Amarra',
     component: AsignarAmarraPageComponent,
   },
 
