@@ -22,8 +22,14 @@ public class AlquilerController extends SmartNavisController<Alquiler, Long> {
         this.usuarioService = usuarioService;
     }
 
+    @GetMapping("")
+    public Iterable<Alquiler> listarAlquileres() {
+        return this.service.listarAlquiler();
+    }
+
     @GetMapping("me")
     public Iterable<Alquiler> listarMisAlquileres(@AuthenticationPrincipal UserDetails userDetails) {
         return this.service.buscarPorUsuario(this.usuarioService.buscarPorUsernameSeguroExiste(userDetails.getUsername()));
     }
+
 }

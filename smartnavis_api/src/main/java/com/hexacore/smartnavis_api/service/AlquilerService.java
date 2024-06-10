@@ -8,4 +8,6 @@ public interface AlquilerService extends SmartNavisService<Alquiler, Long> {
     Alquiler alquilarTitular(Long id, CrearEmbarcacionInput embarcacion, Long titularId);
 
     Iterable<Alquiler> buscarPorUsuario(Usuario usuario);
+
+    Iterable<Amarra> listarAlquiler();
 }
