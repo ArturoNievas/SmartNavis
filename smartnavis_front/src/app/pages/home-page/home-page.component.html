@@ -3,8 +3,6 @@
     <div class="container">
       <div class="row">
         <div class="col col-lg-4 col-md-12">
-          <h2>Personas</h2>
-
           <ul>
             <li>
               <a [routerLink]="allPages.registrarse.path">
@@ -18,35 +16,28 @@
               </a>
             </li>
           </ul>
-        </div>
 
-        <div
-          class="col col-lg-4 col-md-12"
-          *ngIf="authService.isUserAuthenticated()"
-        >
-          <h2>Usuarios</h2>
+          <ng-container *ngIf="authService.isUserAuthenticated()">
+            <ul>
+              <li *ngIf="authService.userIsAdmin() || misAlquileres.length">
+                <a [routerLink]="allPages.publicaciones.path">
+                  {{ allPages.publicaciones.label }}
+                </a>
+              </li>
 
-          <ul>
-            <li *ngIf="authService.userIsAdmin() || misAlquileres.length">
-              <a [routerLink]="allPages.publicaciones.path">
-                {{ allPages.publicaciones.label }}
-              </a>
-            </li>
-
-            <li *ngIf="authService.userIsAdmin() || !misAlquileres.length">
-              <a [routerLink]="allPages.embarcacionesPublicadas.path">
-                {{ allPages.embarcacionesPublicadas.label }}
-              </a>
-            </li>
-          </ul>
+              <li *ngIf="authService.userIsAdmin() || !misAlquileres.length">
+                <a [routerLink]="allPages.embarcacionesPublicadas.path">
+                  {{ allPages.embarcacionesPublicadas.label }}
+                </a>
+              </li>
+            </ul>
+          </ng-container>
         </div>
 
         <div
           class="col col-lg-4 col-md-12"
           *ngIf="authService.isUserAuthenticated() && authService.userIsAdmin()"
         >
-          <h2>Administradores</h2>
-
           <ul>
             <li>
               <a [routerLink]="allPages.puertos.path">
@@ -89,9 +80,7 @@
                 {{ allPages.bienes.label }}
               </a>
             </li>
-          </ul>
 
-          <ul>
             <li>
               <a [routerLink]="allPages.embarcaciones.path">
                 {{ allPages.embarcaciones.label }}
