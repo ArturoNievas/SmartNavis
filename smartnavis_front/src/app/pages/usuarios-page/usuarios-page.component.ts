@@ -113,6 +113,7 @@ export class UsuariosPageComponent implements OnInit {
     this.usuarioService.promoverUsuario(usuario).subscribe({
       next: () => {
         alert(`Usuario "${usuario.nombres}" promovido correctamente.`);
+        this.listarUsuarios();
       },
       error: (error: Error) => {
         alert(error.message);
@@ -128,6 +129,7 @@ export class UsuariosPageComponent implements OnInit {
     this.usuarioService.degradarUsuario(usuario).subscribe({
       next: () => {
         alert(`Administrador "${usuario.nombres}" degradado correctamente.`);
+        this.listarUsuarios();
       },
       error: (error: Error) => {
         alert(error.message);

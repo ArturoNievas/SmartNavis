@@ -5,6 +5,7 @@ import { Embarcacion } from './embarcacion';
 export interface Usuario extends Persona {
   username: string;
   password: string;
+  role: 'USUARIO' | 'ADMINISTRADOR';
 
   // Uso interno front.
 

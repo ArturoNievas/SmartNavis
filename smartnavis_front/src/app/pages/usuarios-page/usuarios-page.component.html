@@ -21,41 +21,48 @@
       <ol class="p-0 m-0" *ngIf="usuarios.length; else sinUsuarios">
         <div>
           <li *ngFor="let usuario of usuarios">
-            <div>
-              <span>
+            <div class="opciones-container">
+              <span class="nombre">
                 <b>
                   {{ usuario.nombres }} {{ usuario.apellidos }} ({{
                     usuario.username
                   }})
                 </b>
               </span>
-              <button
-                class="btn btn-primary"
-                (click)="listarEmbarcaciones(usuario)"
-              >
-                Listar Embarcaciones
-              </button>
-              <button
-                class="btn btn-primary"
-                (click)="listarPublicaciones(usuario)"
-              >
-                Listar Publicaciones
-              </button>
-              <button class="btn btn-danger" (click)="eliminarUsuario(usuario)">
-                Eliminar usuario
-              </button>
-              <button
-                class="btn btn-secondary"
-                (click)="promoverUsuario(usuario)"
-              >
-                Promover
-              </button>
-              <button
-                class="btn btn-secondary"
-                (click)="degradarUsuario(usuario)"
-              >
-                Degradar
-              </button>
+              <div class="opciones">
+                <button
+                  class="btn btn-primary"
+                  (click)="listarEmbarcaciones(usuario)"
+                >
+                  Listar Embarcaciones
+                </button>
+                <button
+                  class="btn btn-primary"
+                  (click)="listarPublicaciones(usuario)"
+                >
+                  Listar Publicaciones
+                </button>
+                <button
+                  class="btn btn-danger"
+                  (click)="eliminarUsuario(usuario)"
+                >
+                  Eliminar
+                </button>
+                <button
+                  *ngIf="usuario.role === 'USUARIO'"
+                  class="btn btn-secondary"
+                  (click)="promoverUsuario(usuario)"
+                >
+                  Designar como Administrador
+                </button>
+                <button
+                  *ngIf="usuario.role === 'ADMINISTRADOR'"
+                  class="btn btn-secondary"
+                  (click)="degradarUsuario(usuario)"
+                >
+                  Revertir a Usuario
+                </button>
+              </div>
             </div>
 
             <!-- Embarcaciones del usuario-->
