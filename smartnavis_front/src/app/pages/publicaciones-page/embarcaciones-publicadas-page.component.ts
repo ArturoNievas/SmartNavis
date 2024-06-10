@@ -10,11 +10,6 @@ import { PublicacionService } from '../../services/publicacion/publicacion.servi
 import { PermutaService } from '../../services/permuta/permuta.service';
 import { Permuta } from '../../interfaces/permuta';
 import { AuthService } from '../../services/auth/auth.service';
-import { AmarraService } from '../../services/amarra/amarra.service';
-import { Amarra } from '../../interfaces/amarra';
-import { AlquilerService } from '../../services/alquiler/alquiler.service';
-import { Alquiler } from '../../interfaces/alquiler';
-import { Embarcacion } from '../../interfaces/embarcacion';
 
 @Component({
   selector: 'app-embarcaciones-publicadas-page',
@@ -28,8 +23,7 @@ export class EmbarcacionesPublicadasPageComponent extends PublicacionesPageCompo
     publicacionService: PublicacionService,
     publicacionEmbarcacionService: PublicacionEmbarcacionService,
     permutaService: PermutaService,
-    authService: AuthService,
-    private alquilerService: AlquilerService
+    authService: AuthService
   ) {
     super(
       publicacionService,
@@ -40,30 +34,8 @@ export class EmbarcacionesPublicadasPageComponent extends PublicacionesPageCompo
     this.titulo = 'Embarcaciones Publicadas';
   }
 
-  private embarcacionesConAmarra: Embarcacion[] = [];
-
-  override ngOnInit(): void {
-    super.ngOnInit();
-    this.listarAlquileres();
-  }
-
-  protected listarAlquileres(): void {
-    this.alquilerService
-      .listarAlquileres()
-      .subscribe((alquileres: Alquiler[]) => {
-        this.embarcacionesConAmarra = alquileres.map(
-          ({ embarcacion }) => embarcacion
-        );
-        this.listarPublicacionesSolicitables();
-      });
-  }
-
   protected override listarPublicacionesSolicitables(): void {
-    this.publicacionesSolicitables = this.publicacionesEmbarcaciones.filter(
-      (publicacion) =>
-        this.embarcacionesConAmarra.some(({ id }) => id === publicacion.bien.id)
-    );
-
+    this.publicacionesSolicitables = this.publicacionesEmbarcaciones;
     this.filtrarPublicacionesSolicitablesConPermutasAceptadas();
   }
 
