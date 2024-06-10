@@ -1,7 +1,7 @@
 USE smartnavis;
 
 INSERT INTO smartnavis.personas (apellidos,dni,fecha_nacimiento,nombres, habilitada_intercambio) VALUES
-	 ('Marino',11111111,'1950-03-13 00:00:00','Simbad',0),
+	 ('Marino',11111111,'1950-03-13 00:00:00','Simbad',1),
 	 ('Sparrow',21543876,'1969-09-16 00:00:00','Jack',1);
 	 
 SET @simbad = (SELECT id FROM smartnavis.personas WHERE nombres = 'Simbad');
