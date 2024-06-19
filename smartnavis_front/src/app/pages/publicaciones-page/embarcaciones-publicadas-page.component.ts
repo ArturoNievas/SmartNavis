@@ -35,8 +35,9 @@ export class EmbarcacionesPublicadasPageComponent extends PublicacionesPageCompo
   }
 
   protected override listarPublicacionesSolicitables(): void {
-    this.publicacionesSolicitables = this.publicacionesEmbarcaciones;
-    this.filtrarPublicacionesSolicitablesConPermutasAceptadas();
+    this.publicacionesSolicitables = this.filtrarPublicacionesSolicitables(
+      this.publicacionesEmbarcaciones
+    );
   }
 
   public override aceptarPermuta(permuta: Permuta): void {

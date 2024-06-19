@@ -39,7 +39,6 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
 
   publicacionesSolicitables: Publicacion[] = [];
   publicacionesOfertables: Publicacion[] = [];
-  publicacionesConPermutaAceptada: Publicacion[] = [];
 
   publicacionSeleccionada?: Publicacion;
 
@@ -64,49 +63,60 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
     this.listarPublicacionesEmbarcaciones();
   }
 
-  listarTodasLasPublicaciones(): void {
-    this.publicacionService
-      .listarPublicaciones()
-      .subscribe((publicaciones: Publicacion[]) => {
-        this.todasLasPublicaciones = publicaciones.map((publicacion) => ({
-          ...publicacion,
-          bien: bienAdapter(publicacion.bien),
-        }));
+  private listarPublicaciones(
+    service: PublicacionService,
+    callback?: (publicaciones: any) => void
+  ) {
+    service.listarPublicaciones().subscribe((publicaciones: Publicacion[]) => {
+      publicaciones.forEach((publicacion) => {
+        publicacion.bien = bienAdapter(publicacion.bien);
+        publicacion.__permutasSolicitadas = [];
 
-        this.obtenerPermutasConPermutaAceptada();
-        this.listarPublicacionesSolicitables();
+        this.publicacionService
+          .listarSolicitudes(publicacion)
+          .subscribe((solicitudes: Permuta[]) => {
+            publicacion.__permutasSolicitadas = solicitudes;
+          });
       });
+
+      if (callback) callback(publicaciones);
+    });
+  }
+
+  listarTodasLasPublicaciones(): void {
+    this.listarPublicaciones(
+      this.publicacionService,
+      (publicaciones: Publicacion[]) => {
+        this.todasLasPublicaciones = publicaciones;
+        this.listarPublicacionesSolicitables();
+      }
+    );
   }
 
   listarPublicacionesEmbarcaciones(): void {
-    this.publicacionEmbarcacionService
-      .listarPublicaciones()
-      .subscribe((publicaciones: Publicacion[]) => {
-        this.publicacionesEmbarcaciones = publicaciones.map((publicacion) => ({
-          ...publicacion,
-          bien: bienAdapter(publicacion.bien),
-        }));
+    this.listarPublicaciones(
+      this.publicacionEmbarcacionService,
+      (publicaciones: Publicacion[]) => {
+        this.publicacionesEmbarcaciones = publicaciones;
         this.listarPublicacionesSolicitables();
-      });
-  }
-
-  private obtenerPermutasConPermutaAceptada(): void {
-    this.publicacionesConPermutaAceptada = this.todasLasPublicaciones.filter(
-      (publicacion) =>
-        publicacion.__permutasSolicitadas?.some((permuta) => permuta.aceptada)
+      }
     );
   }
 
   protected listarPublicacionesSolicitables(): void {
-    this.publicacionesSolicitables = this.todasLasPublicaciones;
-    this.filtrarPublicacionesSolicitablesConPermutasAceptadas();
+    this.publicacionesSolicitables = this.filtrarPublicacionesSolicitables(
+      this.todasLasPublicaciones
+    );
   }
 
-  filtrarPublicacionesSolicitablesConPermutasAceptadas() {
-    this.publicacionesSolicitables = this.publicacionesSolicitables.filter(
-      (publicacion) =>
-        !this.publicacionesConPermutaAceptada.includes(publicacion)
-    );
+  filtrarPublicacionesSolicitables(
+    publicaciones: Publicacion[]
+  ): Publicacion[] {
+    return publicaciones.filter((publicacion) => {
+      return !publicacion.__permutasSolicitadas?.some(
+        (permuta) => permuta.aceptada
+      );
+    });
   }
 
   seleccionarPublicacion(publicacion: Publicacion): void {
@@ -132,6 +142,8 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
       ? this.todasLasPublicaciones
       : this.publicacionesEmbarcaciones;
 
+    console.debug('Publicaciones ofertables:', ofertables);
+
     const usuarioEsAdmin = () => this.authService.userIsAdmin();
 
     const publicacionEsPropia = (publicacion: Publicacion) => {
@@ -142,7 +154,6 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
       ofertada: Publicacion,
       solicitada: Publicacion
     ) => {
-      console.log({ ofertada, solicitada });
       return solicitada.bien.titular.id !== ofertada.bien.titular.id;
     };
 
@@ -159,10 +170,9 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
         (permuta) => permuta.ofertada.id === ofertada.id
       );
 
-    // TODO: Obtener publicaciones con permuta aceptada desde el backend
     const publicacionConPermutaAceptada = (publicacion: Publicacion) => {
-      return this.publicacionesConPermutaAceptada.some(
-        (publicacionAceptada) => publicacionAceptada.id === publicacion.id
+      return publicacion.__permutasSolicitadas?.some(
+        (permuta) => permuta.aceptada
       );
     };
 
@@ -375,13 +385,13 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
       next: () => {
         permuta.aceptada = true;
         permuta.pendiente = false;
-        this.publicacionesConPermutaAceptada.push(permuta.solicitada);
-        this.publicacionesConPermutaAceptada.push(permuta.ofertada);
-        this.filtrarPublicacionesSolicitablesConPermutasAceptadas();
+        this.listarPublicacionesSolicitables();
+
         this.mostrarMensaje('exito', 'Intercambio aceptado.');
       },
       error: (error: any) => {
         console.error('Error al aceptar permuta.', error);
+
         this.mostrarMensaje('error', error.message || error);
       },
     });
@@ -394,13 +404,6 @@ export class PublicacionesPageComponent implements OnInit, OnDestroy {
   }
 
   public listarSolicitudes(publicacion: Publicacion): void {
-    this.publicacionService
-      .listarSolicitudes(publicacion)
-      .subscribe((solicitudes: Permuta[]) => {
-        publicacion.__permutasSolicitadas = solicitudes;
-        if (solicitudes.length === 0) {
-          alert('La publicación no cuenta con permutas solicitadas.');
-        }
-      });
+    console.log('Listar solicitudes', publicacion.__permutasSolicitadas);
   }
 }
