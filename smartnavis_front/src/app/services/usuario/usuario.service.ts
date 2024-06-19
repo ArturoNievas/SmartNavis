@@ -50,6 +50,8 @@ export class UsuarioService {
     return this.apiService.delete(`${this.usuarioUrl}/${usuario.id}`);
   }
 
+  // Buscar usuario por dni
+
   private debouncedBuscarUsuariosPorDNI = debounce(
     (dni: string, observer: any) => {
       this._buscarUsuariosPorDNI(dni).subscribe(observer);
@@ -75,6 +77,39 @@ export class UsuarioService {
 
   private _buscarUsuariosPorDNI(dni: string): Observable<Usuario[]> {
     return this.apiService.get<Usuario[]>(`/usuario/buscar/dni/${dni}`);
+  }
+
+  // Buscar usuario por username
+
+  private debouncedBuscarUsuariosPorUsername = debounce(
+    (username: string, observer: any) => {
+      this._buscarUsuariosPorUsername(username).subscribe(observer);
+    },
+    200,
+    { leading: false, trailing: true }
+  );
+
+  public buscarUsuariosPorUsername(username: string): Observable<Usuario[]> {
+    username = username.trim();
+
+    if (!username) {
+      return throwError(
+        () =>
+          new Error(
+            'No es posible buscar usuario por username (No se ingresó username).'
+          )
+      );
+    }
+
+    return new Observable<Usuario[]>((observer) => {
+      this.debouncedBuscarUsuariosPorUsername(username, observer);
+    });
+  }
+
+  private _buscarUsuariosPorUsername(username: string): Observable<Usuario[]> {
+    return this.apiService.get<Usuario[]>(
+      `/usuario/buscar/username/${username}`
+    );
   }
 
   public promoverUsuario(usuario: Usuario): Observable<Administrador> {

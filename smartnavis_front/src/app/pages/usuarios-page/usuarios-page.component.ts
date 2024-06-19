@@ -96,6 +96,7 @@ export class UsuariosPageComponent implements OnInit {
           // Puede ocurrir si el usuario escribe un DNI y luego borra el campo
           if (this.dniBuscado?.value === dni) {
             this.usuarios = usuarios;
+            console.log(usuarios);
           }
         },
         error: (error: any) => {
@@ -104,6 +105,39 @@ export class UsuariosPageComponent implements OnInit {
       });
     }
   }
+
+  /* Buscar usuario por username */
+
+  public buscarUsuariosPorUsernameForm = new FormGroup({
+    username: new FormControl(''),
+  });
+
+  get usernameBuscado() {
+    return this.buscarUsuariosPorUsernameForm.get('username');
+  }
+
+  public buscarUsuariosPorUsername() {
+    const username = this.usernameBuscado?.value;
+
+    if (!username) {
+      this.listarUsuarios();
+    } else {
+      this.usuarioService.buscarUsuariosPorUsername(username).subscribe({
+        next: (usuarios: Usuario[]) => {
+          // Comprobar si cambió el valor desde que se hizo la búsqueda
+          // Puede ocurrir si el usuario escribe un username y luego borra el campo
+          if (this.usernameBuscado?.value === username) {
+            this.usuarios = usuarios;
+          }
+        },
+        error: (error: any) => {
+          alert(`Error al buscar el usuario: ${error.message}`);
+        },
+      });
+    }
+  }
+
+  /* Promover usuario */
 
   public promoverUsuario(usuario: Usuario) {
     let confirmacion = confirm(
@@ -120,6 +154,8 @@ export class UsuariosPageComponent implements OnInit {
       },
     });
   }
+
+  /* Degradar usuario */
 
   public degradarUsuario(usuario: Usuario) {
     let confirmacion = confirm(

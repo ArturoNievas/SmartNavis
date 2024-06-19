@@ -1,21 +1,45 @@
 <app-app-page [titulo]="titulo">
   <div class="global-container">
-    <form
-      [formGroup]="buscarUsuariosPorDniForm"
-      (keyup)="buscarUsuariosPorDni()"
-    >
-      <div class="form-group mb-3">
-        <label>
-          <span>Buscar usuario por DNI</span>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="dni"
-            placeholder="DNI del usuario"
-          />
-        </label>
-      </div>
-    </form>
+    <!-- Formulario para buscar usuario por dni -->
+    <div class="d-flex gap-2">
+      <form
+        [formGroup]="buscarUsuariosPorDniForm"
+        (keyup)="buscarUsuariosPorDni()"
+      >
+        <div class="form-group mb-3">
+          <label>
+            <span>Buscar usuario por DNI</span>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="dni"
+              placeholder="DNI del usuario"
+            />
+          </label>
+        </div>
+      </form>
+
+      <!-- Formulario para buscar usuario por username -->
+
+      <form
+        [formGroup]="buscarUsuariosPorUsernameForm"
+        (keyup)="buscarUsuariosPorUsername()"
+      >
+        <div class="form-group mb-3">
+          <label>
+            <span>Buscar usuario por nombre de usuario</span>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+              placeholder="Nombre de usuario"
+            />
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formulario para crear usuario -->
 
     <div class="local-container">
       <ol class="p-0 m-0" *ngIf="usuarios.length; else sinUsuarios">
