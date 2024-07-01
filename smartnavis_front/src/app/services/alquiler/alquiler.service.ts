@@ -11,6 +11,10 @@ export class AlquilerService {
 
   constructor(private apiService: ApiService) {}
 
+  public listarAlquileres(): Observable<Alquiler[]> {
+    return this.apiService.get(this.baseUrl);
+  }
+
   public listarMisAlquileres(): Observable<Alquiler[]> {
     return this.apiService.get(`${this.baseUrl}/me`);
   }

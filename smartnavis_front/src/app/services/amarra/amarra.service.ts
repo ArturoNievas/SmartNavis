@@ -74,4 +74,57 @@ export class AmarraService {
       embarcacion,
     });
   }
+
+  public desasignarAmarra(amarra: Amarra): Observable<unknown> {
+    if (!amarra.id) {
+      return throwError(
+        () => new Error('No es posible desasignar la amarra (no id)')
+      );
+    }
+
+    return this.apiService.post(`${this.baseUrl}/${amarra.id}/desasignar`, {}); // TODO: Set the real body
+  }
+
+  public reasignarAmarra({
+    amarraId,
+    usuarioId,
+    usuarioEsPropietario,
+    parentezco,
+  }: {
+    amarraId: number;
+    usuarioId: number;
+    usuarioEsPropietario: boolean;
+    parentezco: string | null;
+  }) {
+    if (usuarioEsPropietario) {
+      return this.reasignarAmarraTitular(amarraId, usuarioId);
+    } else {
+      return this.reasignarAmarraTercero(amarraId, usuarioId, parentezco!);
+    }
+  }
+
+  private reasignarAmarraTitular(amarraId: number, usuarioId: number) {
+    console.log('Reasignar titular');
+    return this.apiService.post(
+      `${this.baseUrl}/${amarraId}/reasignarTitular`,
+      {
+        usuarioId,
+      }
+    );
+  }
+
+  private reasignarAmarraTercero(
+    amarraId: number,
+    usuarioId: number,
+    parentezco: string
+  ) {
+    console.log('Reasignar tercero');
+    return this.apiService.post(
+      `${this.baseUrl}/${amarraId}/reasignarTercero`,
+      {
+        usuarioId,
+        parentezco,
+      }
+    );
+  }
 }

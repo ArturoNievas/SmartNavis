@@ -38,6 +38,22 @@
               >
                 Eliminar
               </button>
+
+              <ng-container *ngIf="!amarra.disponible">
+                <button
+                  class="btn btn-secondary"
+                  (click)="desasignarAmarra(amarra)"
+                >
+                  Des-asignar
+                </button>
+
+                <button
+                  class="btn btn-secondary"
+                  (click)="abrirFormulario(estados.Reasignar, amarra)"
+                >
+                  Re-asignar
+                </button>
+              </ng-container>
             </span>
           </div>
         </li>
@@ -69,6 +85,16 @@
           then formularioEliminar
         "
       ></div>
+      <ng-container
+        *ngIf="amarraSeleccionada && estadoFormulario === estados.Reasignar"
+      >
+        <app-formulario-reasignar
+          [amarraSeleccionada]="amarraSeleccionada"
+          (enviarFormulario)="reasignarAmarra($event)"
+          #reasignarAmarraForm
+        ></app-formulario-reasignar>
+      </ng-container>
+
       <div
         *ngIf="mensajeFormulario"
         class="alert"
