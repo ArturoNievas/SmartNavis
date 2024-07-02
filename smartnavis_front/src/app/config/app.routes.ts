@@ -11,6 +11,7 @@ import { IniciarSesionPageComponent } from '../pages/iniciar-sesion-page/iniciar
 import { AmarrasPageComponent } from '../pages/amarras-page/amarras-page.component';
 import { AsignarAmarraPageComponent } from '../pages/asignar-amarra-page/asignar-amarra-page.component';
 import { AmarrasDisponiblesPageComponent } from '../pages/amarras-disponibles-page/amarras-disponibles-page.component';
+import { IntercambiosPageComponent } from '../pages/intercambios-page/intercambios-page.component';
 
 const pages: any = {
   homepage: {
@@ -100,6 +101,14 @@ const pages: any = {
     title: 'Publicaciones',
     label: 'Publicaciones de embarcaciones',
     component: EmbarcacionesPublicadasPageComponent,
+  },
+
+  /* Intercambios */
+  intercambios: {
+    path: 'intercambios',
+    title: 'Intercambios',
+    label: 'Intercambios en curso',
+    component: IntercambiosPageComponent,
   },
 };
 

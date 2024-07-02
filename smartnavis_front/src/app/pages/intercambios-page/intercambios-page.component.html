@@ -1,0 +1,109 @@
+<app-app-page [titulo]="'Intercambios en curso'">
+  <div class="global-container local-container">
+    <div
+      *ngIf="mensajeFormulario"
+      [class.alert-danger]="mensajeFormulario.tipo === 'error'"
+      [class.alert-primary]="mensajeFormulario.tipo === 'exito'"
+      class="alert"
+    >
+      {{ mensajeFormulario.mensaje }}
+    </div>
+
+    <ul
+      *ngIf="intercambios.length; else noIntercambios"
+      class="intercambios p-0 m-0"
+    >
+      <li *ngFor="let intercambio of intercambios">
+        <ng-container
+          [ngTemplateOutlet]="intercambioActivoTemplate"
+          [ngTemplateOutletContext]="{ intercambio: intercambio }"
+        />
+      </li>
+    </ul>
+  </div>
+</app-app-page>
+
+<ng-template #noIntercambios>
+  <div class="no-intercambios">
+    <p>No tienes intercambios en curso</p>
+  </div>
+</ng-template>
+
+<ng-template #intercambioActivoTemplate let-intercambio="intercambio">
+  <div class="intercambioActivo card mb-2">
+    <div class="card-body">
+      <div
+        class="d-flex justify-content-between align-items-start w-100 px-1 py-2"
+      >
+        <div class="">
+          <ng-container
+            [ngTemplateOutlet]="publicacionTemplate"
+            [ngTemplateOutletContext]="{
+              publicacion: intercambio.solicitada,
+              rol: 'Solicitada'
+            }"
+          />
+
+          <ng-container
+            [ngTemplateOutlet]="publicacionTemplate"
+            [ngTemplateOutletContext]="{
+              publicacion: intercambio.ofertada,
+              rol: 'Ofertada'
+            }"
+          />
+        </div>
+        <div class="">
+          <button
+            class="btn btn-primary text-nowrap"
+            [disabled]="!intercambio.__habilitada"
+            (click)="registrarIntercambio(intercambio)"
+          >
+            Registrar intercambio
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #publicacionTemplate let-publicacion="publicacion" let-rol="rol">
+  <div class="publicacion mb-4">
+    <h4>{{ rol }}: {{ publicacion.titulo }}</h4>
+
+    <div class="px-2">
+      <div class="d-flex align-items-center gap-2">
+        <strong>Bien: </strong>
+        <ng-container *ngIf="publicacion.bien?.nombre">
+          {{ publicacion.bien.nombre }} -
+        </ng-container>
+        {{ publicacion.bien.__dominio }}
+        <ng-container
+          [ngTemplateOutlet]="badgeHabilitacionTemplate"
+          [ngTemplateOutletContext]="{
+            habilitado: publicacion.bien.habilitadoIntercambio
+          }"
+        />
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <span>
+          <strong>Titular: </strong>
+          {{ publicacion.bien.titular.nombres }}
+          {{ publicacion.bien.titular.apellidos }}
+        </span>
+        <ng-container
+          [ngTemplateOutlet]="badgeHabilitacionTemplate"
+          [ngTemplateOutletContext]="{
+            habilitado: publicacion.bien.habilitadoIntercambio
+          }"
+        />
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #badgeHabilitacionTemplate let-habilitado>
+  <span class="badge bg-success">
+    {{ true ? "Habilitado" : "No habilitado" }}
+  </span>
+</ng-template>
