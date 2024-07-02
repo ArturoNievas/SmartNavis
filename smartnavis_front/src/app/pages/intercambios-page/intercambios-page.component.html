@@ -10,7 +10,7 @@
     </div>
 
     <ul
-      *ngIf="intercambios.length; else noIntercambios"
+      *ngIf="intercambios.length; else sinIntercambios"
       class="intercambios p-0 m-0"
     >
       <li *ngFor="let intercambio of intercambios">
@@ -23,9 +23,9 @@
   </div>
 </app-app-page>
 
-<ng-template #noIntercambios>
-  <div class="no-intercambios">
-    <p>No tienes intercambios en curso</p>
+<ng-template #sinIntercambios>
+  <div>
+    <p class="alert alert-secondary">No hay intercambios en curso.</p>
   </div>
 </ng-template>
 
@@ -33,7 +33,7 @@
   <div class="intercambioActivo card mb-2">
     <div class="card-body">
       <div
-        class="d-flex justify-content-between align-items-start w-100 px-1 py-2"
+        class="d-flex flex-wrap justify-content-between align-items-start w-100 px-1 py-2"
       >
         <div class="">
           <ng-container
@@ -67,15 +67,20 @@
 </ng-template>
 
 <ng-template #publicacionTemplate let-publicacion="publicacion" let-rol="rol">
-  <div class="publicacion mb-4">
-    <h4>{{ rol }}: {{ publicacion.titulo }}</h4>
+  <div class="mb-4">
+    <h4>
+      <span class="d-none d-md-inline">{{ rol }}: </span
+      >{{ publicacion.titulo }}
+    </h4>
 
     <div class="px-2">
-      <div class="d-flex align-items-center gap-2">
-        <strong>Bien: </strong>
-        <ng-container *ngIf="publicacion.bien?.nombre">
-          {{ publicacion.bien.nombre }} -
-        </ng-container>
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <span
+          ><strong>Bien: </strong>
+          <ng-container *ngIf="publicacion.bien?.nombre">
+            {{ publicacion.bien.nombre }} -
+          </ng-container>
+        </span>
         {{ publicacion.bien.__dominio }}
         <ng-container
           [ngTemplateOutlet]="badgeHabilitacionTemplate"
