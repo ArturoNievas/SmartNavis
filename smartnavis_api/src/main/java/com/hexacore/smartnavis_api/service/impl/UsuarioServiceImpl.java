@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @Transactional
@@ -62,7 +63,7 @@ public class UsuarioServiceImpl extends SmartNavisServiceImpl<Usuario, Long> imp
     }
 
     @Override
-    public void delete(Long id) throws NotFoundException {
+    public void delete(Long id, Function<? super Usuario, Boolean> canDelete) throws NotFoundException {
         Optional<Administrador> administradorOptional = this.administradorRepository.findById(id);
         if (administradorOptional.isPresent()) {
             throw new BadRequestException("No se puede eliminar un usuario administrador.");

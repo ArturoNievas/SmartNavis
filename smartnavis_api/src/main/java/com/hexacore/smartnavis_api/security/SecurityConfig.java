@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/api/auth/login",
                                 "/api/auth/signup").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "api/publicacion/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE).hasAnyAuthority("ADMINISTRADOR")
                         .requestMatchers("api/usuario/{id}/promover",
                                 "api/administrador/{id}/degradar").hasAnyAuthority("ADMINISTRADOR")

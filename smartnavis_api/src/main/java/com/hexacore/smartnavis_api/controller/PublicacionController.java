@@ -59,6 +59,13 @@ public class PublicacionController extends SmartNavisController<Publicacion, Lon
                         .buscarPorUsernameSeguroExiste(userDetails.getUsername()).getDni());
     }
 
+    @Override
+    protected boolean canDelete(Publicacion publicacion, UserDetails userDetails) {
+        return this.administradorService.buscarPorUsername(userDetails.getUsername()).isPresent() ||
+                (publicacion.getBien().getTitular().getDni() == this.usuarioService
+                        .buscarPorUsernameSeguroExiste(userDetails.getUsername()).getDni());
+    }
+
     @GetMapping("me")
     public Iterable<Publicacion> listarMisPublicaciones(@AuthenticationPrincipal UserDetails userDetails) {
         return this.service.buscarPorUsuario(this.usuarioService.buscarPorUsernameSeguroExiste(userDetails.getUsername()));
