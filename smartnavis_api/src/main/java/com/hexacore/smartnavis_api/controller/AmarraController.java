@@ -3,6 +3,7 @@ package com.hexacore.smartnavis_api.controller;
 import com.hexacore.smartnavis_api.controller.input.AlquilerTerceroRequest;
 import com.hexacore.smartnavis_api.controller.input.AlquilerTitularRequest;
 import com.hexacore.smartnavis_api.controller.input.CrearEmbarcacionInput;
+import com.hexacore.smartnavis_api.controller.input.ReAsignarAmarraTerceroInput;
 import com.hexacore.smartnavis_api.exception.BadRequestException;
 import com.hexacore.smartnavis_api.model.Alquiler;
 import com.hexacore.smartnavis_api.model.AlquilerTercero;
@@ -12,6 +13,7 @@ import com.hexacore.smartnavis_api.service.AlquilerService;
 import com.hexacore.smartnavis_api.service.AlquilerTerceroService;
 import com.hexacore.smartnavis_api.service.AmarraService;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,8 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AmarraController extends SmartNavisController<Amarra, Long> {
     private final AmarraService service;
     private final AlquilerService alquilerService;
-    private final AlquilerTerceroService alquilerTerceroService;
-    
+    private final AlquilerTerceroService alquilerTerceroService;    
 
     public AmarraController(AmarraService service, AlquilerService alquilerService, AlquilerTerceroService alquilerTerceroService) {
         super(service);
@@ -60,6 +61,21 @@ public class AmarraController extends SmartNavisController<Amarra, Long> {
     		throw new BadRequestException("La amarra no se encuentra disponible.");
     	}
     	return this.alquilerTerceroService.alquilarTercero(id,alquiler.getEmbarcacion(),alquiler.getTitularId(),alquiler.getDuenio(), alquiler.getParentezco());
+    }
+    
+    @PutMapping("{id}/liberar")
+    public Alquiler liberarAmarra(@PathVariable("id") Long id) {
+        return this.service.liberarAmarra(this.service.getMustExist(id));
+    }
+    
+    @PostMapping("{id}/reAsignarTitular")
+    public Alquiler reAsignarAmarraTitular(@PathVariable("id") Long id, Long nuevoTitularID) {
+        return this.service.reAsignarAmarraTitular(this.service.getMustExist(id),nuevoTitularID);
+    }
+    
+    @PostMapping("{id}/reAsignarTercero")
+    public Alquiler reAsignarAmarraTercero(@PathVariable("id") Long id, ReAsignarAmarraTerceroInput nuevoTitular) {
+        return this.service.reAsignarAmarraTercero(this.service.getMustExist(id), nuevoTitular);
     }
 
 }

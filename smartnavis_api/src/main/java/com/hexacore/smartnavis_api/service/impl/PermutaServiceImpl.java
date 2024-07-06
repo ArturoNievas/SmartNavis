@@ -8,6 +8,8 @@ import com.hexacore.smartnavis_api.model.Publicacion;
 import com.hexacore.smartnavis_api.model.Usuario;
 import com.hexacore.smartnavis_api.repository.*;
 import com.hexacore.smartnavis_api.service.PermutaService;
+
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -115,12 +117,6 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
 		permuta.setFinalizada(true);
 		permuta.setRegistrada(true);
 		
-		this.patch(permuta.getId(),  entity -> this.updateMapper(entity, permuta));
-		
-		return permuta;
-	}
-
-	private Permuta updateMapper(Permuta entity, Permuta permuta) {
-		return permuta;
+		return this.permutaRepository.save(permuta);
 	}
 }

@@ -51,7 +51,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE).hasAnyAuthority("ADMINISTRADOR")
                         .requestMatchers("api/usuario/{id}/promover",
                                 "api/administrador/{id}/degradar",
-                                "api/permuta/{id}/registrar").hasAnyAuthority("ADMINISTRADOR")
+                                "api/permuta/{id}/registrar",
+                        		"api/amarra/{id}/liberar").hasAnyAuthority("ADMINISTRADOR")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((sessionManagementCustomizer) -> sessionManagementCustomizer
