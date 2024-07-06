@@ -1,6 +1,8 @@
 package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.service.SmartNavisService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 public abstract class SmartNavisController<T, ID> {
@@ -29,9 +31,14 @@ public abstract class SmartNavisController<T, ID> {
         return newEntity;
     }
 
+    protected boolean canUpdate(T entity, UserDetails userDetails) {
+        return true;
+    }
+
     @PutMapping("/{id}")
-    public T update(@PathVariable("id") ID id, @RequestBody T newEntity) {
-        return this.service.patch(id, entity -> this.updateMapper(entity, newEntity));
+    public T update(@PathVariable("id") ID id, @RequestBody T newEntity, @AuthenticationPrincipal UserDetails userDetails) {
+        return this.service.patch(id, entity -> this.updateMapper(entity, newEntity),
+                entity -> this.canUpdate(entity, userDetails));
     }
 
     @DeleteMapping("/{id}")

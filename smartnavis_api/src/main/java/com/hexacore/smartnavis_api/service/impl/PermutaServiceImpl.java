@@ -2,12 +2,11 @@ package com.hexacore.smartnavis_api.service.impl;
 
 import com.hexacore.smartnavis_api.exception.BadRequestException;
 import com.hexacore.smartnavis_api.exception.NotFoundException;
-import com.hexacore.smartnavis_api.model.Embarcacion;
+import com.hexacore.smartnavis_api.model.Administrador;
 import com.hexacore.smartnavis_api.model.Permuta;
 import com.hexacore.smartnavis_api.model.Publicacion;
-import com.hexacore.smartnavis_api.repository.AlquilerRepository;
-import com.hexacore.smartnavis_api.repository.EmbarcacionRepository;
-import com.hexacore.smartnavis_api.repository.PermutaRepository;
+import com.hexacore.smartnavis_api.model.Usuario;
+import com.hexacore.smartnavis_api.repository.*;
 import com.hexacore.smartnavis_api.service.PermutaService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,15 +17,18 @@ import java.util.stream.Stream;
 @Service
 @Transactional
 public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> implements PermutaService {
-    private final PermutaRepository repository;
+    private final PermutaRepository permutaRepository;
     private final AlquilerRepository alquilerRepository;
     private final EmbarcacionRepository embarcacionRepository;
+    private final AdministradorRepository administradorRepository;
 
-    public PermutaServiceImpl(PermutaRepository repository, AlquilerRepository alquilerRepository, EmbarcacionRepository embarcacionRepository) {
-        super(repository);
-        this.repository = repository;
+    public PermutaServiceImpl(PermutaRepository permutaRepository, AlquilerRepository alquilerRepository,
+                              EmbarcacionRepository embarcacionRepository, AdministradorRepository administradorRepository) {
+        super(permutaRepository);
+        this.permutaRepository = permutaRepository;
         this.alquilerRepository = alquilerRepository;
         this.embarcacionRepository = embarcacionRepository;
+        this.administradorRepository = administradorRepository;
     }
 
     @Override
@@ -35,7 +37,11 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
     }
 
     @Override
-    public Permuta aceptar(Permuta permuta) {
+    public Permuta aceptar(Permuta permuta, Usuario usuario) {
+        Optional<Administrador> adminOp = this.administradorRepository.findByUsername(usuario.getUsername());
+        if (adminOp.isEmpty() && (usuario.getDni() != permuta.getSolicitada().getBien().getTitular().getDni())) {
+            throw new BadRequestException("El usuario no es titular del bien publicado.");
+        }
         if (permuta.isAceptada()) {
             throw new BadRequestException("El intercambio ya ha sido aceptado.");
         }
@@ -49,11 +55,23 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
             throw new BadRequestException("No es posible aceptar un intercambio registrado.");
         }
 
-        // Marco la permuta como aceptada y ya no está pendiente.
-        permuta.setAceptada(true);
-        permuta.setPendiente(false);
+        // Marco la permuta aceptada y rechazo todas las demás.
+        this.permutaRepository.findBySolicitada(permuta.getSolicitada()).forEach(p -> {
+            p.setAceptada(p.getId().equals(permuta.getId()));
+            p.setPendiente(false);
+            this.permutaRepository.save(p);
+        });
 
-        // FIXME: consultar si se deben marcar todas las otras solicitudes del mismo bien como rechazadas.
+        // Marco como finalizada las permutas del bien ofertado.
+        // TODO: descomentar en caso de ser necesario la regla.
+//        this.permutaRepository.findByOfertada(permuta.getOfertada()).forEach(p -> {
+//            p.setFinalizada(!p.getId().equals(permuta.getId()));
+//            this.permutaRepository.save(p);
+//        });
+//        this.permutaRepository.findBySolicitada(permuta.getOfertada()).forEach(p -> {
+//            p.setFinalizada(!p.getId().equals(permuta.getId()));
+//            this.permutaRepository.save(p);
+//        });
 
         return this.persist(permuta);
     }
@@ -66,7 +84,7 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
         if (solicitada.getBien().getTitular().equals(ofertada.getBien().getTitular())) {
             throw new BadRequestException("El bien solicitado no puede ser del mismo titular.");
         }
-        Optional<Permuta> permutaOptional = this.repository.findBySolicitadaAndOfertada(solicitada, ofertada);
+        Optional<Permuta> permutaOptional = this.permutaRepository.findBySolicitadaAndOfertada(solicitada, ofertada);
         if (permutaOptional.isPresent()) {
             throw new BadRequestException("El bien seleccionado ya fue ofertado para esta publicación.");
         }
@@ -75,12 +93,12 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
                         .mapToLong(publicacion -> publicacion.getBien().getId()).boxed().toList())).isEmpty()) {
             throw new BadRequestException("Al menos uno de los bienes a permutar debe ser una embarcación amarrada en puerto.");
         }
-        return this.repository.save(new Permuta(solicitada, ofertada));
+        return this.permutaRepository.save(new Permuta(solicitada, ofertada));
     }
 
     @Override
     public Iterable<Permuta> listarSolicitudes(Publicacion publicacion) {
-        return this.repository.findBySolicitada(publicacion);
+        return this.permutaRepository.findBySolicitada(publicacion);
     }
 
 	@Override

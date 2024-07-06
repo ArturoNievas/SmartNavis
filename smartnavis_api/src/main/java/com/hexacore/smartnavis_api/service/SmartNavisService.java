@@ -1,6 +1,7 @@
 package com.hexacore.smartnavis_api.service;
 
 import com.hexacore.smartnavis_api.exception.NotFoundException;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -14,7 +15,7 @@ public interface SmartNavisService<T, ID> {
 
     Iterable<T> findAll();
 
-    T patch(ID id, Function<? super T, ? extends T> mapper);
+    T patch(ID id, Function<? super T, ? extends T> mapper, Function<? super T, Boolean> canUpdate);
 
     void delete(ID id);
 }

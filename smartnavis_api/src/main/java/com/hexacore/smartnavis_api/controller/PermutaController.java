@@ -2,21 +2,27 @@ package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.model.Permuta;
 import com.hexacore.smartnavis_api.service.PermutaService;
+import com.hexacore.smartnavis_api.service.UsuarioService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/permuta")
 public class PermutaController extends SmartNavisController<Permuta, Long> {
-    private final PermutaService service;
+    private final PermutaService permutaService;
+    private final UsuarioService usuarioService;
 
-    public PermutaController(PermutaService service) {
-        super(service);
-        this.service = service;
+    public PermutaController(PermutaService permutaService, UsuarioService usuarioService) {
+        super(permutaService);
+        this.permutaService = permutaService;
+        this.usuarioService = usuarioService;
     }
 
     @PostMapping("{id}/aceptar")
-    public Permuta aceptar(@PathVariable("id") Long id) {
-        return this.service.aceptar(this.service.getMustExist(id));
+    public Permuta aceptar(@PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        return this.permutaService.aceptar(this.permutaService.getMustExist(id),
+                this.usuarioService.buscarPorUsernameSeguroExiste(userDetails.getUsername()));
     }
     
     @PostMapping("{id}/registrar")
