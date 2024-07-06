@@ -24,4 +24,9 @@ public class PermutaController extends SmartNavisController<Permuta, Long> {
         return this.permutaService.aceptar(this.permutaService.getMustExist(id),
                 this.usuarioService.buscarPorUsernameSeguroExiste(userDetails.getUsername()));
     }
+    
+    @PostMapping("{id}/registrar")
+    public Permuta registrar(@PathVariable("id") Long id) {
+        return this.service.registrar(this.service.getMustExist(id));
+    }
 }

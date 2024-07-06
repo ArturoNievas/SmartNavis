@@ -100,4 +100,27 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
     public Iterable<Permuta> listarSolicitudes(Publicacion publicacion) {
         return this.permutaRepository.findBySolicitada(publicacion);
     }
+
+	@Override
+	public Permuta registrar(Permuta permuta) {
+		
+		if (permuta.isRegistrada()) {
+			throw new BadRequestException("La permuta seleccionada ya se encuentra registrada.");
+		}
+		
+		permuta.usuariosHabilitados();
+		permuta.bienesHabilitados();
+		
+		permuta.setPendiente(false);
+		permuta.setFinalizada(true);
+		permuta.setRegistrada(true);
+		
+		this.patch(permuta.getId(),  entity -> this.updateMapper(entity, permuta));
+		
+		return permuta;
+	}
+
+	private Permuta updateMapper(Permuta entity, Permuta permuta) {
+		return permuta;
+	}
 }

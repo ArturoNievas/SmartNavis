@@ -10,4 +10,6 @@ public interface PermutaService extends SmartNavisService<Permuta, Long> {
     Permuta crear(Publicacion solicitada, Publicacion ofertada);
 
     Iterable<Permuta> listarSolicitudes(Publicacion publicacion);
+
+	Permuta registrar(Permuta permuta);
 }

@@ -1,6 +1,8 @@
 package com.hexacore.smartnavis_api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hexacore.smartnavis_api.exception.BadRequestException;
+
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -127,5 +129,31 @@ public class Permuta {
 
     public void removeMensaje(Mensaje mensaje) {
         this.getMensajes().remove(mensaje);
+    }
+    
+    public boolean usuariosHabilitados() {
+    	if (!this.getOfertada().isUsuarioHabilitado() && !this.getSolicitada().isUsuarioHabilitado()) {
+			throw new BadRequestException("Los titulares de los bienes no se encuentran habilitados para realizar intercambios.");
+		}
+		if (!this.getOfertada().isUsuarioHabilitado()) {
+			throw new BadRequestException("El titular del bien ofertado no se encuentra habilitado para realizar intercambios.");
+		}
+		if (!this.getSolicitada().isUsuarioHabilitado()) {
+			throw new BadRequestException("El titular del bien solicitado no se encuentra habilitado para realizar intercambios.");
+		}
+    	return true;
+    }
+    
+    public boolean bienesHabilitados() {
+    	if (!this.getOfertada().isBienHabilitado() && !this.getSolicitada().isBienHabilitado()) {
+			throw new BadRequestException("Los bienes no se encuentran habilitados para ser intercambiados.");
+		}
+		if (!this.getOfertada().isBienHabilitado()) {
+			throw new BadRequestException("El bien ofertado no se encuentra habilitado para ser intercambiados.");
+		}
+		if (!this.getSolicitada().isBienHabilitado()) {
+			throw new BadRequestException("El bien solicitado no se encuentra habilitado para ser intercambiados.");
+		}
+    	return true;
     }
 }
