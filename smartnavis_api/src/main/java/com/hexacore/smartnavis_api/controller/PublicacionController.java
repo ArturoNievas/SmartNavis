@@ -2,6 +2,7 @@ package com.hexacore.smartnavis_api.controller;
 
 import com.hexacore.smartnavis_api.model.Publicacion;
 
+import com.hexacore.smartnavis_api.service.AdministradorService;
 import com.hexacore.smartnavis_api.service.PermutaService;
 import com.hexacore.smartnavis_api.service.PublicacionService;
 import com.hexacore.smartnavis_api.service.UsuarioService;
@@ -18,12 +19,15 @@ public class PublicacionController extends SmartNavisController<Publicacion, Lon
     private final PublicacionService service;
     private final PermutaService permutaService;
     private final UsuarioService usuarioService;
+    private final AdministradorService administradorService;
 
-    public PublicacionController(PublicacionService service, PermutaService permutaService, UsuarioService usuarioService) {
+    public PublicacionController(PublicacionService service, PermutaService permutaService, UsuarioService usuarioService,
+                                 AdministradorService administradorService) {
         super(service);
         this.service = service;
         this.permutaService = permutaService;
         this.usuarioService = usuarioService;
+        this.administradorService = administradorService;
     }
 
     @GetMapping("embarcacion")
@@ -46,6 +50,13 @@ public class PublicacionController extends SmartNavisController<Publicacion, Lon
         publicacion.setDescripcion(nuevaPublicacion.getDescripcion());
         publicacion.setTitulo(nuevaPublicacion.getTitulo());
         return publicacion;
+    }
+
+    @Override
+    protected boolean canUpdate(Publicacion publicacion, UserDetails userDetails) {
+        return this.administradorService.buscarPorUsername(userDetails.getUsername()).isPresent() ||
+                (publicacion.getBien().getTitular().getDni() == this.usuarioService
+                        .buscarPorUsernameSeguroExiste(userDetails.getUsername()).getDni());
     }
 
     @GetMapping("me")

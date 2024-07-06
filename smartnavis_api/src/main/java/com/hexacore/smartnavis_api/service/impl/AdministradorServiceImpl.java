@@ -13,6 +13,8 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class AdministradorServiceImpl extends SmartNavisServiceImpl<Administrador, Long> implements AdministradorService {
@@ -33,6 +35,11 @@ public class AdministradorServiceImpl extends SmartNavisServiceImpl<Administrado
     public Administrador obtenerAdministradorPorUsername(String username) {
         return this.administradorRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("El administrador no existe."));
+    }
+
+    @Override
+    public Optional<Administrador> buscarPorUsername(String username) {
+        return this.administradorRepository.findByUsername(username);
     }
 
     @Override
