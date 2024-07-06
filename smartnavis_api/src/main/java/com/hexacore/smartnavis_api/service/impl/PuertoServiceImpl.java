@@ -9,8 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @Transactional
@@ -46,11 +46,11 @@ public class PuertoServiceImpl extends SmartNavisServiceImpl<Puerto, Long> imple
     }
 
     @Override
-    public void delete(Long id) throws NotFoundException {
+    public void delete(Long id, Function<? super Puerto, Boolean> canDelete) throws NotFoundException {
         Puerto puerto = this.getMustExist(id);
         if (!puerto.getAmarras().isEmpty()) {
             throw new BadRequestException("El puerto no puede ser eliminado dado que cuenta con amarras asociadas.");
         }
-        super.delete(id);
+        super.delete(id, canDelete);
     }
 }

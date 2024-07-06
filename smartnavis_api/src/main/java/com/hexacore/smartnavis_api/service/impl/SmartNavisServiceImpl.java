@@ -4,11 +4,9 @@ import com.hexacore.smartnavis_api.exception.ForbiddenException;
 import com.hexacore.smartnavis_api.exception.NotFoundException;
 import com.hexacore.smartnavis_api.service.SmartNavisService;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @Transactional
@@ -44,15 +42,18 @@ public abstract class SmartNavisServiceImpl<T, ID> implements SmartNavisService<
                    Function<? super T, Boolean> canUpdate) throws NotFoundException {
         T entity = this.getMustExist(id);
         if (canUpdate.apply(entity)) {
-            System.out.println("Actualizando...");
             return repository.save(mapper.apply(entity));
         }
         throw new ForbiddenException();
     }
 
     @Override
-    public void delete(ID id) throws NotFoundException {
-        this.repository.delete(this.getMustExist(id));
+    public void delete(ID id, Function<? super T, Boolean> canDelete) throws NotFoundException {
+        T entity = this.getMustExist(id);
+        if (!canDelete.apply(entity)) {
+            throw new ForbiddenException();
+        }
+        this.repository.delete(entity);
     }
 
     protected NotFoundException getNotFoundException() {

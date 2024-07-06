@@ -35,6 +35,10 @@ public abstract class SmartNavisController<T, ID> {
         return true;
     }
 
+    protected boolean canDelete(T entity, UserDetails userDetails) {
+        return true;
+    }
+
     @PutMapping("/{id}")
     public T update(@PathVariable("id") ID id, @RequestBody T newEntity, @AuthenticationPrincipal UserDetails userDetails) {
         return this.service.patch(id, entity -> this.updateMapper(entity, newEntity),
@@ -42,7 +46,7 @@ public abstract class SmartNavisController<T, ID> {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") ID id) {
-        this.service.delete(id);
+    public void delete(@PathVariable("id") ID id, @AuthenticationPrincipal UserDetails userDetails) {
+        this.service.delete(id, entity -> this.canDelete(entity, userDetails));
     }
 }
