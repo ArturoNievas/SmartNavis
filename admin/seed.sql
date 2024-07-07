@@ -86,25 +86,25 @@ INSERT INTO smartnavis.administradores (usuario_id) VALUES
 	 (@guillermo);
 	 
 INSERT INTO smartnavis.bienes (tipo,patente,partida,matricula,calado,eslora,manga,nombre,persona_id,habilitado_intercambio) VALUES
-	 ('E',NULL,NULL,'REY 12345',120.0,140.0,300,'Dhow',@simbad,0),
+	 ('E',NULL,NULL,'REY 12345Z',120.0,140.0,300,'Dhow',@simbad,0),
 	 ('E',NULL,NULL,'REY 54321',340.0,900.0,250.0,'Santa Maria',@cristobal,1),
 	 ('E',NULL,NULL,'REY 54322',340.0,900.0,250.0,'Pinta',@cristobal,1),
-	 ('E',NULL,NULL,'REY 54323',340.0,900.0,250.0,'Niña',@cristobal,0),
-	 ('E',NULL,NULL,'REY 11222',340.0,900.0,250.0,'Argo',@jason,0),
+	 ('E',NULL,NULL,'REY 54323Z',340.0,900.0,250.0,'Niña',@cristobal,0),
+	 ('E',NULL,NULL,'REY 11222Z',340.0,900.0,250.0,'Argo',@jason,0),
 	 ('E',NULL,NULL,'REY 11223',340.0,900.0,250.0,'Arquero',@odiseo,1),
 	 ('E',NULL,NULL,'REY 11224',340.0,900.0,250.0,'Arquero II',@odiseo,1),
 	 ('E',NULL,NULL,'REY 22334',450.0,1100.0,350.0,'Perla Negra',@jack,1),
-	 ('E',NULL,NULL,'REY 33224',450.0,1100.0,350.0,'Holandes Errante',@jack,0),
+	 ('E',NULL,NULL,'REY 33224Z',450.0,1100.0,350.0,'Holandes Errante',@jack,0),
 	 ('E',NULL,NULL,'REY 45555',210.0,500.0,180.0,'Lehg I',@vito,1),
 	 ('E',NULL,NULL,'REY 45556',210.0,500.0,180.0,'Lehg II',@vito,1),
 	 ('I',NULL,'123-123123-1',NULL,NULL,NULL,NULL,NULL,@simbad,1),
 	 ('I',NULL,'321-321321-3',NULL,NULL,NULL,NULL,NULL,@cristobal,1),
 	 ('I',NULL,'111-222222-1',NULL,NULL,NULL,NULL,NULL,@odiseo,1),
 	 ('I',NULL,'111-222222-2',NULL,NULL,NULL,NULL,NULL,@odiseo,1),
-	 ('I',NULL,'111-222222-3',NULL,NULL,NULL,NULL,NULL,@odiseo,0),
+	 ('I',NULL,'111-222222-3Z',NULL,NULL,NULL,NULL,NULL,@odiseo,0),
 	 ('A','ABC-123',NULL,NULL,NULL,NULL,NULL,NULL,@jack,1),
 	 ('A','AAA-111',NULL,NULL,NULL,NULL,NULL,NULL,@vito,1),
-	 ('A','AAA-222',NULL,NULL,NULL,NULL,NULL,NULL,@vito,0);
+	 ('A','AAA-222Z',NULL,NULL,NULL,NULL,NULL,NULL,@vito,0);
 
 INSERT INTO smartnavis.bienes (tipo,patente,partida,matricula,calado,eslora,manga,nombre,persona_id,habilitado_intercambio) VALUES
 	('E',NULL,NULL,'REY 98765',500.0,300.0,500,'Spinetta',@beto,1);

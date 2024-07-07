@@ -70,20 +70,23 @@ public class PublicacionServiceImpl extends SmartNavisServiceImpl<Publicacion, L
 			throw new BadRequestException("El usuario no se encuentra habilitado para hacer intercambios.");
 		}
 		
-		if (!bienInput.isHabilitadoIntercambio()) {
-			throw new BadRequestException("El bien no se encuentra habilitado para ser intercambiado.");
-		}
-		
 		Bien bien;
 		if (bienInput.getPatente() != null) {
 			bien = new BienAutomotor(bienInput.getPatente());
+			bien.setHabilitadoIntercambio(!bienInput.getPatente().contains("Z"));
 		} else if (bienInput.getMatricula() != null) {
 			bien = new BienAeronautico(bienInput.getMatricula());
+			bien.setHabilitadoIntercambio(!bienInput.getMatricula().contains("Z"));
 		} else {
 			bien = new BienInmueble(bienInput.getPartida());
+			bien.setHabilitadoIntercambio(!bienInput.getPartida().contains("Z"));
 		}
+		
+		if (!bien.isHabilitadoIntercambio()) {
+			throw new BadRequestException("El bien no se encuentra habilitado para ser intercambiado.");
+		}
+		
 		bien.setTitular(usuario);
-		bien.setHabilitadoIntercambio(bienInput.isHabilitadoIntercambio());
 		
 		this.bienRepository.save(bien);
 		
