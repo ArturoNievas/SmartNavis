@@ -82,7 +82,7 @@ export class AmarraService {
       );
     }
 
-    return this.apiService.post(`${this.baseUrl}/${amarra.id}/desasignar`, {}); // TODO: Set the real body
+    return this.apiService.put(`${this.baseUrl}/${amarra.id}/liberar`, {});
   }
 
   public reasignarAmarra({

@@ -76,9 +76,13 @@ export class AmarrasPageComponent implements OnInit {
   }
 
   public listarAmarras(puerto: Puerto) {
+    if (!puerto?.id) {
+      this.amarras = [];
+      return;
+    }
+
     this.puertoService.listarAmarras(puerto).subscribe((amarras) => {
       this.amarras = amarras;
-      console.log(amarras);
     });
   }
 
@@ -235,6 +239,10 @@ export class AmarrasPageComponent implements OnInit {
     this.amarraService.desasignarAmarra(amarra).subscribe({
       next: () => {
         this.mostrarMensaje('exito', 'Amarra desasignada con éxito.');
+        if (this.puertoSeleccionado || amarra.puerto.id) {
+          const puerto = this.puertoSeleccionado || amarra.puerto;
+          this.listarAmarras(puerto);
+        }
       },
       error: (error: Error) => {
         this.mostrarMensaje('error', error.message);
