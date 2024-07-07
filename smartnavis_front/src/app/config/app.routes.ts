@@ -12,6 +12,7 @@ import { AmarrasPageComponent } from '../pages/amarras-page/amarras-page.compone
 import { AsignarAmarraPageComponent } from '../pages/asignar-amarra-page/asignar-amarra-page.component';
 import { AmarrasDisponiblesPageComponent } from '../pages/amarras-disponibles-page/amarras-disponibles-page.component';
 import { IntercambiosPageComponent } from '../pages/intercambios-page/intercambios-page.component';
+import { MisPublicacionesPageComponent } from '../pages/mis-publicaciones-page/mis-publicaciones-page.component';
 
 const pages: any = {
   homepage: {
@@ -101,6 +102,13 @@ const pages: any = {
     title: 'Publicaciones',
     label: 'Publicaciones de embarcaciones',
     component: EmbarcacionesPublicadasPageComponent,
+  },
+
+  misPublicaciones: {
+    path: 'publicaciones/me',
+    title: 'Mis publicaciones',
+    label: 'Mis publicaciones',
+    component: MisPublicacionesPageComponent,
   },
 
   /* Intercambios */

@@ -20,6 +20,10 @@ export class PublicacionService {
     return this.apiService.get<Publicacion[]>(this.publicacionesUrl);
   }
 
+  public listarMisPublicaciones(): Observable<Publicacion[]> {
+    return this.apiService.get<Publicacion[]>(this.publicacionesUrl + '/me');
+  }
+
   public crearPublicacion(publicacion: Publicacion): Observable<Publicacion> {
     return this.apiService.post<Publicacion>(this.publicacionUrl, publicacion);
   }
@@ -73,6 +77,8 @@ export class PublicacionService {
   }
 
   public listarSolicitudes(publicacion: Publicacion): Observable<Permuta[]> {
-    return this.apiService.get<Permuta[]>(`${this.publicacionUrl}/${publicacion.id}/solicitudes`)
+    return this.apiService.get<Permuta[]>(
+      `${this.publicacionUrl}/${publicacion.id}/solicitudes`
+    );
   }
 }

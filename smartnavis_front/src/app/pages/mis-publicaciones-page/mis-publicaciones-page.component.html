@@ -1,0 +1,183 @@
+<app-app-page [titulo]="titulo">
+  <div class="global-container local-container">
+    <ol *ngIf="publicaciones.length; else sinPublicaciones">
+      <div>
+        <li *ngFor="let publicacion of publicaciones">
+          <div class="publicacion">
+            <span>
+              <b>{{ publicacion.titulo }}</b>
+            </span>
+            <button
+              (click)="abrirFormulario(estados.Modificar, publicacion)"
+              class="btn btn-secondary"
+            >
+              Modificar
+            </button>
+            <button
+              (click)="abrirFormulario(estados.Eliminar, publicacion)"
+              class="btn btn-danger"
+            >
+              X
+            </button>
+            <button
+              class="btn btn-primary"
+              (click)="listarSolicitudes(publicacion)"
+            >
+              Listar Solicitudes
+            </button>
+          </div>
+
+          <ul
+            *ngIf="
+              publicacion == publicacionSeleccionada &&
+              publicacion.__permutasSolicitadas?.length
+            "
+          >
+            <li *ngFor="let permuta of publicacion.__permutasSolicitadas">
+              <div class="permutasSolicitadas">
+                <span>
+                  <b>{{ permuta.ofertada.titulo }}</b> -
+                  {{ permuta.ofertada.bien.__dominio }}
+                </span>
+                <button
+                  (click)="aceptarPermuta(permuta)"
+                  class="btn btn-primary"
+                >
+                  Aceptar
+                </button>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </ol>
+
+    <ng-template #sinPublicaciones>
+      <div>
+        <p class="alert alert-secondary">No hay publicaciones.</p>
+      </div>
+    </ng-template>
+
+    <aside>
+      <div
+        *ngIf="
+          publicacionSeleccionada && estadoFormulario === estados.Modificar;
+          then formularioModificar
+        "
+      ></div>
+      <div
+        *ngIf="
+          publicacionSeleccionada && estadoFormulario === estados.Eliminar;
+          then formularioEliminar
+        "
+      ></div>
+      <div
+        *ngIf="mensajeFormulario"
+        [class.alert-danger]="mensajeFormulario.tipo === 'error'"
+        [class.alert-primary]="mensajeFormulario.tipo === 'exito'"
+        class="alert"
+      >
+        {{ mensajeFormulario.mensaje }}
+      </div>
+    </aside>
+  </div>
+</app-app-page>
+
+<!-- FORMULARIO PARA MODIFICAR PUBLICACIÓN -->
+<ng-template #formularioModificar>
+  <div class="card mb-4">
+    <form class="card-body">
+      <h3 class="mb-4">
+        <b>Modificar publicación</b>
+      </h3>
+
+      <div class="form-group mb-2">
+        <label for="titulo" class="form-label">
+          Título de la publicación
+        </label>
+        <input
+          id="titulo"
+          name="titulo"
+          class="form-control"
+          [placeholder]="publicacionSeleccionada?.titulo"
+          [(ngModel)]="publicacionModificada!.titulo"
+        />
+      </div>
+
+      <div class="form-group mb-2">
+        <label for="descripcion" class="form-label">
+          Descripción de la publicación
+        </label>
+        <textarea
+          id="descripcion"
+          name="descripcion"
+          class="form-control"
+          placeholder="{{ publicacionSeleccionada?.descripcion }}"
+          [(ngModel)]="publicacionModificada!.descripcion"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <button
+          (click)="modificarPublicacion()"
+          type="submit"
+          class="btn btn-primary mx-2"
+          [disabled]="!publicacionModificadaEsValida()"
+        >
+          Guardar cambios
+        </button>
+
+        <button (click)="cerrarFormulario()" class="btn btn-secondary mx-2">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- FORMULARIO PARA ELIMINAR -->
+<ng-template #formularioEliminar>
+  <div class="card mb-4">
+    <form class="card-body">
+      <h3 class="mb-4 mx-2">
+        ¿Seguro que desea eliminar la publicación
+        <b>{{ publicacionSeleccionada?.titulo }}</b>
+      </h3>
+
+      <p class="mx-2">
+        <b>Esta acción no se puede deshacer.</b>
+      </p>
+
+      <div class="form-group mx-2 mb-2">
+        <p class="mt-2">
+          <ng-container
+            *ngIf="publicacionSeleccionada?.__permutasSolicitadas?.length"
+          >
+            Al hacer click en "Sí, eliminar publicación." se eliminará toda la
+            actividad relacionada con esta publicación, incluyendo las
+            solicitudes de intercambio, mensajes, etc.
+          </ng-container>
+          <ng-container
+            *ngIf="!publicacionSeleccionada?.__permutasSolicitadas?.length"
+          >
+            La publicación que borrará no tiene solicitudes de intercambio
+            asociadas.
+          </ng-container>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <button
+          (click)="eliminarPublicacion()"
+          class="btn btn-danger mx-2"
+          type="submit"
+        >
+          Sí, eliminar publicación.
+        </button>
+        <button (click)="cerrarFormulario()" class="btn btn-secondary">
+          No, cancelar.
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
