@@ -115,8 +115,8 @@ SET @santa_maria = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Santa Maria
 SET @arquero = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Arquero');
 SET @argo = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Argo');
 INSERT INTO smartnavis.alquileres (fin,inicio,amarra_id,embarcacion_id) VALUES
-	 ('2025-04-30', '2024-05-01', (SELECT id FROM smartnavis.amarras WHERE nombre = '1-A' AND puerto_id = @laplata), @dhow),
-	 ('2024-06-12', '2023-06-13', (SELECT id FROM smartnavis.amarras WHERE nombre = '1-B' AND puerto_id = @laplata), @lehg_2),
+	 ('2025-04-30', '2024-05-01', (SELECT id FROM smartnavis.amarras WHERE nombre = '1-A' AND puerto_id = @la_plata), @dhow),
+	 ('2024-06-12', '2023-06-13', (SELECT id FROM smartnavis.amarras WHERE nombre = '1-B' AND puerto_id = @la_plata), @lehg_2),
 	 ('2024-12-31', '2024-01-01', (SELECT id FROM smartnavis.amarras WHERE nombre = 'G01'), @santa_maria),
 	 ('2025-03-14', '2024-03-15', (SELECT id FROM smartnavis.amarras WHERE nombre = 'G02'), @arquero),
 	 ('2025-03-14', '2024-03-15', (SELECT id FROM smartnavis.amarras WHERE nombre = 'G03'), @argo);

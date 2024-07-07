@@ -103,7 +103,6 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
         return this.permutaRepository.findBySolicitada(publicacion);
     }
 
-<<<<<<< HEAD
 	@Override
 	public Permuta registrar(Permuta permuta) {
 		
@@ -120,28 +119,4 @@ public class PermutaServiceImpl extends SmartNavisServiceImpl<Permuta, Long> imp
 		
 		return this.permutaRepository.save(permuta);
 	}
-=======
-    @Override
-    public Permuta registrar(Permuta permuta) {
-
-        if (permuta.isRegistrada()) {
-            throw new BadRequestException("La permuta seleccionada ya se encuentra registrada.");
-        }
-
-        permuta.usuariosHabilitados();
-        permuta.bienesHabilitados();
-
-        permuta.setPendiente(false);
-        permuta.setFinalizada(true);
-        permuta.setRegistrada(true);
-
-        this.patch(permuta.getId(), entity -> this.updateMapper(entity, permuta), entity -> true);
-
-        return permuta;
-    }
-
-    private Permuta updateMapper(Permuta entity, Permuta permuta) {
-        return permuta;
-    }
->>>>>>> 3e0a817486e86c5dc7ccd13f00a0b45c4a347a10
 }

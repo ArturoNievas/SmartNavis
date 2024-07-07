@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.hexacore.smartnavis_api.controller.input.CrearPermutaInput;
+import com.hexacore.smartnavis_api.controller.input.PublicacionInput;
 import com.hexacore.smartnavis_api.model.*;
 
 @RestController
@@ -43,6 +44,11 @@ public class PublicacionController extends SmartNavisController<Publicacion, Lon
     @GetMapping("{id}/solicitudes")
     public Iterable<Permuta> listarSolicitudes(@PathVariable("id") Long id) {
         return this.permutaService.listarSolicitudes(this.service.getMustExist(id));
+    }
+    
+    @PostMapping("crear")
+    public Publicacion crear(@RequestBody PublicacionInput input, @AuthenticationPrincipal UserDetails userDetails) {
+        return this.service.crearPublicacion(input,this.usuarioService.buscarPorUsernameSeguroExiste(userDetails.getUsername()));
     }
 
     @Override

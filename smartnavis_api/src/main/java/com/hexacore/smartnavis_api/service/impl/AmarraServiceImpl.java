@@ -71,21 +71,12 @@ public class AmarraServiceImpl extends SmartNavisServiceImpl<Amarra, Long> imple
 		if (amarra.isDisponible()) {
 			throw new BadRequestException("La amarra ya se encuentra disponible");
 		}
-		
+
+		Alquiler alquiler = this.alquilerRepository.findVigenteByAmarra(amarra).get();
+		alquiler.setFin(LocalDateTime.now());
+		this.alquilerRepository.save(alquiler);	
+				
 		this.toggleDisponible(amarra);
-		
-		Alquiler alquiler;
-		Optional<Alquiler> opAlquiler = this.alquilerRepository.findVigenteByAmarra(amarra);
-		
-		if (!opAlquiler.isPresent()) {
-			alquiler = this.alquilerTerceroRepository.findVigenteByAmarra(amarra).get();
-			alquiler.setFin(LocalDateTime.now());
-			this.alquilerTerceroRepository.save((AlquilerTercero) alquiler);
-		} else {
-			alquiler = opAlquiler.get();
-			alquiler.setFin(LocalDateTime.now());
-			this.alquilerRepository.save(alquiler);	
-		}	
 		
 		return alquiler;
 	}

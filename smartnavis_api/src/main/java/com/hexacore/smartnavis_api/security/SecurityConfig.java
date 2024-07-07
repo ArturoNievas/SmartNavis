@@ -53,7 +53,9 @@ public class SecurityConfig {
                         .requestMatchers("api/usuario/{id}/promover",
                                 "api/administrador/{id}/degradar",
                                 "api/permuta/{id}/registrar",
-                        		"api/amarra/{id}/liberar").hasAnyAuthority("ADMINISTRADOR")
+                        		"api/amarra/{id}/liberar",
+                        		"api/amarra/{id}/reAsignarTitular",
+                        		"api/amarra/{id}/reAsignarTercero").hasAnyAuthority("ADMINISTRADOR")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((sessionManagementCustomizer) -> sessionManagementCustomizer

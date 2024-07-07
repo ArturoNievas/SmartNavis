@@ -14,6 +14,11 @@ public class BienAeronautico extends Bien {
     public BienAeronautico() {
         super();
     }
+    
+    public BienAeronautico(String matricula) {
+        super();
+        this.matricula = matricula;
+    }
 
     public String getMatricula() {
         return matricula;
