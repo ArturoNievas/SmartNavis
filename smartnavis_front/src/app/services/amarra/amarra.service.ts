@@ -106,10 +106,8 @@ export class AmarraService {
   private reasignarAmarraTitular(amarraId: number, usuarioId: number) {
     console.log('Reasignar titular');
     return this.apiService.post(
-      `${this.baseUrl}/${amarraId}/reasignarTitular`,
-      {
-        usuarioId,
-      }
+      `${this.baseUrl}/${amarraId}/reAsignarTitular`,
+      { nuevoTitularID: usuarioId }
     );
   }
 
@@ -121,10 +119,7 @@ export class AmarraService {
     console.log('Reasignar tercero');
     return this.apiService.post(
       `${this.baseUrl}/${amarraId}/reasignarTercero`,
-      {
-        usuarioId,
-        parentezco,
-      }
+      { nuevoTitularID: usuarioId, parentezco }
     );
   }
 }
