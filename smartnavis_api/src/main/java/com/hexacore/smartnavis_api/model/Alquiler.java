@@ -3,6 +3,7 @@ package com.hexacore.smartnavis_api.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "alquileres")
@@ -31,7 +32,9 @@ public class Alquiler {
     public Alquiler(Amarra amarra, Embarcacion embarcacion) {
 		this.amarra = amarra;
 		this.embarcacion = embarcacion;
-		this.inicio = LocalDateTime.now();
+		LocalDateTime hoy = LocalDateTime.now();
+		this.inicio = hoy;
+        this.fin = hoy.plus(1, ChronoUnit.YEARS);
 	}
     
     public Alquiler(Amarra amarra, Embarcacion embarcacion, LocalDateTime inicio, LocalDateTime fin) {

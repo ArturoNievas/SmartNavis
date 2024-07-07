@@ -4,6 +4,7 @@ import com.hexacore.smartnavis_api.controller.input.AlquilerTerceroRequest;
 import com.hexacore.smartnavis_api.controller.input.AlquilerTitularRequest;
 import com.hexacore.smartnavis_api.controller.input.CrearEmbarcacionInput;
 import com.hexacore.smartnavis_api.controller.input.ReAsignarAmarraTerceroInput;
+import com.hexacore.smartnavis_api.controller.input.ReAsignarAmarraTitularInput;
 import com.hexacore.smartnavis_api.exception.BadRequestException;
 import com.hexacore.smartnavis_api.model.Alquiler;
 import com.hexacore.smartnavis_api.model.AlquilerTercero;
@@ -69,12 +70,12 @@ public class AmarraController extends SmartNavisController<Amarra, Long> {
     }
     
     @PostMapping("{id}/reAsignarTitular")
-    public Alquiler reAsignarAmarraTitular(@PathVariable("id") Long id, Long nuevoTitularID) {
-        return this.service.reAsignarAmarraTitular(this.service.getMustExist(id),nuevoTitularID);
+    public Alquiler reAsignarAmarraTitular(@PathVariable("id") Long id, @RequestBody ReAsignarAmarraTitularInput nuevoTitular) {
+        return this.service.reAsignarAmarraTitular(this.service.getMustExist(id),nuevoTitular.getNuevoTitularID());
     }
     
     @PostMapping("{id}/reAsignarTercero")
-    public Alquiler reAsignarAmarraTercero(@PathVariable("id") Long id, ReAsignarAmarraTerceroInput nuevoTitular) {
+    public Alquiler reAsignarAmarraTercero(@PathVariable("id") Long id, @RequestBody ReAsignarAmarraTerceroInput nuevoTitular) {
         return this.service.reAsignarAmarraTercero(this.service.getMustExist(id), nuevoTitular);
     }
 

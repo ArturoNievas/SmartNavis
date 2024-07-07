@@ -16,7 +16,7 @@ SET @quilmes = (SELECT id FROM smartnavis.puertos WHERE nombre = 'Quilmes');
 SET @pto_madero = (SELECT id FROM smartnavis.puertos WHERE nombre = 'Puerto Madero');
 INSERT INTO smartnavis.amarras (disponible,calado,eslora,manga,nombre,puerto_id) VALUES
 	 (0,120.0,140.0,300.0,'1-A',@la_plata),
-	 (0,120.0,140.0,300.0,'1-B',@la_plata),
+	 (1,120.0,140.0,300.0,'1-B',@la_plata),
 	 (1,120.0,140.0,300.0,'1-C',@la_plata),
 	 (1,120.0,140.0,300.0,'1-D',@la_plata),
 	 (1,210.0,500.0,180.0,'2-A',@la_plata),

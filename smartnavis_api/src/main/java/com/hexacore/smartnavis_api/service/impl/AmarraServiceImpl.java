@@ -103,13 +103,12 @@ public class AmarraServiceImpl extends SmartNavisServiceImpl<Amarra, Long> imple
 			throw new BadRequestException("No hay ninguna embarcación en la amarra");
 		}
 		
-		AlquilerTercero alquiler = this.alquilerTerceroRepository.findVigenteByAmarra(amarra).get();
-		Persona nuevoTitular1 = this.personaService.getMustExist(nuevoTitular.getId());
+		Persona nuevoTitular1 = this.personaService.getMustExist(nuevoTitular.getNuevoTitularID());
 		
+		AlquilerTercero alquiler = this.alquilerTerceroRepository.findVigenteByAmarra(amarra).get();
 		alquiler.setTitular(nuevoTitular1);
 		alquiler.setParentezco(nuevoTitular.getParentezco());
-		this.alquilerTerceroRepository.save(alquiler);
 				
-		return alquiler;
+		return this.alquilerTerceroRepository.save(alquiler);
 	}
 }
