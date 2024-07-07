@@ -265,13 +265,6 @@ export class AmarrasPageComponent implements OnInit {
       return;
     }
 
-    // TODO: Implementar
-    // Existirá un Estado en el formulario para reasignar la amarra
-    // El mismo mostrará una opción para seleccionar si el usuario es titular o no. Si no, podrá completar el parentezco.
-    // Se deberá implementar el método en el servicio de amarra para reasignar la amarra a un titular o a un tercero.
-
-    console.log('Reasignar amarra', formularioReasignar);
-
     const { id: amarraId } = this.amarraSeleccionada;
     const { usuario, usuarioEsPropietario, parentezco } = formularioReasignar;
 
