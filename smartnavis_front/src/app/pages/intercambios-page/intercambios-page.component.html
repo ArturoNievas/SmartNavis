@@ -98,7 +98,7 @@
         <ng-container
           [ngTemplateOutlet]="badgeHabilitacionTemplate"
           [ngTemplateOutletContext]="{
-            habilitado: publicacion.bien.habilitadoIntercambio
+            habilitado: publicacion.bien.titular.habilitadaIntercambio
           }"
         />
       </div>
@@ -106,8 +106,12 @@
   </div>
 </ng-template>
 
-<ng-template #badgeHabilitacionTemplate let-habilitado>
-  <span class="badge bg-success">
-    {{ true ? "Habilitado" : "No habilitado" }}
+<ng-template #badgeHabilitacionTemplate let-habilitado="habilitado">
+  <span
+    class="badge"
+    [class.bg-success]="habilitado"
+    [class.bg-danger]="!habilitado"
+  >
+    {{ habilitado ? "Habilitado" : "No habilitado" }}
   </span>
 </ng-template>
