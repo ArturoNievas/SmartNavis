@@ -62,6 +62,7 @@ export class MisPublicacionesPageComponent implements OnInit, OnDestroy {
     this.publicacionService
       .listarMisPublicaciones()
       .subscribe((publicaciones) => {
+        console.log(publicaciones);
         this.publicaciones = [];
         this.publicacionesAceptadas = [];
 
@@ -71,8 +72,6 @@ export class MisPublicacionesPageComponent implements OnInit, OnDestroy {
           this.publicacionService
             .listarSolicitudes(publicacion)
             .subscribe((permutas) => {
-              if (!permutas.length) return;
-
               if (permutas.some((permuta) => permuta.aceptada)) {
                 publicacion.__permutasSolicitadas = [];
                 this.publicacionesAceptadas.push(publicacion);
