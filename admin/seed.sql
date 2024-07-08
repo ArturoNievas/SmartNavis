@@ -114,6 +114,7 @@ SET @lehg_2 = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Lehg II');
 SET @santa_maria = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Santa Maria');
 SET @arquero = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Arquero');
 SET @argo = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Argo');
+SET @perla = (SELECT id FROM smartnavis.bienes WHERE nombre = 'Perla Negra');
 INSERT INTO smartnavis.alquileres (fin,inicio,amarra_id,embarcacion_id) VALUES
 	 ('2025-04-30', '2024-05-01', (SELECT id FROM smartnavis.amarras WHERE nombre = '1-A' AND puerto_id = @la_plata), @dhow),
 	 ('2024-06-12', '2023-06-13', (SELECT id FROM smartnavis.amarras WHERE nombre = '1-B' AND puerto_id = @la_plata), @lehg_2),
@@ -130,7 +131,9 @@ INSERT INTO smartnavis.publicaciones (descripcion,titulo,bien_id) VALUES
 	 ('Lo cambio porque ya no lo uso', 'Barco sin uso', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 11224')),
 	 ('Hermoso dpto. 3 ambientes.', 'Dpto. f/ al mar', (SELECT id FROM smartnavis.bienes WHERE partida = '321-321321-3')),
 	 ('Casa con pileta.', 'Casa quinta', (SELECT id FROM smartnavis.bienes WHERE partida = '111-222222-2')),
-	 ('Sin papeles.', 'Moto joyita oportuniad!', (SELECT id FROM smartnavis.bienes WHERE patente = 'ABC-123'));
+	 ('Sin papeles.', 'Moto joyita oportuniad!', (SELECT id FROM smartnavis.bienes WHERE patente = 'ABC-123')),
+	 ('No tengo espacio', 'Nave de fibra hecha en Haedo', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 98765')),
+	 ('Tripulación incluida.', 'Barco sumergible', (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 33224Z'));
 
 INSERT INTO smartnavis.permutas (aceptada,finalizada,pendiente,registrada,publicacion_id_ofertada,publicacion_id_solicitada) VALUES
 	 (0, 0, 1, 0,
@@ -150,4 +153,10 @@ INSERT INTO smartnavis.permutas (aceptada,finalizada,pendiente,registrada,public
 		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @lehg_2)),
 	 (0, 0, 1, 0,
 		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @santa_maria),
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 11224'))),
+	(1, 0, 0, 0,
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 98765')),
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = @santa_maria)),
+	(1, 0, 0, 0,
+		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 33224Z')),
 		(SELECT id FROM smartnavis.publicaciones WHERE bien_id = (SELECT id FROM smartnavis.bienes WHERE matricula = 'REY 11224')));
