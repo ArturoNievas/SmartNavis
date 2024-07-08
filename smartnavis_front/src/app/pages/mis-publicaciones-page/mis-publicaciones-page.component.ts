@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { Permuta } from '../../interfaces/permuta';
 import { PermutaService } from '../../services/permuta/permuta.service';
 import { Bien } from '../../interfaces/bien';
+import { firstValueFrom } from 'rxjs';
 
 enum EstadoFormulario {
   Modificar = 'modificar',
@@ -41,6 +42,8 @@ export class MisPublicacionesPageComponent implements OnInit, OnDestroy {
     dominio: string;
   };
 
+  publicacionesAceptadas: Publicacion[] = [];
+
   estadoFormulario?: EstadoFormulario;
   mensajeFormulario?: { tipo: 'error' | 'exito'; mensaje: string };
   private timeoutId?: number;
@@ -52,16 +55,34 @@ export class MisPublicacionesPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.listarMisPublicaciones();
+  }
+
+  private async listarMisPublicaciones() {
     this.publicacionService
       .listarMisPublicaciones()
       .subscribe((publicaciones) => {
-        this.publicaciones = publicaciones;
+        this.publicaciones = [];
+        this.publicacionesAceptadas = [];
+
         publicaciones.forEach((publicacion) => {
           publicacion.bien = bienAdapter(publicacion.bien);
+
           this.publicacionService
             .listarSolicitudes(publicacion)
             .subscribe((permutas) => {
-              publicacion.__permutasSolicitadas = permutas;
+              if (!permutas.length) return;
+
+              if (permutas.some((permuta) => permuta.aceptada)) {
+                publicacion.__permutasSolicitadas = [];
+                this.publicacionesAceptadas.push(publicacion);
+              } else {
+                publicacion.__permutasSolicitadas = permutas.filter(
+                  (permuta) => permuta.pendiente
+                );
+
+                this.publicaciones.push(publicacion);
+              }
             });
         });
       });
@@ -257,6 +278,7 @@ export class MisPublicacionesPageComponent implements OnInit, OnDestroy {
         permuta.aceptada = true;
         permuta.pendiente = false;
         this.mostrarMensaje('exito', 'Intercambio aceptado.');
+        this.listarMisPublicaciones();
       },
       error: (error: any) => {
         console.error('Error al aceptar permuta.', error);

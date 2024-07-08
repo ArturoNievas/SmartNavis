@@ -8,47 +8,67 @@
         Publicar bien
       </button>
     </div>
-    <ol *ngIf="publicaciones.length; else sinPublicaciones">
-      <div>
-        <li *ngFor="let publicacion of publicaciones">
-          <div class="publicacion">
-            <span>
-              <b>{{ publicacion.titulo }}</b> -
-              {{ publicacion.bien.__dominio }}
-            </span>
-            <button
-              (click)="abrirFormulario(estados.Modificar, publicacion)"
-              class="btn btn-secondary"
-            >
-              Modificar
-            </button>
-            <button
-              (click)="abrirFormulario(estados.Eliminar, publicacion)"
-              class="btn btn-danger"
-            >
-              X
-            </button>
-          </div>
 
-          <ul *ngIf="publicacion.__permutasSolicitadas?.length">
-            <li *ngFor="let permuta of publicacion.__permutasSolicitadas">
-              <div class="permutasSolicitadas">
-                <span>
-                  <b>{{ permuta.ofertada.titulo }}</b> -
-                  {{ permuta.ofertada.bien.__dominio }}
-                </span>
-                <button
-                  (click)="aceptarPermuta(permuta)"
-                  class="btn btn-primary"
-                >
-                  Aceptar
-                </button>
-              </div>
-            </li>
-          </ul>
-        </li>
-      </div>
-    </ol>
+    <div>
+      <h2>Publicaciones Aceptadas</h2>
+      <ol *ngIf="publicacionesAceptadas.length; else sinPublicaciones">
+        <div>
+          <li *ngFor="let publicacion of publicacionesAceptadas">
+            <div class="publicacion">
+              <span>
+                <b>{{ publicacion.titulo }}</b> -
+                {{ publicacion.bien.__dominio }}
+              </span>
+            </div>
+          </li>
+        </div>
+      </ol>
+    </div>
+
+    <div>
+      <h2>Publicaciones Pendientes</h2>
+      <ol *ngIf="publicaciones.length; else sinPublicaciones">
+        <div>
+          <li *ngFor="let publicacion of publicaciones">
+            <div class="publicacion">
+              <span>
+                <b>{{ publicacion.titulo }}</b> -
+                {{ publicacion.bien.__dominio }}
+              </span>
+              <button
+                (click)="abrirFormulario(estados.Modificar, publicacion)"
+                class="btn btn-secondary"
+              >
+                Modificar
+              </button>
+              <button
+                (click)="abrirFormulario(estados.Eliminar, publicacion)"
+                class="btn btn-danger"
+              >
+                X
+              </button>
+            </div>
+
+            <ul *ngIf="publicacion.__permutasSolicitadas?.length">
+              <li *ngFor="let permuta of publicacion.__permutasSolicitadas">
+                <div class="permutasSolicitadas">
+                  <span>
+                    <b>{{ permuta.ofertada.titulo }}</b> -
+                    {{ permuta.ofertada.bien.__dominio }}
+                  </span>
+                  <button
+                    (click)="aceptarPermuta(permuta)"
+                    class="btn btn-primary"
+                  >
+                    Aceptar
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </div>
+      </ol>
+    </div>
 
     <ng-template #sinPublicaciones>
       <div>
