@@ -28,6 +28,10 @@ export class PublicacionService {
     return this.apiService.post<Publicacion>(this.publicacionUrl, publicacion);
   }
 
+  public publicarBien(publicacion: any): Observable<Publicacion> {
+    return this.apiService.post(this.publicacionUrl + '/crear', publicacion);
+  }
+
   public actualizarPublicacion(
     publicacion: Publicacion
   ): Observable<Publicacion> {

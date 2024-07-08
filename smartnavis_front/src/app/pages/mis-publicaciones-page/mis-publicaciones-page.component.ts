@@ -12,6 +12,7 @@ import { Bien } from '../../interfaces/bien';
 enum EstadoFormulario {
   Modificar = 'modificar',
   Eliminar = 'eliminar',
+  Publicar = 'publicar',
 }
 
 const bienAdapter = (bien: Bien | any): Bien => {
@@ -33,6 +34,12 @@ export class MisPublicacionesPageComponent implements OnInit, OnDestroy {
   publicaciones: Publicacion[] = [];
   publicacionSeleccionada?: Publicacion;
   publicacionModificada?: Publicacion;
+  nuevaPublicacion?: {
+    titulo: string;
+    descripcion: string;
+    tipoBien: 'automotor' | 'embarcacion' | 'inmueble';
+    dominio: string;
+  };
 
   estadoFormulario?: EstadoFormulario;
   mensajeFormulario?: { tipo: 'error' | 'exito'; mensaje: string };
@@ -65,11 +72,17 @@ export class MisPublicacionesPageComponent implements OnInit, OnDestroy {
     this.publicacionModificada = { ...publicacion };
   }
 
-  abrirFormulario(estado: EstadoFormulario, publicacion: Publicacion): void {
+  abrirFormulario(estado: EstadoFormulario, publicacion?: Publicacion): void {
     this.resetearMensajeFormulario();
     this.estadoFormulario = estado;
+    this.nuevaPublicacion = {
+      titulo: '',
+      descripcion: '',
+      tipoBien: 'automotor',
+      dominio: '',
+    };
 
-    if (this.publicacionSeleccionada !== publicacion) {
+    if (publicacion && this.publicacionSeleccionada !== publicacion) {
       this.resetearFormulario();
       this.seleccionarPublicacion(publicacion);
     }
@@ -177,6 +190,49 @@ export class MisPublicacionesPageComponent implements OnInit, OnDestroy {
     return lista.filter(
       (publicacion) => publicacion.id !== this.publicacionSeleccionada!.id
     );
+  }
+
+  public nuevaPublicacionEsValida() {
+    return (
+      this.nuevaPublicacion?.titulo &&
+      this.nuevaPublicacion?.descripcion &&
+      this.nuevaPublicacion?.tipoBien &&
+      this.nuevaPublicacion?.dominio
+    );
+  }
+
+  public crearPublicacion() {
+    if (!this.nuevaPublicacionEsValida()) return;
+    let nuevaPublicacion = {
+      titulo: this.nuevaPublicacion?.titulo,
+      descripcion: this.nuevaPublicacion?.descripcion,
+      bien: {},
+    };
+    if (this.nuevaPublicacion?.tipoBien === 'inmueble') {
+      nuevaPublicacion.bien = {
+        partida: this.nuevaPublicacion.dominio,
+      };
+    } else if (this.nuevaPublicacion?.tipoBien === 'automotor') {
+      nuevaPublicacion.bien = {
+        patente: this.nuevaPublicacion.dominio,
+      };
+    } else {
+      nuevaPublicacion.bien = {
+        matricula: this.nuevaPublicacion?.dominio,
+      };
+    }
+
+    this.publicacionService.publicarBien(nuevaPublicacion).subscribe({
+      next: (publicacion) => {
+        this.publicaciones.push(publicacion);
+        this.cerrarFormulario();
+        this.resetearFormulario();
+        this.mostrarMensaje('exito', 'Bien publicado correctamente');
+      },
+      error: (error) => {
+        this.mostrarMensaje('error', error.message || error);
+      },
+    });
   }
 
   private mostrarMensaje(tipo: 'exito' | 'error', mensaje: string): void {

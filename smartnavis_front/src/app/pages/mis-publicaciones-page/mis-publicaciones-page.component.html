@@ -1,11 +1,20 @@
 <app-app-page [titulo]="titulo">
   <div class="global-container local-container">
+    <div>
+      <button
+        class="btn btn-primary mb-2"
+        (click)="abrirFormulario(estados.Publicar)"
+      >
+        Publicar bien
+      </button>
+    </div>
     <ol *ngIf="publicaciones.length; else sinPublicaciones">
       <div>
         <li *ngFor="let publicacion of publicaciones">
           <div class="publicacion">
             <span>
-              <b>{{ publicacion.titulo }}</b>
+              <b>{{ publicacion.titulo }}</b> -
+              {{ publicacion.bien.__dominio }}
             </span>
             <button
               (click)="abrirFormulario(estados.Modificar, publicacion)"
@@ -19,20 +28,9 @@
             >
               X
             </button>
-            <button
-              class="btn btn-primary"
-              (click)="listarSolicitudes(publicacion)"
-            >
-              Listar Solicitudes
-            </button>
           </div>
 
-          <ul
-            *ngIf="
-              publicacion == publicacionSeleccionada &&
-              publicacion.__permutasSolicitadas?.length
-            "
-          >
+          <ul *ngIf="publicacion.__permutasSolicitadas?.length">
             <li *ngFor="let permuta of publicacion.__permutasSolicitadas">
               <div class="permutasSolicitadas">
                 <span>
@@ -70,6 +68,9 @@
           publicacionSeleccionada && estadoFormulario === estados.Eliminar;
           then formularioEliminar
         "
+      ></div>
+      <div
+        *ngIf="estadoFormulario === estados.Publicar; then formularioPublicar"
       ></div>
       <div
         *ngIf="mensajeFormulario"
@@ -176,6 +177,77 @@
         </button>
         <button (click)="cerrarFormulario()" class="btn btn-secondary">
           No, cancelar.
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- FORMULARIO PARA PUBLICAR UN BIEN -->
+<ng-template #formularioPublicar>
+  <div class="card mb-4">
+    <form class="card-body">
+      <h3 class="mb-4">
+        <b>Publicar bien</b>
+      </h3>
+
+      <div class="form-group mb-2">
+        <label for="titulo" class="form-label">
+          Título de la publicación
+        </label>
+        <input
+          id="titulo"
+          name="titulo"
+          class="form-control"
+          [(ngModel)]="nuevaPublicacion!.titulo"
+        />
+      </div>
+
+      <div class="form-group mb-2">
+        <label for="descripcion" class="form-label">
+          Descripción de la publicación
+        </label>
+        <textarea
+          id="descripcion"
+          name="descripcion"
+          class="form-control"
+          [(ngModel)]="nuevaPublicacion!.descripcion"
+        ></textarea>
+      </div>
+
+      <div class="form-group mb-2">
+        <label for="tipoBien" class="form-label"> Tipo de bien </label>
+        <select
+          class="form-select"
+          id="tipoBien"
+          name="tipoBien"
+          [(ngModel)]="nuevaPublicacion!.tipoBien"
+        >
+          <option value="automotor">Automotor</option>
+          <option value="embarcacion">Embarcacion</option>
+          <option value="inmueble">Inmueble</option>
+        </select>
+
+        <label for="dominio">Dominio</label>
+        <input
+          type="text"
+          name="dominio"
+          class="form-control"
+          [(ngModel)]="nuevaPublicacion!.dominio"
+        />
+      </div>
+
+      <div class="form-group">
+        <button
+          (click)="crearPublicacion()"
+          type="submit"
+          class="btn btn-primary mx-2"
+          [disabled]="!nuevaPublicacionEsValida()"
+        >
+          Publicar
+        </button>
+        <button (click)="cerrarFormulario()" class="btn btn-secondary mx-2">
+          Cancelar
         </button>
       </div>
     </form>
