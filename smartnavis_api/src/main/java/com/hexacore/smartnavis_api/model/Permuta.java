@@ -149,10 +149,10 @@ public class Permuta {
 			throw new BadRequestException("Los bienes no se encuentran habilitados para ser intercambiados.");
 		}
 		if (!this.getOfertada().isBienHabilitado()) {
-			throw new BadRequestException("El bien ofertado no se encuentra habilitado para ser intercambiados.");
+			throw new BadRequestException("El bien ofertado no se encuentra habilitado para ser intercambiado.");
 		}
 		if (!this.getSolicitada().isBienHabilitado()) {
-			throw new BadRequestException("El bien solicitado no se encuentra habilitado para ser intercambiados.");
+			throw new BadRequestException("El bien solicitado no se encuentra habilitado para ser intercambiado.");
 		}
     	return true;
     }
