@@ -119,4 +119,12 @@ public class Publicacion {
     public void removePermutaOfertada(Permuta permuta) {
         this.getPermutasOfertadas().remove(permuta);
     }
+    
+    public boolean isUsuarioHabilitado() {
+    	return this.bien.getTitular().isHabilitadaIntercambio();
+    }
+    
+    public boolean isBienHabilitado() {
+    	return this.bien.isHabilitadoIntercambio();
+    }
 }

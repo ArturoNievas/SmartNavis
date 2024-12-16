@@ -42,6 +42,16 @@ public class Persona {
         this.setHabilitadaIntercambio(true);
     }
 
+    public Persona(int dni, String nombres, String apellidos, Date fechaNacimiento) {
+        this.setDni(dni);
+        this.setNombres(nombres);
+        this.setApellidos(apellidos);
+        this.setFechaNacimiento(fechaNacimiento);
+        this.setBienes(new ArrayList<>());
+        this.setAlquilerTerceros(new ArrayList<>());
+        this.setHabilitadaIntercambio(true);
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,0 +1,123 @@
+<div class="card mb-4">
+  <form class="card-body" [formGroup]="formulario" (submit)="onSubmit()">
+    <h3 class="mb-4">
+      <b>Reasignar Amarra</b>
+    </h3>
+
+    <div class="form-group">
+      <p class="form-label">Puerto: {{ amarraSeleccionada!.puerto.nombre }}</p>
+
+      <p class="form-label">Amarra: {{ amarraSeleccionada!.nombre }}</p>
+
+      <!-- TODO: Insertar buscador de usuarios -->
+
+      <ng-container [ngTemplateOutlet]="formularioSeleccionarUsuario">
+      </ng-container>
+
+      <!-- Checkbox para preguntar si el usuario es titular-->
+      <div class="form-check" style="user-select: none">
+        <input
+          id="esPropietario"
+          formControlName="usuarioEsPropietario"
+          type="checkbox"
+          class="form-check-input"
+        />
+        <label class="form-check-label" for="esPropietario">
+          El usuario seleccionado es el propietario de la embarcación.
+        </label>
+      </div>
+
+      <!-- Si no es titular, mostrar input text para parentezco -->
+
+      <div *ngIf="!esPropietario?.value">
+        <label for="parentezco">Parentezco:</label>
+        <input
+          type="text"
+          name="parentezco"
+          class="form-control"
+          formControlName="parentezco"
+          [disabled]="esPropietario?.value!"
+        />
+      </div>
+
+      <!-- Reasignar (si formulario es válido) / Cancelar -->
+
+      <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="formulario.invalid"
+        >
+          Reasignar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #formularioSeleccionarUsuario>
+  <div class="card card-body mb-3">
+    <form
+      [formGroup]="buscarUsuariosPorDniForm"
+      (keyup)="buscarUsuariosPorDni()"
+    >
+      <div class="form-group mb-3">
+        <label class="w-100">
+          <div>
+            <div class="mb-2">Buscar usuario por DNI</div>
+            <input
+              type="number"
+              class="form-control w-100"
+              formControlName="dni"
+              placeholder="DNI del usuario"
+            />
+          </div>
+        </label>
+      </div>
+    </form>
+
+    <div class="options">
+      <form [formGroup]="formulario">
+        <ol class="p-0 m-0" *ngIf="usuarios.length; else sinUsuarios">
+          <div>
+            <ng-container *ngFor="let _usuario of usuarios; let i = index">
+              <ng-container *ngIf="i < 4">
+                <li>
+                  <div>
+                    <span>
+                      <b>{{ _usuario.nombres }} {{ _usuario.apellidos }}</b>
+                    </span>
+
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      (click)="seleccionarUsuario(_usuario)"
+                      [class.btn-success]="usuario?.value?.id === _usuario.id"
+                      [disabled]="usuario?.value?.id === _usuario.id"
+                    >
+                      {{
+                        usuario?.value?.id === _usuario.id
+                          ? "Seleccionado"
+                          : "Seleccionar"
+                      }}
+                    </button>
+                  </div>
+                </li>
+              </ng-container>
+            </ng-container>
+          </div>
+        </ol>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #sinUsuarios>
+  <div>
+    <p class="alert alert-secondary">No hay usuarios.</p>
+  </div>
+</ng-template>

@@ -19,7 +19,7 @@ public class PuertoController extends SmartNavisController<Puerto, Long> {
 		this.amarraService = amarraService;
     }
 
-    @GetMapping("{nombre}")
+    @GetMapping("nombre/{nombre}")
     public Iterable<Puerto> listarPorNombre(@PathVariable("nombre") String nombre) {
         return this.service.buscarPorNombre(nombre);
     }

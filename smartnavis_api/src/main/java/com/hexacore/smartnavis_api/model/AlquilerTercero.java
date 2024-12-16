@@ -1,5 +1,7 @@
 package com.hexacore.smartnavis_api.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +15,18 @@ public class AlquilerTercero extends Alquiler {
     private Persona titular;
 
     public AlquilerTercero() {
+	}
+
+	public AlquilerTercero(Amarra amarra, Embarcacion embarcacion, Persona titular, String parentezco) {
+    	super(amarra, embarcacion);
+    	this.titular = titular;
+    	this.parentezco = parentezco;
+    }
+	
+	public AlquilerTercero(Amarra amarra, Embarcacion embarcacion, Persona titular, String parentezco, LocalDateTime inicio, LocalDateTime fin) {
+    	super(amarra, embarcacion, inicio, fin);
+    	this.titular = titular;
+    	this.parentezco = parentezco;
     }
 
     public String getParentezco() {

@@ -1,18 +1,46 @@
+<app-app-page titulo="Puertos" subtitulo="Lista de puertos">
+  <div titulo="Puertos" subtitulo="Lista de puertos">
+    <div class="global-container local-container section">
+      <div class="section">
+        <div class="d-flex">
+          <label class="w-25">
+            <input class="form-control" #nombrePuerto type="text" />
+          </label>
+          <div class="">
+            <button
+              class="btn btn-primary mx-2"
+              (click)="crearPuerto(nombrePuerto.value)"
+            >
+              Crear Puerto
+            </button>
+          </div>
+        </div>
+      </div>
 
+      <div class="section">
+        <ul *ngIf="puertos.length; else sinPuertos">
+          <li *ngFor="let puerto of puertos" class="my-1">
+            <span>
+              <b>{{ puerto.nombre }}</b> ({{ puerto.id }})
+            </span>
 
-<app-app-page titulo="Puertos" subtitulo="Lista de puertos"></app-app-page>
+            <button
+              class="btn btn-primary mx-2"
+              (click)="actualizarPuerto(puerto)"
+            >
+              Modificar
+            </button>
 
-<div class="section">
-  <button (click)="listarPuertos()">Ver puertos</button>
-  <ul *ngIf="puertos.length">
-    <li *ngFor="let puerto of puertos">({{puerto.id}}) {{puerto.nombre}}
-      - <a href="javascript:void(0);" (click)="actualizarPuerto(puerto)">Modificar</a>
-      - <a href="javascript:void(0);" (click)="eliminarPuerto(puerto)">Eliminar</a>
-    </li>
-  </ul>
-</div>
+            <button class="btn btn-danger" (click)="eliminarPuerto(puerto)">
+              Eliminar
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</app-app-page>
 
-<div class="section">
-  <input #nombrePuerto type="text">
-  <button (click)="crearPuerto(nombrePuerto.value)">Crear Puerto</button>
-</div>
+<ng-template #sinPuertos>
+  <div class="alert alert-secondary">No hay puertos registrados</div>
+</ng-template>

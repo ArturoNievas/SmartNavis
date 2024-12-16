@@ -9,6 +9,7 @@
             class="form-control"
             formControlName="nombres"
             placeholder="Nombres"
+            [class.mb-3]="nombres?.valid || nombres?.pristine"
             [class.is-invalid]="nombres?.invalid && nombres?.dirty"
           />
           <div
@@ -36,9 +37,7 @@
             {{ apellidos?.errors?.["required"] ? "Campo obligatorio" : "" }}
           </div>
         </label>
-      </div>
 
-      <div class="form-group">
         <label for="numeroDocumento">
           <span>Número de Documento</span>
           <input
@@ -87,9 +86,7 @@
             {{ fechaDeNacimiento?.errors?.["menorDeEdad"] ? "Debe ser mayor de 18 años" : "" }}
           </div>
         </label>
-      </div>
 
-      <div class="form-group mt-3 mb-3">
         <label for="username">
           <span>Nombre de usuario</span>
           <input
@@ -147,24 +144,26 @@
       >
         <button
           type="submit"
-          class="btn btn-primary px-5 py-2 mt-3"
+          class="btn btn-primary px-5 py-2 mt-3 d-flex align-items-center justify-content-center"
           [disabled]="registrarseForm.invalid"
         >
-          Registrarse
+          <span *ngIf="loading" class="spinner-border" aria-label="Loading...">
+          </span>
+          <span *ngIf="!loading">Registrarse</span>
         </button>
 
         <div [hidden]="error?.field !== ''">
           <div class="invalid-feedback d-block">{{ error?.message }}</div>
         </div>
 
-        <div class="mt-5">
+        <div class="mt-5 d-flex align-items-center">
           <span class="">¿Ya tienes una cuenta?</span>
           <a
-            routerLink="/login"
+            routerLink="/iniciar-sesion"
             class="btn btn-link"
             style="text-decoration: none"
           >
-            Iniciar Sesión
+            Iniciá Sesión
           </a>
         </div>
       </div>

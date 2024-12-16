@@ -13,8 +13,13 @@ public class BienAutomotor extends Bien {
     public BienAutomotor() {
         super();
     }
+    
+    public BienAutomotor(String patente) {
+    	super();
+		this.patente = patente;
+	}
 
-    public String getPatente() {
+	public String getPatente() {
         return patente;
     }
 

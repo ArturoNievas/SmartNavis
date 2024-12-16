@@ -20,8 +20,16 @@ export class PublicacionService {
     return this.apiService.get<Publicacion[]>(this.publicacionesUrl);
   }
 
+  public listarMisPublicaciones(): Observable<Publicacion[]> {
+    return this.apiService.get<Publicacion[]>(this.publicacionesUrl + '/me');
+  }
+
   public crearPublicacion(publicacion: Publicacion): Observable<Publicacion> {
     return this.apiService.post<Publicacion>(this.publicacionUrl, publicacion);
+  }
+
+  public publicarBien(publicacion: any): Observable<Publicacion> {
+    return this.apiService.post(this.publicacionUrl + '/crear', publicacion);
   }
 
   public actualizarPublicacion(
@@ -65,14 +73,16 @@ export class PublicacionService {
   public solicitarIntercambio(
     publicacionSolicitada: Publicacion,
     publicacionOfertada: Publicacion
-  ): any {
-    return this.apiService.post(
+  ): Observable<Permuta> {
+    return this.apiService.post<Permuta>(
       `${this.publicacionUrl}/${publicacionSolicitada.id}/solicitar`,
       { ofertadaId: publicacionOfertada.id }
     );
   }
 
   public listarSolicitudes(publicacion: Publicacion): Observable<Permuta[]> {
-    return this.apiService.get<Permuta[]>(`${this.publicacionUrl}/${publicacion.id}/solicitudes`)
+    return this.apiService.get<Permuta[]>(
+      `${this.publicacionUrl}/${publicacion.id}/solicitudes`
+    );
   }
 }

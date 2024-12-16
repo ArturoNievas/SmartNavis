@@ -1,5 +1,5 @@
 .navbar-container {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
 
@@ -11,21 +11,36 @@
 }
 
 .navbar-retainer {
-  height: 72px;
+  min-height: 72px;
+  height: fit-content;
 }
 
 .navbar-content {
-  height: 72px;
+  padding: 16px 0;
+
+  min-height: 72px;
+  height: fit-content;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: start;
+  flex-wrap: wrap;
 
   gap: 16px;
 
   & > div {
     display: flex;
     gap: 16px;
+  }
+
+  & .right-menu {
+    margin-left: auto;
+  }
+
+  & .left-menu {
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
   }
 }
 

@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmbarcacionRepository extends JpaRepository<Embarcacion, Long> {
     Iterable<Embarcacion> findByTitular(Persona titular);
+
+	Optional<Embarcacion> findByMatricula(String matricula);
 }

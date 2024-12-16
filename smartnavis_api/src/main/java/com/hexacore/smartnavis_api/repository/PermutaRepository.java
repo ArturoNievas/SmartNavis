@@ -12,4 +12,6 @@ public interface PermutaRepository extends JpaRepository<Permuta, Long> {
     Optional<Permuta> findBySolicitadaAndOfertada(Publicacion solicitada, Publicacion ofertada);
 
     Iterable<Permuta> findBySolicitada(Publicacion publicacion);
+
+    Iterable<Permuta> findByOfertada(Publicacion publicacion);
 }

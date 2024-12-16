@@ -21,6 +21,15 @@ public class Embarcacion extends Bien {
     public Embarcacion() {
         super();
     }
+    
+    public Embarcacion(String matricula, String nombre, double eslora, double calado, double manga, Persona titular) {
+        super(titular);
+        this.calado = calado;
+        this.manga = manga;
+        this.eslora = eslora;
+        this.nombre = nombre;
+        this.matricula = matricula;
+    }
 
     public String getMatricula() {
         return matricula;

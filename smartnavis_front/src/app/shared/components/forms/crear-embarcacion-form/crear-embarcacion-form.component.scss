@@ -1,0 +1,26 @@
+form {
+  width: 100%;
+  max-width: 960px;
+
+  .form-group {
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin: 0;
+
+    justify-content: start;
+
+    #nombre {
+      flex-grow: 1;
+    }
+
+    .medidas-input {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+  }
+}

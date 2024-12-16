@@ -27,6 +27,11 @@ public abstract class Bien {
     protected Bien() {
         this.setHabilitadoIntercambio(true);
     }
+    
+    protected Bien(Persona titular) {
+        this.setHabilitadoIntercambio(true);
+        this.titular = titular;
+    }
 
     public Persona getTitular() {
         return titular;

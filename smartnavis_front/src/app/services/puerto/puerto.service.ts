@@ -27,6 +27,26 @@ export class PuertoService {
     );
   }
 
+  public listarAmarrasDisponibles(
+    puerto: Puerto,
+    manga: number | null,
+    eslora: number | null,
+    calado: number | null
+  ) {
+    if (!puerto.id) {
+      return throwError(
+        () =>
+          new Error(
+            'No es posible listar las amarras disponibles del puerto (no ID)'
+          )
+      );
+    }
+    return this.apiService.get<Amarra[]>(
+      `${this.puertoUrl}/${puerto.id}/amarra/disponible` +
+        `?manga=${manga}&eslora=${eslora}&calado=${calado}`
+    );
+  }
+
   public crearPuerto(puerto: Puerto): Observable<Puerto> {
     return this.apiService.post<Puerto>(this.puertoUrl, puerto);
   }

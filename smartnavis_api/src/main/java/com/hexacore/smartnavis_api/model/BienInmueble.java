@@ -13,6 +13,11 @@ public class BienInmueble extends Bien {
     public BienInmueble() {
         super();
     }
+    
+    public BienInmueble(String partida) {
+    	super();
+		this.partida = partida;
+	}
 
     public String getPartida() {
         return partida;

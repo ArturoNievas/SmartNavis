@@ -14,7 +14,7 @@ public interface SmartNavisService<T, ID> {
 
     Iterable<T> findAll();
 
-    T patch(ID id, Function<? super T, ? extends T> mapper);
+    T patch(ID id, Function<? super T, ? extends T> mapper, Function<? super T, Boolean> canUpdate);
 
-    void delete(ID id);
+    void delete(ID id, Function<? super T, Boolean> canDelete);
 }

@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { AppPageComponent } from '../../shared/components/app-page/app-page.component';
 import { RouterLink } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Amarra } from '../../interfaces/amarra';
 import { AmarraService } from '../../services/amarra/amarra.service';
 import { Puerto } from '../../interfaces/puerto';
 import { PuertoService } from '../../services/puerto/puerto.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormularioReasignarComponent } from './formulario-reasignar/formulario-reasignar.component';
+import { Usuario } from '../../interfaces/usuario';
 
 export enum EstadoFormulario {
   Crear = 'crear',
   Modificar = 'modificar',
   Eliminar = 'eliminar',
+  Reasignar = 'reasignar',
 }
 
 class FormularioAmarra extends FormGroup<{
@@ -25,7 +28,15 @@ class FormularioAmarra extends FormGroup<{
 @Component({
   selector: 'app-amarras-page',
   standalone: true,
-  imports: [RouterLink, AppPageComponent, NgIf, NgFor, ReactiveFormsModule],
+  imports: [
+    RouterLink,
+    AppPageComponent,
+    NgIf,
+    NgFor,
+    ReactiveFormsModule,
+    NgTemplateOutlet,
+    FormularioReasignarComponent,
+  ],
   templateUrl: './amarras-page.component.html',
   styleUrl: './amarras-page.component.scss',
 })
@@ -65,6 +76,11 @@ export class AmarrasPageComponent implements OnInit {
   }
 
   public listarAmarras(puerto: Puerto) {
+    if (!puerto?.id) {
+      this.amarras = [];
+      return;
+    }
+
     this.puertoService.listarAmarras(puerto).subscribe((amarras) => {
       this.amarras = amarras;
     });
@@ -201,6 +217,9 @@ export class AmarrasPageComponent implements OnInit {
       case EstadoFormulario.Eliminar:
         this.amarraSeleccionada = amarra!;
         break;
+      case EstadoFormulario.Reasignar:
+        this.amarraSeleccionada = amarra!;
+        break;
     }
   }
 
@@ -212,5 +231,59 @@ export class AmarrasPageComponent implements OnInit {
     console.log('Formulario:', this.estadoFormulario);
     this.estadoFormulario = undefined;
     this.amarraSeleccionada = undefined;
+  }
+
+  desasignarAmarra(amarra: Amarra) {
+    if (!confirm('¿Está seguro de que desea desasignar la amarra?')) return;
+
+    this.amarraService.desasignarAmarra(amarra).subscribe({
+      next: () => {
+        this.mostrarMensaje('exito', 'Amarra desasignada con éxito.');
+        if (this.puertoSeleccionado || amarra.puerto.id) {
+          const puerto = this.puertoSeleccionado || amarra.puerto;
+          this.listarAmarras(puerto);
+        }
+      },
+      error: (error: Error) => {
+        this.mostrarMensaje('error', error.message);
+      },
+    });
+  }
+
+  reasignarAmarra(
+    formularioReasignar: {
+      parentezco: string | null;
+      usuario: Usuario;
+      usuarioEsPropietario: boolean;
+    } | null
+  ) {
+    if (!this.amarraSeleccionada?.id) return;
+
+    if (!formularioReasignar) {
+      this.cerrarFormulario();
+
+      return;
+    }
+
+    const { id: amarraId } = this.amarraSeleccionada;
+    const { usuario, usuarioEsPropietario, parentezco } = formularioReasignar;
+
+    this.amarraService
+      .reasignarAmarra({
+        amarraId,
+        usuarioId: usuario.id!,
+        usuarioEsPropietario,
+        parentezco,
+      })
+      .subscribe({
+        next: () => {
+          this.mostrarMensaje('exito', 'Amarra reasignada con éxito.');
+          this.cerrarFormulario();
+        },
+        error: (error: Error) => {
+          this.mostrarMensaje('error', error.message);
+          this.cerrarFormulario();
+        },
+      });
   }
 }

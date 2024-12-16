@@ -1,0 +1,149 @@
+<form [formGroup]="formulario" (submit)="onSubmit()">
+  <div class="form-group">
+    <label id="nombre">
+      <span>Nombre</span>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="nombre"
+        placeholder="Nombre de la embarcación"
+        [class.mb-3]="nombre?.valid || nombre?.pristine"
+        [class.is-invalid]="nombre?.invalid && nombre?.dirty"
+      />
+      <div
+        class="invalid-feedback"
+        [hidden]="nombre?.valid || nombre?.pristine"
+      >
+        {{ nombre?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+      <!-- <div class="invalid-feedback" [hidden]="error?.field !== 'username'">
+      {{ nombre?.errors?.["minlength"] ? "Debe tener al menos 4 caracteres" : "" }}
+    </div> -->
+    </label>
+
+    <label>
+      <span>Matrícula</span>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="matricula"
+        placeholder="REY 00000"
+        [class.mb-3]="matricula?.valid || matricula?.pristine"
+        [class.is-invalid]="matricula?.invalid && matricula?.dirty"
+        [value]="matricula?.value"
+      />
+      <div
+        class="invalid-feedback"
+        [hidden]="matricula?.valid || matricula?.pristine"
+      >
+        {{ matricula?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+      <!-- <div class="invalid-feedback" [hidden]="error?.field !== 'username'">
+          {{ matricula?.errors?.["minlength"] ? "Debe tener al menos 4 caracteres" : "" }}
+          </div> -->
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span>Eslora</span>
+      <div
+        class="medidas-input"
+        [class.mb-3]="eslora?.valid || eslora?.pristine"
+      >
+        <input
+          type="number"
+          class="form-control"
+          formControlName="eslora"
+          placeholder="0"
+          [class.is-invalid]="eslora?.invalid && eslora?.dirty"
+        />
+
+        <span>ft.</span>
+      </div>
+      <div
+        class="invalid-feedback"
+        [hidden]="eslora?.valid || eslora?.pristine"
+      >
+        {{ eslora?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+      <!-- <div class="invalid-feedback" [hidden]="error?.field !== 'username'">
+            {{ eslora?.errors?.["minlength"] ? "Debe tener al menos 4 caracteres" : "" }}
+            </div> -->
+    </label>
+
+    <label>
+      <span>Manga</span>
+      <div
+        class="medidas-input"
+        [class.mb-3]="eslora?.valid || eslora?.pristine"
+      >
+        <input
+          type="number"
+          class="form-control"
+          formControlName="manga"
+          placeholder="0"
+          [class.is-invalid]="manga?.invalid && manga?.dirty"
+        />
+        <span>ft.</span>
+      </div>
+      <div class="invalid-feedback" [hidden]="manga?.valid || manga?.pristine">
+        {{ manga?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+      <!-- <div class="invalid-feedback" [hidden]="error?.field !== 'username'">
+              {{ manga?.errors?.["minlength"] ? "Debe tener al menos 4 caracteres" : "" }}
+              </div> -->
+    </label>
+
+    <label>
+      <span>Calado</span>
+      <div
+        class="medidas-input"
+        [class.mb-3]="eslora?.valid || eslora?.pristine"
+      >
+        <input
+          type="number"
+          class="form-control"
+          formControlName="calado"
+          placeholder="0"
+          [class.mb-3]="calado?.valid || calado?.pristine"
+          [class.is-invalid]="calado?.invalid && calado?.dirty"
+        />
+        <span>ft.</span>
+      </div>
+      <div
+        class="invalid-feedback"
+        [hidden]="calado?.valid || calado?.pristine"
+      >
+        {{ calado?.errors?.["required"] ? "Campo obligatorio" : "" }}
+      </div>
+      <!-- <div class="invalid-feedback" [hidden]="error?.field !== 'username'">
+                {{ calado?.errors?.["minlength"] ? "Debe tener al menos 4 caracteres" : "" }}
+                </div> -->
+    </label>
+  </div>
+
+  <ng-content></ng-content>
+
+  <div
+    style="
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    "
+  >
+    <button
+      type="submit"
+      class="btn btn-primary px-5 py-2 mt-3 d-flex align-items-center justify-content-center"
+      [disabled]="formulario.invalid"
+    >
+      <span>{{ modificar ? "Modificar" : "Confirmar" }}</span>
+    </button>
+
+    <!-- <div [hidden]="error?.field !== ''">
+      <div class="invalid-feedback d-block">{{ error?.message }}</div>
+    </div> -->
+  </div>
+</form>

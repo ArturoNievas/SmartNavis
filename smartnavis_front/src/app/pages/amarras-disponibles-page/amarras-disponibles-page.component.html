@@ -1,0 +1,76 @@
+<app-app-page
+  titulo="Amarras disponibles"
+  subtitulo="Buscar amarras disponibles por tamaño"
+>
+  <div class="global-container local-container">
+    <form class="d-flex m-3" [formGroup]="formularioFiltro">
+      <div class="mx-1">
+        <label for="puerto" class="form-label">Puerto: </label>
+        <select name="puerto" class="form-select" formControlName="idPuerto">
+          <option value="-1">(Seleccione un puerto)</option>
+          <option *ngFor="let puerto of puertos" [value]="puerto.id">
+            {{ puerto.nombre }}
+          </option>
+        </select>
+      </div>
+      <div class="mx-1">
+        <label for="manga" class="form-label">Manga: (mayor que)</label>
+        <input
+          type="number"
+          min="0"
+          name="manga"
+          class="form-control"
+          formControlName="manga"
+        />
+      </div>
+      <div class="mx-1">
+        <label for="eslora" class="form-label">Eslora: (mayor que)</label>
+        <input
+          type="number"
+          min="0"
+          name="eslora"
+          class="form-control"
+          formControlName="eslora"
+        />
+      </div>
+      <div class="mx-1">
+        <label for="calado" class="form-label">Calado: (mayor que)</label>
+        <input
+          type="number"
+          min="0"
+          name="calado"
+          class="form-control"
+          formControlName="calado"
+        />
+      </div>
+      <div class="mx-1">
+        <button (click)="listarAmarras()" class="btn btn-primary">
+          Buscar
+        </button>
+      </div>
+    </form>
+    <div *ngIf="amarras.length; else mensaje">
+      <ul>
+        <li *ngFor="let amarra of amarras">
+          <div>
+            <span>
+              <b>{{ amarra.nombre }}</b> | Manga: {{ amarra.manga }}, Eslora:
+              {{ amarra.eslora }}, Calado: {{ amarra.calado }}
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</app-app-page>
+
+<ng-template #mensaje>
+  <div
+    *ngIf="mensajeAlerta"
+    class="alert"
+    [class.alert-danger]="mensajeAlerta.tipo == 'error'"
+    [class.alert-secondary]="mensajeAlerta.tipo == 'info'"
+  >
+    {{ mensajeAlerta.mensaje }}
+  </div>
+</ng-template>

@@ -22,6 +22,7 @@ public class Amarra {
 
     private double manga;
     
+    @Column(nullable = false, columnDefinition = "boolean default true")
     private boolean disponible;
 
     @ManyToOne
